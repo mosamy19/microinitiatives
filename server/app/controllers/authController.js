@@ -55,11 +55,37 @@ module.exports = {
         .status(status.success)
         .json({ message: "You have logged in successfully" });
     } catch (error) {
-      next(error)
+      next(error);
     }
   },
 
   forgetPasswordController: (req, res, next) => {},
-  changePasswordController: (req, res, next) => {},
+  
+  changePasswordController: async (req, res, next) => {
+    let { oldPassword, newPassword, confirmPassword } = req.body;
+
+    if (newPassword !== confirmPassword) {
+      return resourceError(res, "Password doesn't match");
+    }
+
+    try {
+      let match = await bcrypt.compare(oldPassword, req.user.password);
+      if (!match) {
+        return resourceError(res, "Invalid old password");
+      }
+
+      let newHashedPassword = await bcrypt.hash(newPassword, 11);
+      let user = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $set: { password: newHashedPassword } }
+      );
+      res.status(status.success).json({
+        message: "Password has changed successfully",
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
   logoutController: (req, res, next) => {},
 };
