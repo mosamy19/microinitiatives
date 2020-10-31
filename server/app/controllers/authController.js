@@ -55,7 +55,7 @@ module.exports = {
         .status(status.success)
         .json({ message: "You have logged in successfully" });
     } catch (error) {
-      console.log(error);
+      next(error)
     }
   },
 
