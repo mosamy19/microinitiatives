@@ -1,16 +1,34 @@
 const router = require("express").Router();
+const signupValidator = require("../validator/auth/signupValidator");
+const loginValidator = require("../validator/auth/loginValidator");
+const forgetPasswordValidator = require("../validator/auth/forgetPasswordValidator");
+const resetPasswordValidator = require("../validator/auth/resetPasswordValidator");
+const changePasswordValidator = require("../validator/auth/changePasswordValidator");
 const {
   signupController,
+  activateAccountController,
   loginController,
   forgetPasswordController,
+  resetPasswordController,
   changePasswordController,
-  logoutController,
 } = require("../controllers/authController");
 
-router.post("/signup", signupController);
-router.post("/login", loginController);
-router.post("/forget-password", forgetPasswordController);
-router.post("/change-password", changePasswordController);
-router.get("/logout", logoutController);
+const isAuthenticated = require("../middlewares/authenticate");
+
+router.post("/signup", signupValidator, signupController);
+router.post("/activate-account", activateAccountController);
+router.post("/login", loginValidator, loginController);
+router.post(
+  "/forget-password",
+  forgetPasswordValidator,
+  forgetPasswordController
+);
+router.post("/reset-password", resetPasswordValidator, resetPasswordController);
+router.post(
+  "/change-password",
+  isAuthenticated,
+  changePasswordValidator,
+  changePasswordController
+);
 
 module.exports = router;

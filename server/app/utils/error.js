@@ -2,7 +2,7 @@ const { status } = require("./status");
 module.exports = {
   serverError(res, err) {
     res.status(status.serverError).json({
-      message: "Internal Server Error Ocurred",
+      message: err
     });
   },
   resourceError(res, message) {

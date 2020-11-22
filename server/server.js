@@ -3,6 +3,7 @@ const express = require("express");
 const chalk = require("chalk");
 const config = require("config");
 const { port } = require("./config/config");
+const passport = require("passport");
 const connectDB = require("./app/db/db");
 const setMiddlewares = require("./app/middlewares/middleware");
 const setRoutes = require("./app/routes/routes");
@@ -14,6 +15,9 @@ connectDB();
 
 // Using middleware from middleware directory
 setMiddlewares(app);
+// passport jwt authentication
+passport.initialize();
+require("./app/middlewares/passport")(passport);
 
 // Using routes from route directory
 setRoutes(app);

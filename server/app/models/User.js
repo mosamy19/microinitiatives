@@ -21,6 +21,10 @@ const useSchema = new Schema(
       type: String,
       required: true,
     },
+    resetToken: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

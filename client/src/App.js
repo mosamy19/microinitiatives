@@ -1,10 +1,11 @@
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div>
-      <h1>Microinitiatives</h1>
+      <AppRoutes />
     </div>
   );
 }

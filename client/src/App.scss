@@ -1,0 +1,70 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Samim-FD-WOL!important;
+    background-color: #fafbfb;
+}
+@font-face {
+    font-family: Samim-FD-WOL;
+    src: url('./assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf')
+}
+@font-face {
+    font-family: DINNextLTArabic;
+    src: url('./assets/samim-fonts/DINNextLTArabic.ttf')
+}
+
+a {
+    text-decoration: none;
+    
+}
+a:hover {
+    text-decoration: none;
+}
+
+ul, p, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0px;
+}
+ul li{
+    list-style: none;
+}
+.container {
+    max-width: 1240px;
+}
+.mynav{
+    width: 100%;
+    height: 65px;
+    font-family: Samim-FD-WOL!important;
+    font-size: 16px !important;
+    font-weight: normal;
+    color: rgba(16, 24, 32, 0.65) !important;
+    padding: 0;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+input, label {
+    font-family: Samim-FD-WOL !important;
+    
+}
+input::placeholder,
+textarea::placeholder {
+    font-family: Samim-FD-WOL !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    color: rgba(0, 0, 0, 0.25)!important;
+}
+.MuiAlert-message {
+    font-family: Samim-FD-WOL !important;
+    font-size: 14px;
+}
+
+.cloneCount {
+    font-family: DINNextLTArabic !important;
+    font-size: 16px;
+    font-weight: normal;
+}

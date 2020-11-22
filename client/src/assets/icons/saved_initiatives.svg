@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="12px" viewBox="0 0 10 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>bookmark</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="My-initiatives-/-Saved" transform="translate(-1102.000000, -186.000000)" fill="#6236FF" fill-rule="nonzero">
+            <g id="Group-6" transform="translate(1048.000000, 182.000000)">
+                <g id="Group-5">
+                    <g id="Group-4">
+                        <g id="bookmark" transform="translate(54.000000, 4.000000)">
+                            <path d="M9.65174945,0.4 L0.348115428,0.4 C0.155836535,0.4 0,0.523936548 0,0.676856544 L0,11.0458911 C-0.000407103016,11.2536417 0.145637858,11.4439806 0.377895551,11.5388256 C0.610289218,11.6337787 0.889868737,11.6172322 1.10186508,11.4958912 L4.99993246,9.27368482 L8.8979998,11.4959993 C9.11026809,11.6169078 9.38957566,11.6333461 9.62183335,11.5385011 C9.85395507,11.4436561 10,11.2535336 10,11.0458911 L10,0.676856544 C10,0.523936548 9.84402834,0.4 9.65174945,0.4 L9.65174945,0.4 Z" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
