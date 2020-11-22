@@ -5,10 +5,7 @@ import setAuthToken from "../../../utils/setAuthToken";
 
 export const register = (user, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/signup",
-      user
-    );
+    let response = await axios.post("/api/v1/auth/signup", user);
     // dispatch({
     //   type: types.SET_USER,
     //   payload: {
@@ -27,10 +24,7 @@ export const register = (user, history) => async (dispatch) => {
 };
 export const activateMyAccount = (token, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/activate-account",
-      token
-    );
+    let response = await axios.post("/api/v1/auth/activate-account", token);
     history.push("/login");
     console.log(response);
   } catch (error) {
@@ -45,7 +39,7 @@ export const activateMyAccount = (token, history) => async (dispatch) => {
 
 export const login = (user, history) => async (dispatch) => {
   try {
-    let res = await axios.post("http://localhost:5000/api/v1/auth/login", user);
+    let res = await axios.post("/api/v1/auth/login", user);
     let { token } = res.data;
     localStorage.setItem("auth_token", token);
     setAuthToken(token);
@@ -71,10 +65,7 @@ export const login = (user, history) => async (dispatch) => {
 
 export const forgetPassword = (email, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth//forget-password",
-      email
-    );
+    let response = await axios.post("/api/v1/auth//forget-password", email);
     console.log(response);
     history.push("/reset-message");
   } catch (error) {
@@ -89,7 +80,7 @@ export const forgetPassword = (email, history) => async (dispatch) => {
 export const resetPassword = (newPassword, history) => async (dispatch) => {
   try {
     let response = await axios.post(
-      "http://localhost:5000/api/v1/auth//reset-password",
+      "/api/v1/auth//reset-password",
       newPassword
     );
     console.log(response);
@@ -106,10 +97,7 @@ export const resetPassword = (newPassword, history) => async (dispatch) => {
 
 export const changePassword = (passwords) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/change-password",
-      passwords
-    );
+    let response = await axios.post("/api/v1/auth/change-password", passwords);
     console.log(response);
   } catch (error) {
     dispatch({
