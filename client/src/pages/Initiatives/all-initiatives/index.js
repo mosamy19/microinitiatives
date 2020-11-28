@@ -34,12 +34,21 @@ const Allinitiatives = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [all_initiatives, setAllInitiative] = useState([]);
 
   useEffect(() => {
     dispatch(getAllInitiatives());
   }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
+
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      setAllInitiative(initiatives);
+    }
+  }, [initiatives]);
+
+  console.log(all_initiatives);
 
   return (
     <Wrapper>
@@ -62,8 +71,8 @@ const Allinitiatives = () => {
         </div>
         <div className="my-4">
           <Grid container spacing={3}>
-            {initiatives !== 0 && initiatives.length > 0 ? (
-              initiatives.map((initiative) => (
+            {all_initiatives.length > 0 ? (
+              all_initiatives.map((initiative) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <div
                     onClick={() =>

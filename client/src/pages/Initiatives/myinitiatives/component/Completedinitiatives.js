@@ -12,21 +12,19 @@ const Completedinitiatives = () => {
     dispatch(getAllInitiatives());
   }, [dispatch]);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
-  const { _id } = useSelector((state) => state.auth.user);
-  let completedInitiatives = initiatives.filter((initiative) =>  initiative._id === _id);
+  // const { initiatives } = useSelector((state) => state.initiatives);
+  // const { _id } = useSelector((state) => state.auth.user);
+  // let completedInitiatives = initiatives.filter((initiative) =>  initiative._id === _id);
 
 
-  console.log(completedInitiatives);
+  // console.log(completedInitiatives);
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {completedInitiatives &&
-          completedInitiatives.map((initiative) => (
             <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard initiative={initiative} />
+              {/* <Initiativecard  /> */}
             </Grid>
-          ))}
+        
       </Grid>
     </Wrapper>
   );
