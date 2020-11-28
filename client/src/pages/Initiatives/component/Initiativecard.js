@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,6 +15,7 @@ import { Button } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: "none",
+    cursor: "pointer",
     ".MuiTypography-body2": {
       fontFamily: "inherit",
     },
@@ -60,10 +61,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Initiativecard = ({ isCompleted }) => {
+const Initiativecard = ({ initiative, isCompleted }) => {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+    >
       <div
         className="d-flex justify-content-between align-items-center"
         style={{ padding: "12px" }}
@@ -77,19 +80,17 @@ const Initiativecard = ({ isCompleted }) => {
         </IconButton>
       </div>
       <CardContent style={{ padding: "12px" }}>
-        <Link
-          to="/single-initiative"
+        <p
           style={{
-            textDecoration: "none",
+            marginBottom: "0px",
+            textAlign: "right",
             fontSize: "16px",
             fontWeight: "bold",
             color: "rgba(0, 0, 0, 0.85)",
           }}
         >
-          <p style={{ marginBottom: "0px", textAlign: "right" }}>
-            تصوير ٣ فيديوهات ونشرها على يويتوب
-          </p>
-        </Link>
+          {initiative.title}
+        </p>
       </CardContent>
       <div
         className="d-flex justify-content-between align-items-center"

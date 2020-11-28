@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/auth-actions";
 
 import {
@@ -15,8 +15,16 @@ import styled from "styled-components";
 
 const Menu = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+
+  const authUser = useSelector((state) => state.auth.user);
+  const { firstName, familyName, avatar } = authUser;
+  const hadnleLogout = () => {
+    dispatch(logout(history));
+    window.location.reload();
+  };
 
   return (
     <Wrapper>
@@ -28,7 +36,7 @@ const Menu = (props) => {
         >
           <div className="d-flex align-items-center">
             <img
-              src={user}
+              src={avatar ? avatar : user}
               alt=""
               width="26px"
               height="26px"
@@ -37,7 +45,7 @@ const Menu = (props) => {
                 background: "rgba(0, 0, 0, 0.1)",
               }}
             />
-            <p style={{ margin: "0 3px" }}>سارة القحطاني</p>
+            <p style={{ margin: "0 3px" }}> {firstName + " " + familyName} </p>
             <RiArrowDownSLine />
           </div>
         </DropdownToggle>
@@ -46,7 +54,7 @@ const Menu = (props) => {
             <Link to="/settings">إعدادات</Link>
           </DropdownItem>
           <DropdownItem>
-            <Link to="#" onClick={() => props.logout(history)}>
+            <Link to="#" onClick={hadnleLogout}>
               تسجيل خروج
             </Link>
           </DropdownItem>
@@ -56,11 +64,7 @@ const Menu = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { logout })(Menu);
+export default Menu;
 const Wrapper = styled.div`
   .dropdown-menu {
     border: none;

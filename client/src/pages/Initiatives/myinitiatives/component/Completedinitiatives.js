@@ -1,31 +1,32 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-Bold-FD-WOL.ttf";
 import Initiativecard from "../../component/Initiativecard";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllInitiatives } from "../../../../store/actions/initiative-actions";
 
 const Completedinitiatives = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllInitiatives());
+  }, [dispatch]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+  const { _id } = useSelector((state) => state.auth.user);
+  let completedInitiatives = initiatives.filter((initiative) =>  initiative._id === _id);
+
+
+  console.log(completedInitiatives);
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard isCompleted={true} />
-        </Grid>
+        {completedInitiatives &&
+          completedInitiatives.map((initiative) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <Initiativecard initiative={initiative} />
+            </Grid>
+          ))}
       </Grid>
     </Wrapper>
   );

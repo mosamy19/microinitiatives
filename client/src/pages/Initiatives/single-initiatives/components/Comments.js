@@ -10,7 +10,7 @@ const Comments = () => {
   return (
     <Wrapper>
       <div style={{ marginBottom: "35px" }}>
-        <Grid container spacing={3}>
+        <Grid container>
           <Grid item xs={12} sm={6} md={4}>
             <div
               className="d-flex align-items-center"

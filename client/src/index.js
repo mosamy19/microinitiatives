@@ -9,6 +9,7 @@ import * as types from "./store/actions/types";
 import { Provider } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
+import CustomSnackbar from "./components/custom-snackbar/CustomSnackbar";
 
 let token = localStorage.getItem("auth_token");
 if (token) {
@@ -25,7 +26,10 @@ if (token) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <React.Fragment>
+        <App />
+        <CustomSnackbar />
+      </React.Fragment>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

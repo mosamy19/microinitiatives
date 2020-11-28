@@ -51,6 +51,7 @@ input, label {
     font-family: Samim-FD-WOL !important;
     
 }
+
 input::placeholder,
 textarea::placeholder {
     font-family: Samim-FD-WOL !important;
@@ -58,13 +59,18 @@ textarea::placeholder {
     font-weight: normal !important;
     color: rgba(0, 0, 0, 0.25)!important;
 }
+
+
 .MuiAlert-message {
     font-family: Samim-FD-WOL !important;
     font-size: 14px;
 }
 
+input[type=email],
+input[type=password],
 .cloneCount {
     font-family: DINNextLTArabic !important;
     font-size: 16px;
     font-weight: normal;
+    
 }

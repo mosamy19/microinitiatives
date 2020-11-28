@@ -75,7 +75,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/single-initiative"
+          path="/single-initiative/:initiativeId"
           component={Singleinitiative}
         />
         <PrivateRouteWithLayout

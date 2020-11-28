@@ -1,9 +1,11 @@
 import { Button, makeStyles } from "@material-ui/core";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { createInitiative } from "../../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "dashed",
     color: "rgba(16, 24, 32, 0.65)",
     fontFamily: "inherit",
-    fontSize: "16px",
+    fontSize: "14px",
+    fontWeight: "normal",
     padding: "6px 20px",
     "&:hover": {
       color: "rgba(16, 24, 32, 0.65)",
@@ -32,6 +35,37 @@ const useStyles = makeStyles((theme) => ({
 
 const Newinitiative = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [initiative, setInitiative] = useState({
+    title: "",
+    category: [],
+    description: "",
+    thumbnail: [],
+  });
+
+  // const changeHandler = (event) => {
+  //   const isFiile = event.target.type === "file";
+  //   setInitiative({
+  //     ...initiative,
+  //     [event.target.name]: isFiile ? event.target.files : event.target.value,
+  //   });
+  // };
+  // console.log(initiative);
+  
+  const submitHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of initiative.thumbnail) {
+      fd.append("thumbnail", file);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+
+    dispatch(createInitiative(fd, history));
+  };
   return (
     <Wrapper>
       <div className="myform">
@@ -44,24 +78,39 @@ const Newinitiative = () => {
         >
           مبادرة جديدة
         </h2>
-        <Form className="text-right">
+        <Form onSubmit={submitHandler} className="text-right">
           <FormGroup>
             <Label>
-              عنوان المبادرة <span>(حقل إلزامي)</span>
+              عنوان المبادرة <span className="filed">(حقل إلزامي)</span>
             </Label>
-            <Input type="email" name="email" />
+            <Input
+              onChange={(e) =>
+                setInitiative({ ...initiative, title: e.target.value })
+              }
+              type="text"
+              name="title"
+            />
           </FormGroup>
           <FormGroup>
             <Label>
-              تصنيف المبادرة <span>(حقل إلزامي)</span>
+              تصنيف المبادرة <span className="filed">(حقل إلزامي)</span>
             </Label>
-            <Input type="email" name="email" />
+            <Input
+              onChange={(e) =>
+                setInitiative({ ...initiative, category: e.target.value })
+              }
+              type="text"
+              name="category"
+            />
           </FormGroup>
           <FormGroup>
             <Label>وصف المبادرة </Label>
             <Input
               type="textarea"
-              name="text"
+              name="description"
+              onChange={(e) =>
+                setInitiative({ ...initiative, description: e.target.value })
+              }
               style={{ minHeight: "130px" }}
               placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
             />
@@ -73,12 +122,16 @@ const Newinitiative = () => {
               id="contained-button-file"
               multiple
               type="file"
+              name="thumbnail"
+              onChange={(e) =>
+                setInitiative({ ...initiative, thumbnail: e.target.files })
+              }
             />
             <label style={{ width: "100%" }} htmlFor="contained-button-file">
               <Button
                 fullWidth={true}
                 variant="outlined"
-                component="span"
+                component="p"
                 className={classes.btn}
               >
                 ارفع صور للمبادرة
@@ -123,9 +176,9 @@ const Wrapper = styled.div`
       font-size: 14px;
       color: rgba(16, 24, 32, 0.65);
     }
-    span {
+    .filed {
       font-size: 12px;
-      color: rgba(0, 0, 0, 0.25);s
+      color: rgba(0, 0, 0, 0.25);
     }
   }
 `;

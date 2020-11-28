@@ -28,33 +28,46 @@ module.exports = {
     }
 
     try {
-      let user = await User.findOne({ email });
-      if (user) {
-        return resourceError(res, "User with this email already exists.");
-      }
+      // let user = await User.findOne({ email });
+      // if (user) {
+      //   return resourceError(res, "User with this email already exists.");
+      // }
+      // let token = jwt.sign(
+      //   { firstName, familyName, email, password },
+      //   config.jwtSecret,
+      //   { expiresIn: "20m" }
+      // );
 
-      let token = jwt.sign(
-        { firstName, familyName, email, password },
-        config.jwtSecret,
-        { expiresIn: "20m" }
-      );
-      const mailOptions = {
-        from: "noreply@microinitiatives.com",
-        to: email,
-        subject: "Account Activation Link",
-        html: `<h2>Please click on bellow link to activate your account...!</h2>
-          <a href="${config.clientUri}/account-activation/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none;">Click Here</a>
-        `,
-      };
-
-      transporter.sendMail(mailOptions, (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        res.status(status.success).json({
-          message: "Email has been sent, Activate your account",
-        });
+      let hashedPassword = await bcrypt.hash(password, 11);
+      let newUser = new User({
+        firstName,
+        familyName,
+        email,
+        password: hashedPassword,
       });
+      let user = await newUser.save();
+      res.status(status.created).json({
+        message: "You have soigned up successfully, Now you can login ",
+        user,
+      });
+
+      // const mailOptions = {
+      //   from: "noreply@microinitiatives.com",
+      //   to: email,
+      //   subject: "Account Activation Link",
+      //   html: `<h2>Please click on bellow link to activate your account...!</h2>
+      //     <a href="${config.clientUri}/account-activation/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none;">Click Here</a>
+      //   `,
+      // };
+
+      // transporter.sendMail(mailOptions, (err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      //   res.status(status.success).json({
+      //     message: "Email has been sent, Activate your account",
+      //   });
+      // });
     } catch (error) {
       serverError(res, error);
     }
@@ -119,12 +132,13 @@ module.exports = {
           email: user.email,
         },
         config.jwtSecret,
-        { expiresIn: "2h" }
+        { expiresIn: "24h" }
       );
 
       res.status(status.success).json({
         message: "You have loggedin successfully",
         token: `Bearer ${token}`,
+        user,
       });
     } catch (error) {
       serverError(res, error);
@@ -170,7 +184,7 @@ module.exports = {
         });
       });
     } catch (error) {
-      serverError(res, error)
+      serverError(res, error);
     }
   },
 
@@ -230,6 +244,35 @@ module.exports = {
         message: "Password has changed successfully",
         user,
       });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  editUser: async (req, res) => {
+    const { firstName, familyName } = req.body;
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+    try {
+      let user = await User.findOne({ _id: req.user._id });
+      if (!user) {
+        return resourceError(res, "User not found");
+      }
+
+      let avatar = user.avatar;
+      if (req.file) {
+        avatar = `/uploads/${req.file.filename}`;
+      }
+
+      let updatedUser = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $set: { firstName, familyName, avatar } },
+        { new: true }
+      );
+
+      res.status(200).json({ message: "Edited successfully", updatedUser });
     } catch (error) {
       serverError(res, error);
     }

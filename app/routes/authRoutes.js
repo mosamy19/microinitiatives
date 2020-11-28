@@ -11,9 +11,11 @@ const {
   forgetPasswordController,
   resetPasswordController,
   changePasswordController,
+  editUser,
 } = require("../controllers/authController");
 
 const isAuthenticated = require("../middlewares/authenticate");
+const upload = require("../middlewares/uploadMiddleware");
 
 router.post("/signup", signupValidator, signupController);
 router.post("/activate-account", activateAccountController);
@@ -30,5 +32,6 @@ router.post(
   changePasswordValidator,
   changePasswordController
 );
+router.put("/edit-user", isAuthenticated, upload.single("avatar"), editUser);
 
 module.exports = router;

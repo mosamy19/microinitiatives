@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import party from "../../assets/icons/party.svg";
+import { useSelector } from "react-redux";
 
 import { Grid, makeStyles } from "@material-ui/core";
 import Initiativecard from "../Initiatives/component/Initiativecard";
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const { initiatives } = useSelector((state) => state.initiatives);
   return (
     <Wrapper>
       <div className="text-center my-5">
@@ -85,24 +87,12 @@ const Home = () => {
           <img src={party} alt="" />
         </div>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
+          {initiatives.length > 0 &&
+            initiatives.map((initiative) => (
+              <Grid item xs={12} sm={6} md={4}>
+                <Initiativecard initiative={initiative} />
+              </Grid>
+            ))}
         </Grid>
       </div>
       <div
@@ -130,24 +120,12 @@ const Home = () => {
           <span>😍</span>
         </div>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Initiativecard />
-          </Grid>
+          {initiatives.length > 0 &&
+            initiatives.map((initiative) => (
+              <Grid item xs={12} sm={6} md={4}>
+                <Initiativecard initiative={initiative} />
+              </Grid>
+            ))}
         </Grid>
       </div>
       <div

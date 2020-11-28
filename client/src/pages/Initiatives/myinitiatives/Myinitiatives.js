@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -6,45 +6,106 @@ import Tab from "@material-ui/core/Tab";
 import samimFont from "../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
 import current_initiatives from "../../../assets/icons/current_initiatives.svg";
 import completed_initiatives from "../../../assets/icons/completed_initiatives.svg";
-import saved_initiatives from "../../../assets/icons/saved_initiatives.svg";
 import bookmark from "../../../assets/icons/bookmark.svg";
+import blue_bookmark from "../../../assets/icons/blue_bookmark.svg";
+import blue_current_initiative from "../../../assets/icons/blue_current_initiative.svg";
+import blue_completed_initiative from "../../../assets/icons/blue_completed_initiative.svg";
 
 import Currentinitiatives from "./component/Currentinitiatives";
 import Favoriteinitiatives from "./component/Favoriteinitiatives";
 import Completedinitiatives from "./component/Completedinitiatives";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    maxWidth: 500,
-    marginBottom: "32px",
+    marginBottom: "20px",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
   },
 }));
 
 const Myinitiatives = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const [isCurrent, setIsCurrent] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (value === 0) {
+      setIsCurrent(true);
+    } else {
+      setIsCurrent(false);
+    }
+    if (value === 1) {
+      setIsCompleted(true);
+    } else {
+      setIsCompleted(false);
+    }
+    if (value === 2) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, [value]);
+
   return (
     <Wrapper>
-      <Tabs
-        className={classes.root}
-        value={value}
-        onChange={handleChange}
-        TabIndicatorProps={{
-          style: { background: "#6236ff" },
-        }}
-      >
-        <Tab icon={<img src={current_initiatives} alt="" />} label="الحالية" />
-        <Tab
-          icon={<img src={completed_initiatives} alt="" />}
-          label="المكتملة"
-        />
-        <Tab icon={<img src={bookmark} alt="" />} label="المفضلة" />
-      </Tabs>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Tabs
+            className={classes.root}
+            value={value}
+            onChange={handleChange}
+            TabIndicatorProps={{
+              style: { background: "#6236ff" },
+            }}
+          >
+            <Tab
+              icon={
+                <img
+                  width="12px"
+                  height="12px"
+                  src={
+                    isCurrent ? blue_current_initiative : current_initiatives
+                  }
+                  alt=""
+                />
+              }
+              label="الحالية"
+            />
+            <Tab
+              icon={
+                <img
+                  width="12px"
+                  height="12px"
+                  src={
+                    isCompleted
+                      ? blue_completed_initiative
+                      : completed_initiatives
+                  }
+                  alt=""
+                />
+              }
+              label="المكتملة"
+            />
+            <Tab
+              icon={
+                <img
+                  width="10px"
+                  height="11.2px"
+                  src={isFavorite ? blue_bookmark : bookmark}
+                  alt=""
+                />
+              }
+              label="المفضلة"
+            />
+          </Tabs>
+        </Grid>
+      </Grid>
       {value === 0 && <Currentinitiatives />}
       {value === 1 && <Completedinitiatives />}
       {value === 2 && <Favoriteinitiatives />}
@@ -64,8 +125,25 @@ const Wrapper = styled.div`
   button {
     outline: none;
   }
+  .MuiTabs-root {
+    min-height: auto;
+  }
+  .MuiTabs-flexContainer {
+    display: flex;
+    justify-content: space-between;
+  }
   .MuiTab-root {
-    padding: 12px 0 12px 12px;
+    padding: 12px 0 4px 12px;
+  }
+  .Mui-selected {
+    .MuiTab-wrapper {
+      color: #6236ff;
+    }
+  }
+  @media (min-width: 600px) {
+    .MuiTab-root {
+      min-width: 65px;
+    }
   }
   .MuiTab-labelIcon {
     min-height: auto;

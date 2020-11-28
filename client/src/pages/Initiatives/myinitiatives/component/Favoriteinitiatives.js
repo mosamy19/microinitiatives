@@ -3,38 +3,19 @@ import React from "react";
 import styled from "styled-components";
 import Initiativecard from "../../component/Initiativecard";
 import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-Bold-FD-WOL.ttf";
+import { useSelector } from "react-redux";
 
 const Favoriteinitiatives = () => {
+  const { initiatives } = useSelector((state) => state.initiatives);
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Initiativecard />
-        </Grid>
+        {initiatives.length > 0 &&
+          initiatives.map((initiative) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <Initiativecard initiative={initiative} />
+            </Grid>
+          ))}
       </Grid>
     </Wrapper>
   );

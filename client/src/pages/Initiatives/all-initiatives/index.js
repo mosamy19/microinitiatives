@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiArrowDownSLine } from "react-icons/ri";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import samimFont from "../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
 
-import { Grid, makeStyles } from "@material-ui/core";
+import { CircularProgress, Grid, makeStyles } from "@material-ui/core";
 import Initiativecard from "../component/Initiativecard";
+
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getAllInitiatives } from "../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   btn3: {
@@ -27,6 +32,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Allinitiatives = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getAllInitiatives());
+  }, [dispatch]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+
   return (
     <Wrapper>
       <div>
@@ -48,42 +62,23 @@ const Allinitiatives = () => {
         </div>
         <div className="my-4">
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard />
-            </Grid>
+            {initiatives !== 0 && initiatives.length > 0 ? (
+              initiatives.map((initiative) => (
+                <Grid item xs={12} sm={6} md={4}>
+                  <div
+                    onClick={() =>
+                      history.push(`single-initiative/${initiative._id}`)
+                    }
+                  >
+                    <Initiativecard initiative={initiative} />
+                  </div>
+                </Grid>
+              ))
+            ) : (
+              <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </div>
       </div>
@@ -91,7 +86,7 @@ const Allinitiatives = () => {
   );
 };
 
-export default Allinitiatives;
+export default React.memo(Allinitiatives);
 const Wrapper = styled.div`
   margin: 50px 0;
   text-align: right;

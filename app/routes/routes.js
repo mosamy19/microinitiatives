@@ -1,10 +1,36 @@
 const authRoutes = require("./authRoutes");
+const initiativeRoutes = require("./initiativeRoutes");
+const commentRoutes = require("./commentsRoutes");
+const likesRoutes = require("./likesRoues");
+const favoritesRoutes = require("./favoritesRoutes");
+const shareRoutes = require("./shareRoutes");
+
 const baseAPIPath = "/api/v1";
 
 const routes = [
   {
     path: `${baseAPIPath}/auth`,
     handler: authRoutes,
+  },
+  {
+    path: `${baseAPIPath}/initiatives`,
+    handler: initiativeRoutes,
+  },
+  {
+    path: `${baseAPIPath}/comments`,
+    handler: commentRoutes,
+  },
+  {
+    path: `${baseAPIPath}/likes`,
+    handler: likesRoutes,
+  },
+  {
+    path: `${baseAPIPath}/favorites`,
+    handler: favoritesRoutes,
+  },
+  {
+    path: `${baseAPIPath}/shares`,
+    handler: shareRoutes,
   },
   {
     path: "/",

@@ -25,6 +25,17 @@ const useSchema = new Schema(
       type: String,
       default: "",
     },
+    initiatives: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Initiative",
+      },
+    ],
+
+    avatar: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
