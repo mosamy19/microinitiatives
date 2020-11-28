@@ -3,9 +3,7 @@ import * as types from "../types";
 
 export const getLikes = (initiativeId) => async (dispatch) => {
   try {
-    let response = await axios.get(
-      `http://localhost:5000/api/v1/likes/get-likes/${initiativeId}`
-    );
+    let response = await axios.get(`/v1/likes/get-likes/${initiativeId}`);
     dispatch({
       type: types.SET_LIKES,
       payload: {
@@ -24,9 +22,7 @@ export const getLikes = (initiativeId) => async (dispatch) => {
 
 export const createLike = (initiativeId) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      `http://localhost:5000/api/v1/likes/like/${initiativeId}`
-    );
+    let response = await axios.post(`/v1/likes/like/${initiativeId}`);
   } catch (error) {
     dispatch({
       type: types.LIKES_ERROR,
@@ -38,9 +34,7 @@ export const createLike = (initiativeId) => async (dispatch) => {
 };
 export const createUnlike = (initiativeId) => async (dispatch) => {
   try {
-    let response = await axios.delete(
-      `http://localhost:5000/api/v1/likes/unlike/${initiativeId}`
-    );
+    let response = await axios.delete(`/v1/likes/unlike/${initiativeId}`);
   } catch (error) {
     dispatch({
       type: types.LIKES_ERROR,

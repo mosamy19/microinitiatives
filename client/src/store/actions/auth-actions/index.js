@@ -6,10 +6,7 @@ import { setSuccess, setError } from "../snackbar-actions";
 
 export const register = (user, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/signup",
-      user
-    );
+    let response = await axios.post("/api/v1/auth/signup", user);
     dispatch(setSuccess(response.data.message));
     history.push("/login");
   } catch (error) {
@@ -24,10 +21,7 @@ export const register = (user, history) => async (dispatch) => {
 };
 export const activateMyAccount = (token, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/activate-account",
-      token
-    );
+    let response = await axios.post("/api/v1/auth/activate-account", token);
     history.push("/login");
     console.log(response);
   } catch (error) {
@@ -42,10 +36,7 @@ export const activateMyAccount = (token, history) => async (dispatch) => {
 
 export const login = (userdata, history) => async (dispatch) => {
   try {
-    let res = await axios.post(
-      "http://localhost:5000/api/v1/auth/login",
-      userdata
-    );
+    let res = await axios.post("/api/v1/auth/login", userdata);
     let { token } = res.data;
     localStorage.setItem("auth_token", token);
     setAuthToken(token);
@@ -73,10 +64,7 @@ export const login = (userdata, history) => async (dispatch) => {
 
 export const forgetPassword = (email, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "/http://localhost:5000api/v1/auth//forget-password",
-      email
-    );
+    let response = await axios.post("/api/v1/auth//forget-password", email);
     dispatch(setSuccess(response.data.message));
     history.push("/reset-message");
   } catch (error) {
@@ -92,7 +80,7 @@ export const forgetPassword = (email, history) => async (dispatch) => {
 export const resetPassword = (newPassword, history) => async (dispatch) => {
   try {
     let response = await axios.post(
-      "http://localhost:5000/api/v1/auth//reset-password",
+      "/api/v1/auth//reset-password",
       newPassword
     );
     dispatch(setSuccess(response.data.message));
@@ -110,10 +98,7 @@ export const resetPassword = (newPassword, history) => async (dispatch) => {
 
 export const changePassword = (passwords) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "http://localhost:5000/api/v1/auth/change-password",
-      passwords
-    );
+    let response = await axios.post("/api/v1/auth/change-password", passwords);
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
@@ -127,10 +112,7 @@ export const changePassword = (passwords) => async (dispatch) => {
 };
 export const updateUser = (user) => async (dispatch) => {
   try {
-    let response = await axios.put(
-      "http://localhost:5000/api/v1/auth/edit-user",
-      user
-    );
+    let response = await axios.put("/api/v1/auth/edit-user", user);
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({

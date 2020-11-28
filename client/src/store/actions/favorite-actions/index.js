@@ -4,7 +4,7 @@ import * as types from "../types";
 export const getFavorites = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.get(
-      `http://localhost:5000/api/v1/favorites/get-favorites/${initiativeId}`
+      `/api/v1/favorites/get-favorites/${initiativeId}`
     );
     dispatch({
       type: types.SET_FAVORITES,
@@ -25,7 +25,7 @@ export const getFavorites = (initiativeId) => async (dispatch) => {
 export const makeFavorite = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.post(
-      `http://localhost:5000/api/v1/favorites/favorite/${initiativeId}`
+      `/api/v1/favorites/favorite/${initiativeId}`
     );
   } catch (error) {
     dispatch({
@@ -39,7 +39,7 @@ export const makeFavorite = (initiativeId) => async (dispatch) => {
 export const setUnfavorite = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.delete(
-      `http://localhost:5000/api/v1/favorites/unfavorite/${initiativeId}`
+      `/api/v1/favorites/unfavorite/${initiativeId}`
     );
   } catch (error) {
     dispatch({
