@@ -1,13 +1,29 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { AiFillPlusCircle } from "react-icons/ai";
 import plusIcon from "../../../../assets/icons/Add_new_initiative.svg";
 import styled from "styled-components";
 import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getDraftInitiatives } from "../../../../store/actions/initiative-actions";
+
 const Currentinitiatives = () => {
   const history = useHistory();
+  const dispathc = useDispatch();
+  const [drafts, setDrafts] = useState([]);
+
+  useEffect(() => {
+      dispathc(getDraftInitiatives());
+  }, [dispathc]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      setDrafts(initiatives);
+    }
+  }, [initiatives]);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={6} md={4}>
@@ -33,14 +49,20 @@ const Currentinitiatives = () => {
           </p>
         </Wrapper>
       </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <div
-          className="d-flex align-items-center justify-content-center"
-          style={{ backgroundColor: "#fff", height: "200px" }}
-        >
-          <p className="text-right px-3">تصوير ٣ فيديوهات ونشرها على يويتوب</p>
-        </div>
-      </Grid>
+      {drafts.length === 0 ? (
+        <span>No Drafts Yet..!</span>
+      ) : (
+        drafts.map((item) => (
+          <Grid item xs={12} sm={6} md={4}>
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{ backgroundColor: "#fff", height: "200px" }}
+            >
+              <p className="text-right px-3">{item.title}</p>
+            </div>
+          </Grid>
+        ))
+      )}
     </Grid>
   );
 };

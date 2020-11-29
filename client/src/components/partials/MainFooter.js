@@ -44,6 +44,10 @@ export default MainFooter;
 const Wrapper = styled.div`
   background: #6236ff;
   height: 48px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   padding: 0 26px;
   display: none;
   .line {

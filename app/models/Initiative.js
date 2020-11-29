@@ -22,6 +22,10 @@ const initiativeSchema = new Schema(
         default: [],
       },
     ],
+    draft: {
+      type: Boolean,
+      default: false,
+    },
     author: [
       {
         type: Schema.Types.ObjectId,

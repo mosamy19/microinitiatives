@@ -11,10 +11,14 @@ import blue_bookmark from "../../../assets/icons/blue_bookmark.svg";
 import blue_current_initiative from "../../../assets/icons/blue_current_initiative.svg";
 import blue_completed_initiative from "../../../assets/icons/blue_completed_initiative.svg";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getMyInitiatives } from "../../../store/actions/initiative-actions";
+
 import Currentinitiatives from "./component/Currentinitiatives";
 import Favoriteinitiatives from "./component/Favoriteinitiatives";
 import Completedinitiatives from "./component/Completedinitiatives";
 import { Grid } from "@material-ui/core";
+import Noinitiativeyet from "./Noinitiativeyet";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +37,20 @@ const Myinitiatives = () => {
   const [isCurrent, setIsCurrent] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const dispatch = useDispatch();
+  const [noInitiativeYet, setNoInitiativeYet] = useState(true);
+
+  useEffect(() => {
+    dispatch(getMyInitiatives());
+  }, [dispatch]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      setNoInitiativeYet(false);
+    }
+  }, [initiatives]);
 
   useEffect(() => {
     if (value === 0) {
@@ -54,61 +72,69 @@ const Myinitiatives = () => {
 
   return (
     <Wrapper>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Tabs
-            className={classes.root}
-            value={value}
-            onChange={handleChange}
-            TabIndicatorProps={{
-              style: { background: "#6236ff" },
-            }}
-          >
-            <Tab
-              icon={
-                <img
-                  width="12px"
-                  height="12px"
-                  src={
-                    isCurrent ? blue_current_initiative : current_initiatives
+      {noInitiativeYet === true ? (
+        <Noinitiativeyet />
+      ) : (
+        <div>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Tabs
+                className={classes.root}
+                value={value}
+                onChange={handleChange}
+                TabIndicatorProps={{
+                  style: { background: "#6236ff" },
+                }}
+              >
+                <Tab
+                  icon={
+                    <img
+                      width="12px"
+                      height="12px"
+                      src={
+                        isCurrent
+                          ? blue_current_initiative
+                          : current_initiatives
+                      }
+                      alt=""
+                    />
                   }
-                  alt=""
+                  label="الحالية"
                 />
-              }
-              label="الحالية"
-            />
-            <Tab
-              icon={
-                <img
-                  width="12px"
-                  height="12px"
-                  src={
-                    isCompleted
-                      ? blue_completed_initiative
-                      : completed_initiatives
+                <Tab
+                  icon={
+                    <img
+                      width="12px"
+                      height="12px"
+                      src={
+                        isCompleted
+                          ? blue_completed_initiative
+                          : completed_initiatives
+                      }
+                      alt=""
+                    />
                   }
-                  alt=""
+                  label="المكتملة"
                 />
-              }
-              label="المكتملة"
-            />
-            <Tab
-              icon={
-                <img
-                  width="10px"
-                  height="11.2px"
-                  src={isFavorite ? blue_bookmark : bookmark}
-                  alt=""
+                <Tab
+                  icon={
+                    <img
+                      width="10px"
+                      height="11.2px"
+                      src={isFavorite ? blue_bookmark : bookmark}
+                      alt=""
+                    />
+                  }
+                  label="المفضلة"
                 />
-              }
-              label="المفضلة"
-            />
-          </Tabs>
-        </Grid>
-      </Grid>
-      {value === 0 && <Currentinitiatives />}
-      {value === 1 && <Completedinitiatives />}
-      {value === 2 && <Favoriteinitiatives />}
+              </Tabs>
+            </Grid>
+          </Grid>
+          {value === 0 && <Currentinitiatives />}
+          {value === 1 && <Completedinitiatives />}
+          {value === 2 && <Favoriteinitiatives />}
+        </div>
+      )}
     </Wrapper>
   );
 };

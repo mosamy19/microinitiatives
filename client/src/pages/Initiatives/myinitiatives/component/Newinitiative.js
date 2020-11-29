@@ -37,7 +37,6 @@ const Newinitiative = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
   const [initiative, setInitiative] = useState({
     title: "",
     category: [],
@@ -45,15 +44,6 @@ const Newinitiative = () => {
     thumbnail: [],
   });
 
-  // const changeHandler = (event) => {
-  //   const isFiile = event.target.type === "file";
-  //   setInitiative({
-  //     ...initiative,
-  //     [event.target.name]: isFiile ? event.target.files : event.target.value,
-  //   });
-  // };
-  // console.log(initiative);
-  
   const submitHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
@@ -64,8 +54,25 @@ const Newinitiative = () => {
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
 
-    dispatch(createInitiative(fd, history));
+    dispatch(createInitiative(fd));
+    history.push("all-initiatives");
   };
+
+  const draftHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of initiative.thumbnail) {
+      fd.append("thumbnail", file);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("draft", true);
+
+    dispatch(createInitiative(fd));
+    history.push("my-initiatives");
+  };
+
   return (
     <Wrapper>
       <div className="myform">
@@ -78,7 +85,7 @@ const Newinitiative = () => {
         >
           مبادرة جديدة
         </h2>
-        <Form onSubmit={submitHandler} className="text-right">
+        <div className="text-right">
           <FormGroup>
             <Label>
               عنوان المبادرة <span className="filed">(حقل إلزامي)</span>
@@ -140,21 +147,23 @@ const Newinitiative = () => {
           </FormGroup>
           <FormGroup className="d-flex justify-content-between align-items-center">
             <Input
+              onClick={draftHandler}
               type="submit"
-              value="  حفظ كمسودة"
+              value="حفظ كمسودة"
               style={{
                 background: "rgba(0, 0, 0, 0.1)",
                 color: "rgba(0, 0, 0, 0.25)",
-                width: "48%",
+                width: "49%",
               }}
             />
             <Input
+              onClick={submitHandler}
               type="submit"
               value="  نشر"
-              style={{ background: "#f7b500", color: "#fff", width: "48%" }}
+              style={{ background: "#f7b500", color: "#fff", width: "49%" }}
             />
           </FormGroup>
-        </Form>
+        </div>
       </div>
     </Wrapper>
   );

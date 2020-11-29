@@ -28,28 +28,31 @@ module.exports = {
       });
 
       let createdComment = await newComment.save();
-      initiative.comments.unshift(createdComment._id);
-      let updatedInitiative = await Initiative.findOneAndUpdate(
-        { _id: initiativeId },
-        { $set: initiative },
-        { new: true }
-      );
+      // initiative.comments.unshift(createdComment._id);
+      // let updatedInitiative = await Initiative.findOneAndUpdate(
+      //   { _id: initiativeId },
+      //   { $set: initiative },
+      //   { new: true }
+      // );
 
       res.status(status.success).json({
         message: "Comment has been added successfully",
-        initiative: updatedInitiative,
+        comments: createdComment,
       });
     } catch (error) {
       serverError(res, error);
     }
   },
 
-  getAllComments: async (req, res) => {
+  getComments: async (req, res) => {
+    let { initiativeId } = req.params;
     try {
-      let comments = await Comment.find();
+      let comments = await Comment.find({ initiative: initiativeId }).populate(
+        "author",
+        "firstName familyName avatar"
+      );
       res.status(200).json(comments);
     } catch (error) {
-      console.log(error);
       serverError(res, error);
     }
   },

@@ -194,8 +194,8 @@ const Wrapper = styled.div`
   .line2 {
     position: absolute;
     bottom: -80%;
-    right: 33%;
-    width: 18%;
+    right: 37%;
+    width: 19%;
     height: 1.5px;
     background: #6236ff;
     display: none;

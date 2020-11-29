@@ -34,7 +34,7 @@ const Allinitiatives = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [all_initiatives, setAllInitiative] = useState([]);
+  const [all_initiatives, set_all_initiative] = useState([]);
 
   useEffect(() => {
     dispatch(getAllInitiatives());
@@ -44,11 +44,9 @@ const Allinitiatives = () => {
 
   useEffect(() => {
     if (initiatives.length > 0) {
-      setAllInitiative(initiatives);
+      set_all_initiative(initiatives);
     }
   }, [initiatives]);
-
-  console.log(all_initiatives);
 
   return (
     <Wrapper>

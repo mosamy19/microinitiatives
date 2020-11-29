@@ -33,7 +33,7 @@ const Cloneinitiative = () => {
         </p>
       </div>
       <Link
-        to="clone-initiative"
+        to="/clone-initiative"
         className="m-link"
         style={{
           textDecoration: "none",

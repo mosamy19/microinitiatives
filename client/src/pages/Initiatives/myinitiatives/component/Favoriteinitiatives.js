@@ -1,21 +1,33 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Initiativecard from "../../component/Initiativecard";
-import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-Bold-FD-WOL.ttf";
-import { useSelector } from "react-redux";
+import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyInitiatives } from "../../../../store/actions/initiative-actions";
 
 const Favoriteinitiatives = () => {
+  const dispatch = useDispatch();
+  const [myInitiatives, setMyInitiatives] = useState([]);
+
+  useEffect(() => {
+    dispatch(getMyInitiatives());
+  }, [dispatch]);
+
   const { initiatives } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      setMyInitiatives(initiatives);
+    }
+  }, [initiatives]);
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {initiatives.length > 0 &&
-          initiatives.map((initiative) => (
-            <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard initiative={initiative} />
-            </Grid>
-          ))}
+        {myInitiatives.map((initiative) => (
+          <Grid item xs={12} sm={6} md={4}>
+            <Initiativecard initiative={initiative} />
+          </Grid>
+        ))}
       </Grid>
     </Wrapper>
   );

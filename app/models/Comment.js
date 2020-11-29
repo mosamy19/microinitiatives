@@ -13,13 +13,11 @@ const commentsSchema = new Schema(
         required: true,
       },
     ],
-    initiative: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Initiative",
-        required: true,
-      },
-    ],
+    initiative: {
+      type: Schema.Types.ObjectId,
+      ref: "Initiative",
+      required: true,
+    },
   },
   {
     timestamps: true,

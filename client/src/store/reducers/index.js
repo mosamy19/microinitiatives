@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth-reducer";
+import commentReducer from "./comment-reducer";
 import favoriteReducer from "./favorite-reducer";
 import initiativeReducer from "./initiative-reducer";
 import likeReducer from "./likes-reducer";
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   likes: likeReducer,
   favorites: favoriteReducer,
   shares: shareReducer,
+  comments: commentReducer,
 });
 
 export default rootReducer;

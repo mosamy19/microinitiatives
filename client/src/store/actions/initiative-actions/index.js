@@ -21,6 +21,47 @@ export const getAllInitiatives = () => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
+
+export const getDraftInitiatives = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/drafts");
+    dispatch({
+      type: types.SET_INITIATIVE,
+      payload: {
+        initiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+
+export const getMyInitiatives = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/my-initiatives");
+    dispatch({
+      type: types.SET_INITIATIVE,
+      payload: {
+        initiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+
 export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.get(`/api/v1/initiatives/${initiativeId}`);
@@ -42,11 +83,10 @@ export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
   }
 };
 
-export const createInitiative = (initiative, history) => async (dispatch) => {
+export const createInitiative = (initiative) => async (dispatch) => {
   try {
     let response = await axios.post("/api/v1/initiatives", initiative);
     dispatch(setSuccess(response.data.message));
-    history.push("/all-initiatives");
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
