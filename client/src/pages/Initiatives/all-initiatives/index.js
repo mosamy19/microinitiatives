@@ -44,9 +44,11 @@ const Allinitiatives = () => {
 
   useEffect(() => {
     if (initiatives.length > 0) {
-      set_all_initiative(initiatives);
+      set_all_initiative(Array.from(initiatives));
     }
   }, [initiatives]);
+
+  console.log(all_initiatives);
 
   return (
     <Wrapper>
