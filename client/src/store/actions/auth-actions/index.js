@@ -64,7 +64,7 @@ export const login = (userdata, history) => async (dispatch) => {
 
 export const forgetPassword = (email, history) => async (dispatch) => {
   try {
-    let response = await axios.post("/api/v1/auth//forget-password", email);
+    let response = await axios.post("/api/v1/auth/forget-password", email);
     dispatch(setSuccess(response.data.message));
     history.push("/reset-message");
   } catch (error) {
@@ -80,7 +80,7 @@ export const forgetPassword = (email, history) => async (dispatch) => {
 export const resetPassword = (newPassword, history) => async (dispatch) => {
   try {
     let response = await axios.post(
-      "/api/v1/auth//reset-password",
+      "/api/v1/auth/reset-password",
       newPassword
     );
     dispatch(setSuccess(response.data.message));

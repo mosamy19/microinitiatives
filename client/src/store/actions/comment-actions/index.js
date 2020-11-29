@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as types from "../types";
-
 export const getComments = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.get(

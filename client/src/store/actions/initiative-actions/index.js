@@ -4,7 +4,7 @@ import { setSuccess, setError } from "../snackbar-actions";
 
 export const getAllInitiatives = () => async (dispatch) => {
   try {
-    let response = await axios.get("/api/v1/initiatives");
+    let response = await axios.get("/api/v1/initiatives/get-initiatives");
     dispatch({
       type: types.SET_INITIATIVE,
       payload: {
@@ -85,7 +85,10 @@ export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
 
 export const createInitiative = (initiative) => async (dispatch) => {
   try {
-    let response = await axios.post("/api/v1/initiatives", initiative);
+    let response = await axios.post(
+      "/api/v1/initiatives/create-initiatives",
+      initiative
+    );
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
