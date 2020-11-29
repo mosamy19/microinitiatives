@@ -69,7 +69,11 @@ const Allinitiatives = () => {
         </div>
         <div className="my-4">
           <Grid container spacing={3}>
-            {all_initiatives.length > 0 ? (
+            {all_initiatives.length === 0 ? (
+              <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+                <CircularProgress />
+              </div>
+            ) : (
               all_initiatives.map((initiative) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <div
@@ -81,10 +85,6 @@ const Allinitiatives = () => {
                   </div>
                 </Grid>
               ))
-            ) : (
-              <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-                <CircularProgress />
-              </div>
             )}
           </Grid>
         </div>
