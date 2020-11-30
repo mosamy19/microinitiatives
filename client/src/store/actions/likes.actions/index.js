@@ -3,7 +3,7 @@ import * as types from "../types";
 
 export const getLikes = (initiativeId) => async (dispatch) => {
   try {
-    let response = await axios.get(`/v1/likes/get-likes/${initiativeId}`);
+    let response = await axios.get(`/api/v1/likes/get-likes/${initiativeId}`);
     dispatch({
       type: types.SET_LIKES,
       payload: {

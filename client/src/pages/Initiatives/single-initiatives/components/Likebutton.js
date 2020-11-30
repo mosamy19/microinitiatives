@@ -20,6 +20,8 @@ const Likebutton = ({ user, initiativeId }) => {
   }, [dispatch, initiativeId]);
   const { likes } = useSelector((state) => state.likes);
 
+  console.log(like);
+  console.log(likes);
   // like and unlike initiative
   useEffect(() => {
     if (likes.likes) {
@@ -41,6 +43,7 @@ const Likebutton = ({ user, initiativeId }) => {
       setIsLiked(null);
     }
   };
+
   return (
     <Button onClick={setLikeUnlike} className="btns" variant="outlined">
       <div>
