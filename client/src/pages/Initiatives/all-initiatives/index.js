@@ -76,7 +76,7 @@ const Allinitiatives = () => {
                 <CircularProgress />
               </div>
             ) : (
-              Array.from(all_initiatives).map((initiative) => (
+              Array.prototype(all_initiatives).map((initiative) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <div
                     onClick={() =>
