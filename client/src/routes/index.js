@@ -85,7 +85,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/clone-initiative"
+          path="/clone-initiative/:id/:initiativeTitle/:initiativeCategory"
           component={CloneOtherInitiative}
         />
         <PrivateRouteWithLayout

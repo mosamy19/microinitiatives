@@ -1,9 +1,11 @@
 import { Button, makeStyles } from "@material-ui/core";
-import React from "react";
-import { Link } from "react-router-dom";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { FormGroup, Label, Input } from "reactstrap";
 
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { createInitiative } from "../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "dashed",
     color: "rgba(16, 24, 32, 0.65)",
     fontFamily: "inherit",
-    fontSize: "16px",
+    fontSize: "14px",
+    fontWeight: "normal",
     padding: "6px 20px",
     "&:hover": {
       color: "rgba(16, 24, 32, 0.65)",
@@ -30,8 +33,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CloneOtherInitiative = () => {
+const Newinitiative = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { id, initiativeTitle, initiativeCategory } = useParams();
+
+  const [initiative, setInitiative] = useState({
+    title: initiativeTitle,
+    category: ["initiativeCategory"],
+    description: "",
+    thumbnail: [],
+  });
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of initiative.thumbnail) {
+      fd.append("thumbnail", file);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("cloned", true);
+
+    dispatch(createInitiative(fd));
+    history.push("/all-initiatives");
+  };
+
+  const draftHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of initiative.thumbnail) {
+      fd.append("thumbnail", file);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("cloned", true);
+    fd.append("draft", true);
+
+    dispatch(createInitiative(fd));
+    history.push("/my-initiatives");
+  };
+
   return (
     <Wrapper>
       <div className="myform">
@@ -44,29 +90,43 @@ const CloneOtherInitiative = () => {
         >
           مبادرة جديدة
         </h2>
-        <Form className="text-right">
+        <div className="text-right">
           <FormGroup>
             <Label>
-              عنوان المبادرة <span>(حقل إلزامي)</span>
+              عنوان المبادرة <span className="filed">(حقل إلزامي)</span>
             </Label>
             <Input
+              onChange={(e) =>
+                setInitiative({ ...initiative, title: e.target.value })
+              }
               type="text"
-              name="email"
-              value="تصوير ٣ فيديوهات ونشرها على يوتيوب "
+              name="title"
+              value={initiativeTitle ? initiativeTitle : null}
               disabled
             />
           </FormGroup>
           <FormGroup>
             <Label>
-              تصنيف المبادرة <span>(حقل إلزامي)</span>
+              تصنيف المبادرة <span className="filed">(حقل إلزامي)</span>
             </Label>
-            <Input type="text" name="email" value="تعليمي" disabled />
+            <Input
+              onChange={(e) =>
+                setInitiative({ ...initiative, category: e.target.value })
+              }
+              type="text"
+              name="category"
+              value={initiativeCategory ? initiativeCategory : null}
+              disabled
+            />
           </FormGroup>
           <FormGroup>
             <Label>وصف المبادرة </Label>
             <Input
               type="textarea"
-              name="text"
+              name="description"
+              onChange={(e) =>
+                setInitiative({ ...initiative, description: e.target.value })
+              }
               style={{ minHeight: "130px" }}
               placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
             />
@@ -78,12 +138,16 @@ const CloneOtherInitiative = () => {
               id="contained-button-file"
               multiple
               type="file"
+              name="thumbnail"
+              onChange={(e) =>
+                setInitiative({ ...initiative, thumbnail: e.target.files })
+              }
             />
             <label style={{ width: "100%" }} htmlFor="contained-button-file">
               <Button
                 fullWidth={true}
                 variant="outlined"
-                component="span"
+                component="p"
                 className={classes.btn}
               >
                 ارفع صور للمبادرة
@@ -92,27 +156,29 @@ const CloneOtherInitiative = () => {
           </FormGroup>
           <FormGroup className="d-flex justify-content-between align-items-center">
             <Input
+              onClick={draftHandler}
               type="submit"
-              value="  حفظ كمسودة"
+              value="حفظ كمسودة"
               style={{
                 background: "rgba(0, 0, 0, 0.1)",
                 color: "rgba(0, 0, 0, 0.25)",
-                width: "48%",
+                width: "49%",
               }}
             />
             <Input
+              onClick={submitHandler}
               type="submit"
               value="  نشر"
-              style={{ background: "#f7b500", color: "#fff", width: "48%" }}
+              style={{ background: "#f7b500", color: "#fff", width: "49%" }}
             />
           </FormGroup>
-        </Form>
+        </div>
       </div>
     </Wrapper>
   );
 };
 
-export default CloneOtherInitiative;
+export default Newinitiative;
 const Wrapper = styled.div`
   .myform {
     margin: 64px auto;
@@ -128,9 +194,9 @@ const Wrapper = styled.div`
       font-size: 14px;
       color: rgba(16, 24, 32, 0.65);
     }
-    span {
+    .filed {
       font-size: 12px;
-      color: rgba(0, 0, 0, 0.25);s
+      color: rgba(0, 0, 0, 0.25);
     }
   }
 `;

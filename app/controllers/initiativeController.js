@@ -7,7 +7,7 @@ const { status } = require("../utils/status");
 
 module.exports = {
   createInitiative: async (req, res) => {
-    let { title, category, description, draft } = req.body;
+    let { title, category, description, draft, cloned } = req.body;
     // let userId = req.user._id;
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -20,6 +20,7 @@ module.exports = {
       category,
       description,
       draft,
+      cloned,
       thumbnail: [],
       author: req.user._id,
       likes: [],
@@ -79,6 +80,23 @@ module.exports = {
       let initiatives = await Initiative.find({
         draft: true,
         author: req.user._id,
+      }).populate("author", "firstName familyName email avatar");
+      if (initiatives.length === 0) {
+        return res.status(200).json({
+          message: "No Initiative Found",
+        });
+      }
+      res.status(200).json(initiatives);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  getClonedtInitiatives: async (req, res) => {
+    try {
+      let initiatives = await Initiative.find({
+        draft: false,
+        cloned: true,
       }).populate("author", "firstName familyName email avatar");
       if (initiatives.length === 0) {
         return res.status(200).json({

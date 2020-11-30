@@ -22,7 +22,7 @@ require("./app/middlewares/passport")(passport);
 
 if (config.get("mode") === "production") {
   app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
+  app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }

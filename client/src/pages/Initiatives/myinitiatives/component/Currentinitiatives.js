@@ -10,12 +10,12 @@ import { getDraftInitiatives } from "../../../../store/actions/initiative-action
 
 const Currentinitiatives = () => {
   const history = useHistory();
-  const dispathc = useDispatch();
+  const dispatch = useDispatch();
   const [drafts, setDrafts] = useState([]);
 
   useEffect(() => {
-      dispathc(getDraftInitiatives());
-  }, [dispathc]);
+    dispatch(getDraftInitiatives());
+  }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
   useEffect(() => {

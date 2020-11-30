@@ -7,7 +7,7 @@ import item4 from "../../../../assets/images/item4.jpg";
 import item5 from "../../../../assets/images/item5.jpg";
 import styled from "styled-components";
 
-const Imageslider = ({ images }) => {
+const Imageslider = ({ images, imgHeight }) => {
   const state = {
     cssEase: "ease-in-out",
     slidesToShow: 1,
@@ -16,7 +16,7 @@ const Imageslider = ({ images }) => {
     dots: true,
   };
   return (
-    <Wrapper>
+    <Wrapper imgHeight={imgHeight}>
       <Slider {...state}>
         {images &&
           images.map((item) => (
@@ -30,10 +30,12 @@ const Imageslider = ({ images }) => {
 };
 
 export default Imageslider;
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs((props) => ({
+  imgHeight: props.imgHeight || "410px",
+}))`
   img {
     width: 100%;
-    height: 410px;
+    height: ${(props) => props.imgHeight};
   }
   .slick-dots li button:before {
     position: absolute;

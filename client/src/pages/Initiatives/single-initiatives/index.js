@@ -29,6 +29,7 @@ const Singleinitiative = () => {
 
   const { initiatives } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
+  console.log(initiatives);
 
   return (
     <Wrapper>
@@ -88,7 +89,11 @@ const Singleinitiative = () => {
             <Sharebutton user={user} initiativeId={initiativeId} />
           </div>
         </div>
-        <Cloneinitiative />
+        <Cloneinitiative
+          initiativeId={initiatives._id}
+          title={initiatives.title}
+          category={initiatives.category}
+        />
         <Comments user={user} initiativeId={initiativeId} />
         <Clonedinitiatives />
       </div>

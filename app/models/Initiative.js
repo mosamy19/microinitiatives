@@ -26,6 +26,10 @@ const initiativeSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    cloned: {
+      type: Boolean,
+      default: false,
+    },
     author: [
       {
         type: Schema.Types.ObjectId,

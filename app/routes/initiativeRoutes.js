@@ -7,6 +7,7 @@ const {
   deleteInitiative,
   getDraftInitiatives,
   getMyInitiatives,
+  getClonedtInitiatives,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
@@ -14,6 +15,7 @@ const isAuthenticated = require("../middlewares/authenticate");
 
 router.get("/get-initiatives", isAuthenticated, getAllInitiatives);
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
+router.get("/cloned-initiatives", isAuthenticated, getClonedtInitiatives);
 router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
 router.get("/:initiativeId", isAuthenticated, getSingleInitiative);
 router.post(

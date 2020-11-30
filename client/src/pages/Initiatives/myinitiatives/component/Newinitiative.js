@@ -1,7 +1,7 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label, Input } from "reactstrap";
 
 import styled from "styled-components";
 import { useDispatch } from "react-redux";

@@ -42,6 +42,26 @@ export const getDraftInitiatives = () => async (dispatch) => {
   }
 };
 
+export const getClonedtInitiatives = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/cloned-initiatives");
+    dispatch({
+      type: types.SET_INITIATIVE,
+      payload: {
+        initiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+
 export const getMyInitiatives = () => async (dispatch) => {
   try {
     let response = await axios.get("/api/v1/initiatives/my-initiatives");

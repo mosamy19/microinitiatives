@@ -1,11 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import user_white from "../../../../assets/icons/user_white.svg";
 import styled from "styled-components";
 
-const Cloneinitiative = () => {
+const Cloneinitiative = ({ initiativeId, title, category}) => {
+  const history = useHistory();
   return (
     <Wrapper
+      onClick={() =>
+        history.push(`/clone-initiative/${initiativeId}/${title}/${category}`)
+      }
       className="text-center"
       style={{
         background: "#f7b500",
@@ -13,6 +17,7 @@ const Cloneinitiative = () => {
         borderRadius: "8px",
         margin: "48px 0",
         padding: "18px 0",
+        cursor: "pointer",
       }}
     >
       <div className="d-flex justify-content-center align-items-center mb-style">
@@ -32,18 +37,16 @@ const Cloneinitiative = () => {
           شخص نفّذوا مثل هذا المبادرة
         </p>
       </div>
-      <Link
-        to="/clone-initiative"
+      <h2
         className="m-link"
         style={{
-          textDecoration: "none",
           fontSize: "24px",
           fontWeight: "bold",
           color: "#fff",
         }}
       >
         نفّذ مثل هذه المبادرة
-      </Link>
+      </h2>
     </Wrapper>
   );
 };
