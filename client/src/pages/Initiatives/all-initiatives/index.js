@@ -44,7 +44,7 @@ const Allinitiatives = () => {
 
   useEffect(() => {
     if (initiatives.length > 0) {
-      set_all_initiative(Array.from(initiatives));
+      set_all_initiative(initiatives);
     }
   }, [initiatives]);
 
@@ -76,7 +76,7 @@ const Allinitiatives = () => {
                 <CircularProgress />
               </div>
             ) : (
-              all_initiatives.map((initiative) => (
+              Array.from(all_initiatives).map((initiative) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <div
                     onClick={() =>
