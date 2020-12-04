@@ -10,9 +10,7 @@ import { getDraftInitiatives } from "../../../../store/actions/initiative-action
 
 const Currentinitiatives = ({ myinitiatives }) => {
   const history = useHistory();
-  
   const draft = myinitiatives.filter((item) => item.draft === true);
-
 
   return (
     <Grid container spacing={3}>
@@ -45,8 +43,13 @@ const Currentinitiatives = ({ myinitiatives }) => {
         draft.map((item) => (
           <Grid item xs={12} sm={6} md={4}>
             <div
+              onClick={() => history.push("/new-initiative")}
               className="d-flex align-items-center justify-content-center"
-              style={{ backgroundColor: "#fff", height: "200px" }}
+              style={{
+                backgroundColor: "#fff",
+                height: "200px",
+                cursor: "pointer",
+              }}
             >
               <p className="text-right px-3">{item.title}</p>
             </div>

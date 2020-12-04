@@ -159,7 +159,6 @@ module.exports = {
   getMyInitiatives: async (req, res) => {
     try {
       let initiatives = await Initiative.find({
-        draft: false,
         author: req.user._id,
       });
       if (initiatives.length === 0) {
