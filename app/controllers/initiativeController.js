@@ -103,7 +103,7 @@ module.exports = {
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(
         "author",
-        "firstName familyName email avatar"
+        "firstName familyName avatar"
       );
       if (initiatives.length === 0) {
         return res.status(200).json({
@@ -173,12 +173,25 @@ module.exports = {
     }
   },
 
+  getPublicProfileInitiatives: async (req, res) => {
+    const { userId } = req.params;
+    try {
+      let initiatives = await Initiative.find({
+        author: userId,
+      }).populate("author", "firstName familyName avatar");
+
+      res.status(200).json(initiatives);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
   getSingleInitiative: async (req, res) => {
     let { initiativeId } = req.params;
     try {
       let initiative = await Initiative.findOne({ _id: initiativeId }).populate(
         "author",
-        "firstName familyName email avatar"
+        "_id firstName familyName avatar"
       );
       if (!initiative) {
         return resourceError(res, "No Initiative Found");

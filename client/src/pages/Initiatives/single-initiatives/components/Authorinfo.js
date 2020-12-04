@@ -20,7 +20,7 @@ const Authorinfo = ({ author, date }) => {
               }}
             />
             <Link
-              to="/public-profile"
+              to={`/public-profile/${item._id}`}
               style={{
                 textDecoration: "none",
                 fontSize: "14px",

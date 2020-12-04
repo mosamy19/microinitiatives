@@ -138,7 +138,7 @@ const Comments = ({ initiativeId }) => {
                           }}
                         />
                         <Link
-                          to="/public-profile"
+                          to={`/public-profile/${info._id}`}
                           style={{
                             textDecoration: "none",
                             fontSize: "14px",

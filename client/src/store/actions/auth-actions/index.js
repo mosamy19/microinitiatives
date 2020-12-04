@@ -147,6 +147,26 @@ export const getLoggedinUser = () => async (dispatch) => {
     });
   }
 };
+export const getPublicProfileUser = (userId) => async (dispatch) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/auth/get-public-profile-user/${userId}`
+    );
+    dispatch({
+      type: types.SET_USER,
+      payload: {
+        user: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 
 export const logout = (history) => {
   localStorage.removeItem("auth_token");

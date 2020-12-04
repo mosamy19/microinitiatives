@@ -105,7 +105,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/public-profile"
+          path="/public-profile/:id"
           component={Publicprofile}
         />
 

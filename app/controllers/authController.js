@@ -278,12 +278,24 @@ module.exports = {
     }
   },
 
- getLoggedinUser: async(req, res)=>{
-   try {
-     let user = await User.findOne({_id: req.user._id})
-     res.status(200).json(user);
-   } catch (error) {
+  getLoggedinUser: async (req, res) => {
+    try {
+      let user = await User.findOne({ _id: req.user._id });
+      res.status(200).json(user);
+    } catch (error) {
       serverError(res, error);
-   }
- }
+    }
+  },
+  getPublicProfileUser: async (req, res) => {
+    const { userId } = req.params;
+    try {
+      let user = await User.find({ _id: userId }).populate(
+        "initiative",
+        "_id title category likes clones favorites shares description"
+      );
+      res.status(200).json(user);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };
