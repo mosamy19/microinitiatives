@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const PublicFooter = () => {
   return (
     <Wrapper>
-      <div className="container d-flex justify-content-between align-items-center">
+      <div className="container d-flex justify-content-center align-items-center">
         <Link
           className="mb-menu"
           style={{
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
   .line {
     width: 1px;
     height: 48px;
-    margin: 0 40px 0 48px;
+    margin: 0 68px 0 68px;
     opacity: 0.3;
     border: solid 1px rgba(0, 0, 0, 0.1);
   }

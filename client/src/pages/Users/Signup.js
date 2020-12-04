@@ -6,12 +6,10 @@ import { connect } from "react-redux";
 import { register } from "../../store/actions/auth-actions";
 
 import styled from "styled-components";
-import Alerts from "../../components/Alert";
 
 const Signup = (props) => {
   const [user, setUser] = useState({});
   const [error, setError] = useState({});
-  // const [success, setSuccess] = useState({});
   const changeHanlder = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
     setError({});
@@ -19,7 +17,6 @@ const Signup = (props) => {
 
   useEffect(() => {
     setError(props.auth.error);
-    // setSuccess(props.auth.success);
   }, [props.auth.error]);
 
   const submitHandler = (e) => {
@@ -29,12 +26,6 @@ const Signup = (props) => {
 
   return (
     <Wrapper>
-      {/* {error.message && (
-        <Alerts type="error" message={error.message} isOpen={true} />
-      )} */}
-      {/* {success.message && (
-        <Alerts type="success" message={success.message} isOpen={true} />
-      )} */}
       <div className="myform">
         <h2
           style={{

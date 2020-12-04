@@ -55,7 +55,8 @@ const Newinitiative = () => {
     fd.append("description", initiative.description);
 
     dispatch(createInitiative(fd));
-    history.push("all-initiatives");
+    history.push("/all-initiatives");
+    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
   const draftHandler = (e) => {
@@ -70,7 +71,8 @@ const Newinitiative = () => {
     fd.append("draft", true);
 
     dispatch(createInitiative(fd));
-    history.push("my-initiatives");
+    history.push("/my-initiatives");
+    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
   return (
@@ -116,6 +118,7 @@ const Newinitiative = () => {
                   }
                   type="text"
                   name="title"
+                  value={initiative.title}
                 />
               </FormGroup>
               <FormGroup>
@@ -128,6 +131,7 @@ const Newinitiative = () => {
                   }
                   type="text"
                   name="category"
+                  value={initiative.category}
                 />
               </FormGroup>
               <FormGroup>
@@ -142,6 +146,7 @@ const Newinitiative = () => {
                     })
                   }
                   style={{ minHeight: "130px" }}
+                  value={initiative.description}
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
                 />
               </FormGroup>
