@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/auth-actions";
 
 import {
@@ -9,18 +9,16 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
-import user from "../../assets/images/user.svg";
+import userIcon from "../../assets/images/user.svg";
 import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
 
-const Menu = (props) => {
+const Menu = ({ name, avatar }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  const authUser = useSelector((state) => state.auth.user);
-  const { firstName, familyName, avatar } = authUser;
   const hadnleLogout = () => {
     dispatch(logout(history));
     window.location.reload();
@@ -36,7 +34,7 @@ const Menu = (props) => {
         >
           <div className="d-flex align-items-center">
             <img
-              src={avatar ? avatar : user}
+              src={avatar ? avatar : userIcon}
               alt=""
               width="26px"
               height="26px"
@@ -45,7 +43,7 @@ const Menu = (props) => {
                 background: "rgba(0, 0, 0, 0.1)",
               }}
             />
-            <p style={{ margin: "0 3px" }}> {firstName + " " + familyName} </p>
+            <p style={{ margin: "0 3px" }}> {name ? name : null}</p>
             <RiArrowDownSLine />
           </div>
         </DropdownToggle>

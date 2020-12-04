@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Myinitiatives = () => {
+const MyAllinitiatives = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -39,18 +39,22 @@ const Myinitiatives = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const dispatch = useDispatch();
-  const [noInitiativeYet, setNoInitiativeYet] = useState(true);
+  const [myinitiatives, setMyinitiatives] = useState([]);
 
   useEffect(() => {
     dispatch(getMyInitiatives());
   }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
     if (initiatives.length > 0) {
-      setNoInitiativeYet(false);
+      const tempInitiatives = initiatives.filter(
+        (item) => item.author == user._id
+      );
+      setMyinitiatives(tempInitiatives);
     }
-  }, [initiatives]);
+  }, [initiatives, user._id]);
 
   useEffect(() => {
     if (value === 0) {
@@ -72,7 +76,7 @@ const Myinitiatives = () => {
 
   return (
     <Wrapper>
-      {noInitiativeYet === true ? (
+      {myinitiatives.length === 0 ? (
         <Noinitiativeyet />
       ) : (
         <div>
@@ -130,16 +134,18 @@ const Myinitiatives = () => {
               </Tabs>
             </Grid>
           </Grid>
-          {value === 0 && <Currentinitiatives />}
-          {value === 1 && <Completedinitiatives />}
-          {value === 2 && <Favoriteinitiatives />}
+          {value === 0 && <Currentinitiatives myinitiatives={myinitiatives} />}
+          {value === 1 && (
+            <Completedinitiatives myinitiatives={myinitiatives} />
+          )}
+          {value === 2 && <Favoriteinitiatives user={user} />}
         </div>
       )}
     </Wrapper>
   );
 };
 
-export default Myinitiatives;
+export default MyAllinitiatives;
 const Wrapper = styled.div`
   margin: 64px 0;
   text-alieng: right;

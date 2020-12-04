@@ -8,6 +8,7 @@ const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_COMMENTS:
       return {
+        ...state,
         comments: action.payload.comments,
         error: {},
       };

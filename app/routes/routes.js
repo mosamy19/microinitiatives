@@ -4,6 +4,7 @@ const commentRoutes = require("./commentsRoutes");
 const likesRoutes = require("./likesRoues");
 const favoritesRoutes = require("./favoritesRoutes");
 const shareRoutes = require("./shareRoutes");
+const notificationRoutes = require("./notificationRoutes");
 
 const baseAPIPath = "/api/v1";
 
@@ -31,6 +32,10 @@ const routes = [
   {
     path: `${baseAPIPath}/shares`,
     handler: shareRoutes,
+  },
+  {
+    path: `${baseAPIPath}/notifications`,
+    handler: notificationRoutes,
   },
   {
     path: "/",

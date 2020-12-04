@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator");
 const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
+const User = require("../models/User");
+const Notification = require("../models/Notification");
 
 module.exports = {
   setFavorite: async (req, res) => {
@@ -19,6 +21,8 @@ module.exports = {
       if (!initiative) {
         return resourceError(res, "There is no initiative with the given id");
       }
+      initiative.favorites++;
+      initiative.save();
 
       let newFavorite = new Favorite({
         initiative: initiativeId,
@@ -26,6 +30,19 @@ module.exports = {
       });
 
       let createdFavorite = await newFavorite.save();
+      let user = await User.findOne({ _id: initiative.author });
+      user.notifications++;
+      user.save();
+
+      await new Notification({
+        body: `You have a new save on post ${initiative.title} by ${
+          req.user.firstName + " " + req.user.familyName
+        }`,
+        author: initiative.author,
+        initiative: initiative._id,
+        type: "save",
+      }).save();
+
       //   initiative.likes.unshift(createdLike._id);
       //   let updatedInitiative = await Initiative.findOneAndUpdate(
       //     { _id: initiativeId },
@@ -51,6 +68,13 @@ module.exports = {
     }
 
     try {
+      let initiative = await Initiative.findOne({ _id: initiativeId });
+      if (!initiative) {
+        return resourceError(res, "There is no initiative with the given id");
+      }
+      initiative.favorites--;
+      initiative.save();
+
       let deletedFavorite = await Favorite.findOneAndDelete({
         initiative: initiativeId,
         author: req.user._id,
@@ -70,6 +94,18 @@ module.exports = {
     try {
       let favorites = await Favorite.find({ initiative: initiativeId });
       res.status(200).json({ favorite: false, favorites });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  getMyFavorites: async (req, res) => {
+    try {
+      let favorites = await Favorite.find({ author: req.user._id }).populate(
+        "initiative",
+        "title likes clones favorites"
+      );
+      res.status(200).json(favorites);
     } catch (error) {
       serverError(res, error);
     }

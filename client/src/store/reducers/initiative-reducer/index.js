@@ -8,6 +8,7 @@ const initiativeReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_INITIATIVE:
       return {
+        ...state,
         initiatives: action.payload.initiatives,
         error: {},
       };

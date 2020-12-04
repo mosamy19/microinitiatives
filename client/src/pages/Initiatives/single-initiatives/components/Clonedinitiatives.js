@@ -1,15 +1,18 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import users_black from "../../../../assets/icons/users_black.svg";
 import pic from "../../../../assets/images/pic.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getClonedtInitiatives } from "../../../../store/actions/initiative-actions";
-import Imageslider from "./Imageslider";
+
+import Clonedslider from "./Clonedslider";
 
 const Clonedinitiatives = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const [limit, setLimit] = useState(3);
+  const [size, setSize] = useState(0);
+
   const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
@@ -20,9 +23,16 @@ const Clonedinitiatives = () => {
 
   useEffect(() => {
     if (initiatives.length > 0) {
-      setClonedInitiatives(initiatives);
+      let allCloned = initiatives.filter((item) => item.cloned === true);
+      setSize(allCloned.length);
+      setClonedInitiatives(allCloned);
     }
   }, [initiatives]);
+
+  const handleOnClick = () => {
+    setLimit((prevValue) => prevValue + 3);
+  };
+  console.log(clonedInitiatives);
 
   return (
     <div>
@@ -35,22 +45,17 @@ const Clonedinitiatives = () => {
           className="cloneCount"
           style={{ fontSize: "14px", fontWeight: "bold" }}
         >
-          (78)
+          ({size})
         </p>
       </div>
       <Grid container spacing={3}>
         {clonedInitiatives.length === 0 ? (
           <span>No Cloned Initiatives Yet..!</span>
         ) : (
-          clonedInitiatives.map((item) => (
+          clonedInitiatives.slice(0, limit).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
-              <div
-                className="d-flex justify-content-center align-items-center"
-                style={{
-                  background: "#fff",
-                }}
-              >
-                <Imageslider images={item.thumbnail} imgHeight="170px" />
+              <div>
+                <Clonedslider images={item.thumbnail} />
               </div>
               <p style={{ marginTop: "24px" }}>
                 {item.title}
@@ -58,30 +63,34 @@ const Clonedinitiatives = () => {
                   to={`/single-initiative/${item._id}`}
                   style={{ textDecoration: "none" }}
                 >
-                 {" "} اقرأ المزيد ..
+                  {" "}
+                  اقرأ المزيد ..
                 </Link>
               </p>
             </Grid>
           ))
         )}
       </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Button
-            fullWidth={true}
-            className="btns"
-            style={{
-              color: "#3b86fb",
-              background: "rgba(59, 134, 251, 0.08)",
-              marginTop: "24px",
-              border: "none",
-            }}
-            variant="outlined"
-          >
-            تحميل المزيد من المبادرات
-          </Button>
+      {size > limit && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Button
+              onClick={handleOnClick}
+              fullWidth={true}
+              className="btns"
+              style={{
+                color: "#3b86fb",
+                background: "rgba(59, 134, 251, 0.08)",
+                marginTop: "24px",
+                border: "none",
+              }}
+              variant="outlined"
+            >
+              تحميل المزيد من المبادرات
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </div>
   );
 };

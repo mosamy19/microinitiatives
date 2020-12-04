@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator");
 const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
+const User = require("../models/User");
+const Notification = require("../models/Notification");
 
 module.exports = {
   makeShare: async (req, res) => {
@@ -19,6 +21,8 @@ module.exports = {
       if (!initiative) {
         return resourceError(res, "There is no initiative with the given id");
       }
+      initiative.shares++;
+      initiative.save();
 
       let newShare = new Share({
         initiative: initiativeId,
@@ -26,6 +30,19 @@ module.exports = {
       });
 
       let createdShare = await newShare.save();
+      let user = await User.findOne({ _id: initiative.author });
+      user.notifications++;
+      user.save();
+
+      await new Notification({
+        body: `You have a new share on post ${initiative.title} by ${
+          req.user.firstName + " " + req.user.familyName
+        }`,
+        author: initiative.author,
+        initiative: initiative._id,
+        type: "share",
+      }).save();
+
       res.status(status.success).json({
         share: true,
         shares: createdShare,

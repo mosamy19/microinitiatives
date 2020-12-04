@@ -4,10 +4,19 @@ const { validationResult } = require("express-validator");
 const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
+const Notification = require("../models/Notification");
 
 module.exports = {
   createInitiative: async (req, res) => {
-    let { title, category, description, draft, cloned } = req.body;
+    let {
+      title,
+      category,
+      description,
+      draft,
+      cloned,
+      clonedInitiativeOwner,
+      clonedInitiativeId,
+    } = req.body;
     // let userId = req.user._id;
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -21,12 +30,10 @@ module.exports = {
       description,
       draft,
       cloned,
+      clonedInitiativeOwner,
+      clonedInitiativeId,
       thumbnail: [],
       author: req.user._id,
-      likes: [],
-      clones: [],
-      shares: [],
-      comments: [],
     });
 
     if (req.files) {
@@ -41,6 +48,24 @@ module.exports = {
 
     try {
       let initiative = await newInitiative.save();
+
+      if (initiative.cloned === true) {
+        let user = await User.findOne({ _id: clonedInitiativeOwner });
+        user.notifications++;
+        user.save();
+        let initiative = await Initiative.findOne({ _id: clonedInitiativeId });
+        initiative.clones++;
+        initiative.save();
+
+        await new Notification({
+          body: `You have a new clone on post ${initiative.title} by ${
+            req.user.firstName + " " + req.user.familyName
+          }`,
+          author: clonedInitiativeOwner,
+          initiative: initiative._id,
+          type: "clone",
+        }).save();
+      }
       let updatedUser = await { ...req.user._doc };
       updatedUser.initiatives.unshift(initiative._id);
       let updatedInitiative = await User.findOneAndUpdate(
@@ -58,6 +83,22 @@ module.exports = {
       serverError(res, error);
     }
   },
+  getLandingPageInitiatives: async (req, res) => {
+    try {
+      let initiatives = await Initiative.find({ draft: false }).populate(
+        "author",
+        "firstName familyName  avatar"
+      );
+      if (initiatives.length === 0) {
+        return res.status(200).json({
+          message: "No Initiative Found",
+        });
+      }
+      res.status(200).json(initiatives.reverse());
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
   getAllInitiatives: async (req, res) => {
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(
@@ -69,7 +110,7 @@ module.exports = {
           message: "No Initiative Found",
         });
       }
-      res.status(200).json(initiatives);
+      res.status(200).json(initiatives.reverse());
     } catch (error) {
       serverError(res, error);
     }
@@ -93,11 +134,16 @@ module.exports = {
   },
 
   getClonedtInitiatives: async (req, res) => {
+    let order = req.body.order ? req.body.order : "desc";
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+
     try {
       let initiatives = await Initiative.find({
         draft: false,
         cloned: true,
-      }).populate("author", "firstName familyName email avatar");
+      })
+        .populate("author", "firstName familyName email avatar")
+        .sort([[sortBy, order]]);
       if (initiatives.length === 0) {
         return res.status(200).json({
           message: "No Initiative Found",
@@ -105,6 +151,7 @@ module.exports = {
       }
       res.status(200).json(initiatives);
     } catch (error) {
+      console.log(error);
       serverError(res, error);
     }
   },

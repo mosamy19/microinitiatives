@@ -21,6 +21,25 @@ export const getFavorites = (initiativeId) => async (dispatch) => {
     });
   }
 };
+export const getMyFavorites = () => async (dispatch) => {
+  try {
+    let response = await axios.get(`/api/v1/favorites/get-my-favorites`);
+    dispatch({
+      type: types.SET_FAVORITES,
+      payload: {
+        favorites: response.data,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    dispatch({
+      type: types.FAVORITES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 
 export const makeFavorite = (initiativeId) => async (dispatch) => {
   try {

@@ -85,12 +85,7 @@ const Navigation = (props) => {
         <div className="container">
           <ul className="d-flex justify-content-between align-items-center mb-0">
             <li>
-              <Link
-                style={{ textDecoration: "none", cursor: "pointer" }}
-                to="/"
-              >
-                <img src={logo} width="50px" height="50px" alt="" />
-              </Link>
+              <img src={logo} width="50px" height="50px" alt="" />
             </li>
             <div>
               {props.auth.isAuthenticated ? (

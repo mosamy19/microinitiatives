@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import bookmark from "../../../../assets/icons/bookmark.svg";
+import blue_bookmark from "../../../../assets/images/bookmark.svg";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -50,13 +51,15 @@ const Favoritebutton = ({ user, initiativeId }) => {
     >
       <div>
         <img
-          src={bookmark}
+          src={isFavorite === "favorite" ? blue_bookmark : bookmark}
           alt=""
           width="12px"
           height="14px"
           style={{ marginLeft: "5px" }}
         />
-        <span>{favorite}</span>
+        <span className={isFavorite === "favorite" ? "favoriteStyle" : null}>
+          {favorite}
+        </span>
       </div>
     </Button>
   );

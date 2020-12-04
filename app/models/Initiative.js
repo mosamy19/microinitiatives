@@ -30,6 +30,8 @@ const initiativeSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    clonedInitiativeOwner: String,
+    clonedInitiativeId: String,
     author: [
       {
         type: Schema.Types.ObjectId,
@@ -37,30 +39,26 @@ const initiativeSchema = new Schema(
         required: true,
       },
     ],
-    likes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    favorites: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    shares: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    favorites: {
+      type: Number,
+      default: 0,
+    },
+    shares: {
+      type: Number,
+      default: 0,
+    },
+    comments: {
+      type: Number,
+      default: 0,
+    },
+    clones: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

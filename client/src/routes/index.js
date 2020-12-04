@@ -9,7 +9,7 @@ import Details from "../pages/Home/Details";
 import Allinitiatives from "../pages/Initiatives/all-initiatives";
 import CloneOtherInitiative from "../pages/Initiatives/cloneinitiative";
 import Newinitiative from "../pages/Initiatives/myinitiatives/component/Newinitiative";
-import Myinitiatives from "../pages/Initiatives/myinitiatives/Myinitiatives";
+import MyAllinitiatives from "../pages/Initiatives/myinitiatives/Myinitiatives";
 import Singleinitiative from "../pages/Initiatives/single-initiatives";
 import NotFound from "../pages/NotFound";
 import Notifications from "../pages/Notifications";
@@ -81,11 +81,11 @@ const AppRoutes = () => {
         <PrivateRouteWithLayout
           layout={MainLayout}
           path="/my-initiatives"
-          component={Myinitiatives}
+          component={MyAllinitiatives}
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/clone-initiative/:id/:initiativeTitle/:initiativeCategory"
+          path="/clone-initiative/:id/:initiativeAuthor/:initiativeTitle/:initiativeCategory"
           component={CloneOtherInitiative}
         />
         <PrivateRouteWithLayout

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -24,12 +24,13 @@ const Singleinitiative = () => {
   const { initiativeId } = useParams();
 
   useEffect(() => {
-    dispatch(getSingleInitiatives(initiativeId));
+    setTimeout(() => {
+      dispatch(getSingleInitiatives(initiativeId));
+    }, 200);
   }, [dispatch, initiativeId]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
-  console.log(initiatives);
 
   return (
     <Wrapper>
@@ -72,7 +73,11 @@ const Singleinitiative = () => {
           <div className="cloneCount mb-hide">
             <Likebutton user={user} initiativeId={initiativeId} />
             <Favoritebutton user={user} initiativeId={initiativeId} />
-            <Sharebutton user={user} initiativeId={initiativeId} />
+            <Sharebutton
+              user={user}
+              initiativeId={initiativeId}
+              title={initiatives.title}
+            />
           </div>
         </div>
         <div>
@@ -86,13 +91,18 @@ const Singleinitiative = () => {
           <div className="d-flex justify-content-between my-3">
             <Likebutton user={user} initiativeId={initiativeId} />
             <Favoritebutton user={user} initiativeId={initiativeId} />
-            <Sharebutton user={user} initiativeId={initiativeId} />
+            <Sharebutton
+              user={user}
+              initiativeId={initiativeId}
+              ti={initiatives.title}
+            />
           </div>
         </div>
         <Cloneinitiative
           initiativeId={initiatives._id}
           title={initiatives.title}
           category={initiatives.category}
+          initiativeAuthor={initiatives.author}
         />
         <Comments user={user} initiativeId={initiativeId} />
         <Clonedinitiatives />
@@ -126,6 +136,15 @@ const Wrapper = styled.div`
     div {
       padding-bottom: 2.5px;
     }
+  }
+  .likedStyle {
+    color: #e9446b !important;
+  }
+  .favoriteStyle {
+    color: #32c5ff !important;
+  }
+  .sharedStyle {
+    color: #3b86fb !important;
   }
   .mb-show {
     display: none;

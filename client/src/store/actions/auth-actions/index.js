@@ -37,6 +37,7 @@ export const activateMyAccount = (token, history) => async (dispatch) => {
 export const login = (userdata, history) => async (dispatch) => {
   try {
     let res = await axios.post("/api/v1/auth/login", userdata);
+
     let { token } = res.data;
     localStorage.setItem("auth_token", token);
     setAuthToken(token);
@@ -79,10 +80,7 @@ export const forgetPassword = (email, history) => async (dispatch) => {
 };
 export const resetPassword = (newPassword, history) => async (dispatch) => {
   try {
-    let response = await axios.post(
-      "/api/v1/auth/reset-password",
-      newPassword
-    );
+    let response = await axios.post("/api/v1/auth/reset-password", newPassword);
     dispatch(setSuccess(response.data.message));
     history.push("/login");
   } catch (error) {
@@ -113,6 +111,12 @@ export const changePassword = (passwords) => async (dispatch) => {
 export const updateUser = (user) => async (dispatch) => {
   try {
     let response = await axios.put("/api/v1/auth/edit-user", user);
+    dispatch({
+      type: types.SET_USER,
+      payload: {
+        user: response.data,
+      },
+    });
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
@@ -122,6 +126,25 @@ export const updateUser = (user) => async (dispatch) => {
       },
     });
     dispatch(setError(error.response.data));
+  }
+};
+
+export const getLoggedinUser = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/auth/get-loggedin-user");
+    dispatch({
+      type: types.SET_USER,
+      payload: {
+        user: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
   }
 };
 

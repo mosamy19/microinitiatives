@@ -1,11 +1,12 @@
-import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 import uploadIcon from "../../../assets/icons/Upload_profile_image.svg";
-import FileBase64 from "react-file-base64";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../../store/actions/auth-actions";
+import {
+  updateUser,
+  getLoggedinUser,
+} from "../../../store/actions/auth-actions";
 
 const Basicinfo = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ const Basicinfo = () => {
     fd.append("avatar", user.avatar);
     dispatch(updateUser(fd));
     setUser({ firstName: "", familyName: "", avatar: "" });
+    setTimeout(() => {
+      dispatch(getLoggedinUser());
+    }, 100);
   };
 
   return (
@@ -34,6 +38,7 @@ const Basicinfo = () => {
             onChange={(e) => setUser({ ...user, firstName: e.target.value })}
             type="text"
             name="firstName"
+            value={user.firstName}
           />
         </FormGroup>
         <FormGroup>
@@ -42,6 +47,7 @@ const Basicinfo = () => {
             onChange={(e) => setUser({ ...user, familyName: e.target.value })}
             type="text"
             name="familyName"
+            value={user.familyName}
           />
         </FormGroup>
         <FormGroup>

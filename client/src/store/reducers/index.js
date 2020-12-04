@@ -4,6 +4,7 @@ import commentReducer from "./comment-reducer";
 import favoriteReducer from "./favorite-reducer";
 import initiativeReducer from "./initiative-reducer";
 import likeReducer from "./likes-reducer";
+import notificationReducer from "./notification-reducer";
 import shareReducer from "./share-reducer";
 import snackbarReducer from "./snackbar-reducer";
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   favorites: favoriteReducer,
   shares: shareReducer,
   comments: commentReducer,
+  notifications: notificationReducer,
 });
 
 export default rootReducer;

@@ -36,6 +36,10 @@ const useSchema = new Schema(
       type: String,
       default: "",
     },
+    notifications: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

@@ -1,11 +1,11 @@
 import React from "react";
-import Navigation from "../../components/partials/Navigation";
 import PublicFooter from "../../components/partials/PublicFooter";
+import Publicnavigation from "../../components/partials/Publicnavigation";
 
 const PublicLayout = (props) => {
   return (
     <div>
-      <Navigation />
+      <Publicnavigation />
       <div className="container">{props.children}</div>
       <PublicFooter />
     </div>

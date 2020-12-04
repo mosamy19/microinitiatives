@@ -64,9 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const Initiativecard = ({ initiative, isCompleted }) => {
   const classes = useStyles();
   return (
-    <Card
-      className={classes.root}
-    >
+    <Card className={classes.root}>
       <div
         className="d-flex justify-content-between align-items-center"
         style={{ padding: "12px" }}
@@ -108,7 +106,7 @@ const Initiativecard = ({ initiative, isCompleted }) => {
             <div className="d-flex justify-content-between align-items-center">
               <img src={people} alt="" />
               <p style={{ margin: "0", paddingRight: "3px", color: "#b620e0" }}>
-                15
+                {initiative.clones}
               </p>
             </div>
           </Button>
@@ -116,7 +114,7 @@ const Initiativecard = ({ initiative, isCompleted }) => {
             <div className="d-flex justify-content-between align-items-center">
               <img src={bookmark} alt="" />
               <p style={{ margin: "0", paddingRight: "3px", color: "#32c5ff" }}>
-                16
+                {initiative.favorites}
               </p>
             </div>
           </Button>

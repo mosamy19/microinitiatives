@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import party from "../../assets/icons/party.svg";
-import { useSelector } from "react-redux";
 
 import { Grid, makeStyles } from "@material-ui/core";
 import Initiativecard from "../Initiatives/component/Initiativecard";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getLandingPageInitiatives } from "../../store/actions/initiative-actions";
 const useStyles = makeStyles((theme) => ({
   btn: {
     background: "#f7b500",
@@ -41,7 +42,27 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [landingPageInitiatives, setLandingPageInitiatives] = useState([]);
+  useEffect(() => {
+    dispatch(getLandingPageInitiatives());
+  }, [dispatch]);
+
   const { initiatives } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      setLandingPageInitiatives(initiatives);
+    }
+  }, [initiatives]);
+
+  const mostClonedInitiatives = landingPageInitiatives
+    .sort((a, b) => b.clones - a.clones)
+    .slice(0, 9);
+
+  const mostLikedInitiatives = landingPageInitiatives
+    .sort((a, b) => b.likes - a.likes)
+    .slice(0, 9);
+
   return (
     <Wrapper>
       <div className="text-center my-5">
@@ -87,8 +108,8 @@ const Home = () => {
           <img src={party} alt="" />
         </div>
         <Grid container spacing={3}>
-          {initiatives.length > 0 &&
-            initiatives.map((initiative) => (
+          {mostClonedInitiatives.length > 0 &&
+            mostClonedInitiatives.map((initiative) => (
               <Grid item xs={12} sm={6} md={4}>
                 <Initiativecard initiative={initiative} />
               </Grid>
@@ -120,8 +141,8 @@ const Home = () => {
           <span>😍</span>
         </div>
         <Grid container spacing={3}>
-          {initiatives.length > 0 &&
-            initiatives.map((initiative) => (
+          {mostLikedInitiatives.length > 0 &&
+            mostLikedInitiatives.map((initiative) => (
               <Grid item xs={12} sm={6} md={4}>
                 <Initiativecard initiative={initiative} />
               </Grid>
@@ -155,11 +176,12 @@ const Home = () => {
           </h2>
           <p
             style={{
-              textAlign: "right",
+              textAlign: "center",
               fontSize: "16px",
               fontWeight: "normal",
               color: "#ffffff",
               margin: "16px 0",
+              maxWidth: "600px",
             }}
           >
             هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا

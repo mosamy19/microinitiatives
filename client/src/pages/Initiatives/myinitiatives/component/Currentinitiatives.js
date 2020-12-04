@@ -8,21 +8,11 @@ import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf"
 import { useDispatch, useSelector } from "react-redux";
 import { getDraftInitiatives } from "../../../../store/actions/initiative-actions";
 
-const Currentinitiatives = () => {
+const Currentinitiatives = ({ myinitiatives }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [drafts, setDrafts] = useState([]);
+  
+  const draft = myinitiatives.filter((item) => item.draft === true);
 
-  useEffect(() => {
-    dispatch(getDraftInitiatives());
-  }, [dispatch]);
-
-  const { initiatives } = useSelector((state) => state.initiatives);
-  useEffect(() => {
-    if (initiatives.length > 0) {
-      setDrafts(initiatives);
-    }
-  }, [initiatives]);
 
   return (
     <Grid container spacing={3}>
@@ -49,10 +39,10 @@ const Currentinitiatives = () => {
           </p>
         </Wrapper>
       </Grid>
-      {drafts.length === 0 ? (
+      {draft.length === 0 ? (
         <span>No Drafts Yet..!</span>
       ) : (
-        drafts.map((item) => (
+        draft.map((item) => (
           <Grid item xs={12} sm={6} md={4}>
             <div
               className="d-flex align-items-center justify-content-center"

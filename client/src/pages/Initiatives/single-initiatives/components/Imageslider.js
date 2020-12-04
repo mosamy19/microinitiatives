@@ -1,10 +1,5 @@
 import React from "react";
 import Slider from "react-slick";
-import item1 from "../../../../assets/images/item1.jpg";
-import item2 from "../../../../assets/images/item2.jpg";
-import item3 from "../../../../assets/images/item3.jpg";
-import item4 from "../../../../assets/images/item4.jpg";
-import item5 from "../../../../assets/images/item5.jpg";
 import styled from "styled-components";
 
 const Imageslider = ({ images, imgHeight }) => {
@@ -16,7 +11,7 @@ const Imageslider = ({ images, imgHeight }) => {
     dots: true,
   };
   return (
-    <Wrapper imgHeight={imgHeight}>
+    <Wrapper>
       <Slider {...state}>
         {images &&
           images.map((item) => (
@@ -30,12 +25,10 @@ const Imageslider = ({ images, imgHeight }) => {
 };
 
 export default Imageslider;
-const Wrapper = styled.div.attrs((props) => ({
-  imgHeight: props.imgHeight || "410px",
-}))`
+const Wrapper = styled.div`
   img {
     width: 100%;
-    height: ${(props) => props.imgHeight};
+    height: 410px;
   }
   .slick-dots li button:before {
     position: absolute;

@@ -12,6 +12,7 @@ const {
   resetPasswordController,
   changePasswordController,
   editUser,
+  getLoggedinUser,
 } = require("../controllers/authController");
 
 const isAuthenticated = require("../middlewares/authenticate");
@@ -33,5 +34,6 @@ router.post(
   changePasswordController
 );
 router.put("/edit-user", isAuthenticated, upload.single("avatar"), editUser);
+router.get("/get-loggedin-user", isAuthenticated, getLoggedinUser);
 
 module.exports = router;

@@ -19,6 +19,8 @@ const Comments = ({ initiativeId }) => {
     body: "",
   });
 
+  const [limit, setLimit] = useState(2);
+
   const [loadedComments, setLoadedComments] = useState([]);
   const [commentCount, setCommetCount] = useState(0);
 
@@ -36,11 +38,18 @@ const Comments = ({ initiativeId }) => {
     }
   }, [comments]);
 
+  console.log(loadedComments);
+
   const addCommentHandler = () => {
     dispatch(makeComment(initiativeId, comment));
+    setComment({ body: "" });
     setTimeout(() => {
       dispatch(getComments(initiativeId));
     }, 200);
+  };
+
+  const handleOnClick = () => {
+    setLimit((prevValue) => prevValue + 2);
   };
 
   return (
@@ -75,6 +84,7 @@ const Comments = ({ initiativeId }) => {
               <Input
                 type="textarea"
                 name="comment"
+                value={comment.body}
                 onChange={(e) =>
                   setComment({ ...comment, body: e.target.value })
                 }
@@ -110,35 +120,36 @@ const Comments = ({ initiativeId }) => {
           {loadedComments.length === 0 ? (
             <span>No Comments Yet!</span>
           ) : (
-            loadedComments.map((item) => (
+            loadedComments.slice(0, limit).map((item) => (
               <Grid item xs={12}>
                 <div className="d-flex align-items-center mb-flex ">
-                  {item.author.map((info) => (
-                    <div className="d-flex align-items-center ml-3 ">
-                      <img
-                        src={info.avatar ? info.avatar : user}
-                        alt=""
-                        width="18px"
-                        height="18px"
-                        style={{
-                          borderRadius: "100%",
-                          background: "rgba(0, 0, 0, 0.1)",
-                          marginLeft: "5px",
-                        }}
-                      />
-                      <Link
-                        to="/public-profile"
-                        style={{
-                          textDecoration: "none",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#6236ff",
-                        }}
-                      >
-                        {info.firstName + " " + info.familyName}
-                      </Link>
-                    </div>
-                  ))}
+                  {item.author &&
+                    item.author.map((info) => (
+                      <div className="d-flex align-items-center ml-3 ">
+                        <img
+                          src={info.avatar ? info.avatar : user}
+                          alt=""
+                          width="18px"
+                          height="18px"
+                          style={{
+                            borderRadius: "100%",
+                            background: "rgba(0, 0, 0, 0.1)",
+                            marginLeft: "5px",
+                          }}
+                        />
+                        <Link
+                          to="/public-profile"
+                          style={{
+                            textDecoration: "none",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            color: "#6236ff",
+                          }}
+                        >
+                          {info.firstName + " " + info.familyName}
+                        </Link>
+                      </div>
+                    ))}
 
                   <p
                     className="cloneCount"
@@ -154,21 +165,24 @@ const Comments = ({ initiativeId }) => {
             ))
           )}
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Button
-            fullWidth
-            className="btns"
-            style={{
-              color: "#3b86fb",
-              background: "rgba(59, 134, 251, 0.08)",
-              marginTop: "24px",
-              border: "none",
-            }}
-            variant="outlined"
-          >
-            تحميل المزيد من التعليقات
-          </Button>
-        </Grid>
+        {commentCount > limit && (
+          <Grid item xs={12} sm={6} md={4}>
+            <Button
+              onClick={handleOnClick}
+              fullWidth
+              className="btns"
+              style={{
+                color: "#3b86fb",
+                background: "rgba(59, 134, 251, 0.08)",
+                marginTop: "24px",
+                border: "none",
+              }}
+              variant="outlined"
+            >
+              تحميل المزيد من التعليقات
+            </Button>
+          </Grid>
+        )}
       </div>
     </Wrapper>
   );

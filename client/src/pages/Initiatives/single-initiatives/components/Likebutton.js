@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import heart from "../../../../assets/icons/heart.svg";
+import love from "../../../../assets/icons/love.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,6 +10,8 @@ import {
   createLike,
   createUnlike,
 } from "../../../../store/actions/likes.actions";
+
+import { getLoggedinUser } from "../../../../store/actions/auth-actions";
 
 const Likebutton = ({ user, initiativeId }) => {
   const dispatch = useDispatch();
@@ -20,8 +23,6 @@ const Likebutton = ({ user, initiativeId }) => {
   }, [dispatch, initiativeId]);
   const { likes } = useSelector((state) => state.likes);
 
-  console.log(like);
-  console.log(likes);
   // like and unlike initiative
   useEffect(() => {
     if (likes.likes) {
@@ -37,6 +38,9 @@ const Likebutton = ({ user, initiativeId }) => {
       dispatch(createLike(initiativeId));
       setLike(like + 1);
       setIsLiked("liked");
+      setTimeout(() => {
+        dispatch(getLoggedinUser());
+      }, 200);
     } else {
       dispatch(createUnlike(initiativeId));
       setLike(like - 1);
@@ -48,13 +52,13 @@ const Likebutton = ({ user, initiativeId }) => {
     <Button onClick={setLikeUnlike} className="btns" variant="outlined">
       <div>
         <img
-          src={heart}
+          src={isLiked === "liked" ? love : heart}
           alt=""
           widt="16px"
           height="14px"
           style={{ marginLeft: "5px" }}
         />
-        <span>{like} </span>
+        <span className={isLiked === "liked" ? 'likedStyle' : null}>{like} </span>
       </div>
     </Button>
   );

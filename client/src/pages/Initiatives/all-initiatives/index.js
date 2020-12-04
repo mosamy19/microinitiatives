@@ -48,8 +48,6 @@ const Allinitiatives = () => {
     }
   }, [initiatives]);
 
- 
-
   return (
     <Wrapper>
       <div>

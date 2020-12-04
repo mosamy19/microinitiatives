@@ -1,11 +1,12 @@
 import React from "react";
 import MainFooter from "../../components/partials/MainFooter";
-import Navigation from "../../components/partials/Navigation";
+import Mainnavigation from "../../components/partials/Mainnavigation";
+// import Navigation from "../../components/partials/Navigation";
 
 const MainLayout = (props) => {
   return (
     <div>
-      <Navigation />
+     <Mainnavigation />
       <div className="container">{props.children}</div>
       <MainFooter />
     </div>

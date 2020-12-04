@@ -1,11 +1,53 @@
-import React from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import bookmark from "../../assets/images/bookmark.svg";
-import hands from "../../assets/images/hands.svg";
-import { BsFillHeartFill } from "react-icons/bs";
+
+import moment from "moment";
+
+// import { BsFillHeartFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { getNotifications } from "../../store/actions/notification-actions";
+import { getLoggedinUser } from "../../store/actions/auth-actions";
+import Todaynotifications from "./component/Todaynotifications";
+import Yesterdaysnotifications from "./component/Yesterdaysnotifications";
+import Oldernotifications from "./component/Oldernotifications";
 
 const Notifications = () => {
+  const dispatch = useDispatch();
+  const [all_notification, set_all_notification] = useState([]);
+
+  useEffect(() => {
+    dispatch(getNotifications());
+    setTimeout(() => {
+      dispatch(getLoggedinUser());
+    }, 200);
+  }, [dispatch]);
+
+  const { notifications } = useSelector((state) => state.notifications);
+  useEffect(() => {
+    if (notifications.length > 0) {
+      set_all_notification(notifications);
+    }
+  }, [notifications]);
+
+
+  const todaysNotification = all_notification.filter(
+    (item) => moment(item.createdAt).format("LL") === moment().format("LL")
+  );
+
+  const yesterdaysNotification = all_notification.filter(
+    (item) =>
+      moment(item.createdAt).format("LL") ===
+      moment().add(-1, "day").format("LL")
+  );
+
+  const olderNotification = all_notification.filter(
+    (item) =>
+      moment(item.createdAt).format("MM-DD-YYYY") <
+      moment().add(-1, "day").format("MM-DD-YYYY")
+  );
+
+  console.log(todaysNotification);
+
   return (
     <Wrapper>
       <h2
@@ -17,102 +59,17 @@ const Notifications = () => {
       >
         التنبيهات
       </h2>
-      <div>
-        <p>اليوم</p>
-        <ListGroup>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(50, 197, 255, 0.08)" }}
-            >
-              <img src={bookmark} alt="" />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(233, 68, 107, 0.08)" }}
-            >
-              <BsFillHeartFill style={{ color: "#e9446b" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(98, 54, 255, 0.08)" }}
-            >
-              <img src={hands} alt="" style={{ color: "#6236ff" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-        </ListGroup>
-      </div>
-      <div>
-        <p>أمس</p>
-        <ListGroup>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(50, 197, 255, 0.08)" }}
-            >
-              <img src={bookmark} alt="" />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(233, 68, 107, 0.08)" }}
-            >
-              <BsFillHeartFill style={{ color: "#e9446b" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(98, 54, 255, 0.08)" }}
-            >
-              <img src={hands} alt="" style={{ color: "#6236ff" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-        </ListGroup>
-      </div>
-      <div>
-        <p>الخميس </p>
-        <ListGroup>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(50, 197, 255, 0.08)" }}
-            >
-              <img src={bookmark} alt="" />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(233, 68, 107, 0.08)" }}
-            >
-              <BsFillHeartFill style={{ color: "#e9446b" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-          <ListGroupItem>
-            <button
-              className="ntBtn"
-              style={{ background: "rgba(98, 54, 255, 0.08)" }}
-            >
-              <img src={hands} alt="" style={{ color: "#6236ff" }} />
-            </button>
-            <span>تم حفظ مبادرتك “ تصوير فيديو يوتيوب ونشره</span>
-          </ListGroupItem>
-        </ListGroup>
-      </div>
+      {all_notification.length !== 0 ? (
+        <div>
+          <Todaynotifications todaysNotification={todaysNotification} />
+          <Yesterdaysnotifications
+            yesterdaysNotification={yesterdaysNotification}
+          />
+          <Oldernotifications olderNotification={olderNotification} />
+        </div>
+      ) : (
+        <span>No Notifications</span>
+      )}
     </Wrapper>
   );
 };
@@ -142,15 +99,14 @@ const Wrapper = styled.div`
     margin: 10px 0;
   }
   .ntBtn {
+    dispaly: flex;
+    justify-content: center;
+    align-items: center;
     width: 24px;
     height: 24px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
     outline: none;
     margin-left: 4px;
-    img {
-      width: 10px;
-      height: 16px;
-    }
   }
 `;
