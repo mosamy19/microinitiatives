@@ -32,6 +32,8 @@ const Singleinitiative = () => {
   const { initiatives } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 
+  console.log(initiatives);
+
   return (
     <Wrapper>
       <div style={{ maxWidth: "783px", margin: "auto" }}>

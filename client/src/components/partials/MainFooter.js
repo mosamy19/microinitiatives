@@ -8,7 +8,7 @@ import mb_hands from "../../assets/icons/mb_hands.svg";
 const MainFooter = () => {
   return (
     <Wrapper>
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex justify-content-center align-items-center">
         <Link
           className="mb-menu"
           style={{
@@ -44,7 +44,7 @@ export default MainFooter;
 const Wrapper = styled.div`
   background: #6236ff;
   height: 48px;
-  position: fixed;
+  position: sticky;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   .line {
     width: 1px;
     height: 48px;
-    margin: 0 40px 0 48px;
+    margin: 0 55px 0 55px;
     opacity: 0.3;
     border: solid 1px #ffffff;
   }
