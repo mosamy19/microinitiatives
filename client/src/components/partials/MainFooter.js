@@ -41,15 +41,25 @@ const MainFooter = () => {
 };
 
 export default MainFooter;
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   background: #6236ff;
-  height: 48px;
-  position: sticky;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 0 26px;
+  // max-height: 48px;
+  // margin-top: auto !important;
+  // margin-bottom: 0;
+  // position: sticky;
+  // left: 0;
+  // bottom: 0;
+  // width: 100%;
+  // padding: 5px 0;
   display: none;
+
+  margin-top: 1rem;
+  // padding: 1rem;
+  // background-color: rgb(235, 195, 64);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   .line {
     width: 1px;
     height: 48px;

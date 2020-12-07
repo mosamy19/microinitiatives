@@ -42,6 +42,7 @@ const Wrapper = styled.div`
   background: #ffffff;
   height: 48px;
   padding: 0 26px;
+  margin-bottom: 0;
   .line {
     width: 1px;
     height: 48px;

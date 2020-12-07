@@ -5,11 +5,11 @@ import Mainnavigation from "../../components/partials/Mainnavigation";
 
 const MainLayout = (props) => {
   return (
-    <div>
-     <Mainnavigation />
+    <>
+      <Mainnavigation />
       <div className="container">{props.children}</div>
       <MainFooter />
-    </div>
+    </>
   );
 };
 
