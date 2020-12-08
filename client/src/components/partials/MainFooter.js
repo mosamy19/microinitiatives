@@ -56,10 +56,10 @@ const Wrapper = styled.footer`
   margin-top: 1rem;
   // padding: 1rem;
   // background-color: rgb(235, 195, 64);
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  // position: fixed;
+  // bottom: 0;
+  // left: 0;
+  // width: 100%;
   .line {
     width: 1px;
     height: 48px;
