@@ -3,9 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const PublicFooter = () => {
+const PublicFooter = (props) => {
   return (
-    <Wrapper>
+    <Wrapper bgColor={props.bgColor}>
       <div className="container d-flex justify-content-center align-items-center">
         <Link
           className="mb-menu"
@@ -38,8 +38,10 @@ const PublicFooter = () => {
 };
 
 export default PublicFooter;
-const Wrapper = styled.div`
-  background: #ffffff;
+const Wrapper = styled.div.attrs((props) => ({
+  bgColor: props.bgColor || "#ffffff",
+}))`
+  background: ${(props) => props.bgColor};
   height: 48px;
   padding: 0 26px;
   margin-bottom: 0;

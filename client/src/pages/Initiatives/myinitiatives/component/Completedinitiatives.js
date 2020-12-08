@@ -31,7 +31,13 @@ const Completedinitiatives = ({ myinitiatives }) => {
                 className="edit"
                 onClick={() =>
                   history.push(
-                    `edit-initiative/${initiative._id}/${initiative.title}/${initiative.category}/${initiative.description}`
+                    `edit-initiative/${initiative._id}/${initiative.title}/${
+                      initiative.category
+                    }/${
+                      initiative.description
+                        ? initiative.description
+                        : "no-description"
+                    }`
                   )
                 }
               >
