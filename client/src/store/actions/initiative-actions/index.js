@@ -162,3 +162,21 @@ export const createInitiative = (initiative) => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
+
+export const editMyInitiative = (id, initiative) => async (dispatch) => {
+  try {
+    let response = await axios.put(
+      `/api/v1/initiatives/edit-initiative/${id}`,
+      initiative
+    );
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};

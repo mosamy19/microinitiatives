@@ -78,7 +78,7 @@ const Allinitiatives = () => {
                 <Grid item xs={12} sm={6} md={4}>
                   <div
                     onClick={() =>
-                      history.push(`single-initiative/${initiative._id}`)
+                      history.push(`/single-initiative/${initiative._id}`)
                     }
                   >
                     <Initiativecard initiative={initiative} />

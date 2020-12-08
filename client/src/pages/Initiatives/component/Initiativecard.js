@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Initiativecard = ({ initiative, isCompleted }) => {
+const Initiativecard = ({ initiative }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -120,25 +120,6 @@ const Initiativecard = ({ initiative, isCompleted }) => {
           </Button>
         </div>
       </div>
-      {isCompleted ? (
-        <div
-          style={{
-            padding: "12px",
-            borderTop: "1px solid rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <p
-            style={{
-              marginBottom: "0",
-              fontSize: "12px",
-              color: "rgba(0, 0, 0, 0.25)",
-              textAlign: "center",
-            }}
-          >
-            تعديل المبادرة
-          </p>
-        </div>
-      ) : null}
     </Card>
   );
 };

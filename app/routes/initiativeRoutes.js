@@ -17,7 +17,10 @@ const isAuthenticated = require("../middlewares/authenticate");
 
 router.get("/get-initiatives", isAuthenticated, getAllInitiatives);
 router.get("/get-landing-page-initiatives", getLandingPageInitiatives);
-router.get("/get-public-profile-initiatives/:userId", getPublicProfileInitiatives);
+router.get(
+  "/get-public-profile-initiatives/:userId",
+  getPublicProfileInitiatives
+);
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
 router.get("/cloned-initiatives", isAuthenticated, getClonedtInitiatives);
 router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
@@ -28,7 +31,12 @@ router.post(
   upload.array("thumbnail"),
   createInitiative
 );
-router.put("/:initiativeId", isAuthenticated, editInitiative);
+router.put(
+  "/edit-initiative/:initiativeId",
+  isAuthenticated,
+  upload.array("thumbnail"),
+  editInitiative
+);
 router.delete("/:initiativeId", isAuthenticated, deleteInitiative);
 
 module.exports = router;

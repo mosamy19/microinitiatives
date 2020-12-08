@@ -18,7 +18,6 @@ const Publicprofile = () => {
     dispatch(getPublicProfileInitiatives(id));
   }, [dispatch, id]);
 
-  // const { user } = useSelector((state) => state.auth);
   const { initiatives } = useSelector((state) => state.initiatives);
 
   useEffect(() => {
@@ -68,7 +67,11 @@ const Publicprofile = () => {
         {mostClonedInitiatives.length > 0 &&
           mostClonedInitiatives.map((item) => (
             <Grid item xs={12} sm={6} md={4}>
-              <Initiativecard initiative={item} />
+              <div
+                onClick={() => history.push(`/single-initiative/${item._id}`)}
+              >
+                <Initiativecard initiative={item} />
+              </div>
             </Grid>
           ))}
       </Grid>

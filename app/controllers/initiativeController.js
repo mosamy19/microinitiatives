@@ -38,7 +38,6 @@ module.exports = {
 
     if (req.files) {
       for (let file of req.files) {
-        console.log(file.filename);
         newInitiative.thumbnail = [
           ...newInitiative.thumbnail,
           `/uploads/${file.filename}`,
@@ -202,21 +201,45 @@ module.exports = {
   },
 
   editInitiative: async (req, res) => {
-    let { initiativeId } = req.params;
+    const { initiativeId } = req.params;
+    const { title, category, description } = req.body;
+    console.log(req.body);
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
     try {
-      let initiative = await Initiative.findOneAndUpdate(
+      let initiative = await Initiative.findOne({ _id: initiativeId });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+      console.log(initiative.thumbnail);
+      let thumbnail = initiative.thumbnail;
+      thumbnail = [];
+      if (req.files) {
+        for (let file of req.files) {
+          thumbnail = [...thumbnail, `/uploads/${file.filename}`];
+        }
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
         { _id: initiativeId },
-        { $set: req.body },
+        { $set: { title, category, description, thumbnail } },
         { new: true }
       );
-      if (!initiative) {
-        return resourceError(res, "No Initiative Found");
-      }
-      res.status(200).json({ message: "Edited successfully", initiative });
+
+      console.log(updatedInitiative);
+      res
+        .status(200)
+        .json({ message: "Edited successfully", updatedInitiative });
     } catch (error) {
+      console.log(error);
       serverError(res, error);
     }
   },
+
   deleteInitiative: async (req, res) => {
     let { initiativeId } = req.params;
     try {

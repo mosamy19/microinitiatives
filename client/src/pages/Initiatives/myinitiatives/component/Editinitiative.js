@@ -1,11 +1,11 @@
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label, Input } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { createInitiative } from "../../../../store/actions/initiative-actions";
+import { editMyInitiative } from "../../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,14 +33,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Newinitiative = () => {
+const Editinitiative = () => {
   const classes = useStyles();
+  const {
+    id,
+    initiativeTitle,
+    initiativeCategory,
+    initiativeDescription,
+  } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const [initiative, setInitiative] = useState({
-    title: "",
-    category: [],
-    description: "",
+    title: initiativeTitle,
+    category: [initiativeCategory],
+    description: initiativeDescription,
     thumbnail: [],
   });
 
@@ -53,24 +59,11 @@ const Newinitiative = () => {
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
-    dispatch(createInitiative(fd));
-    history.push("/all-initiatives");
-    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
-  };
 
-  const draftHandler = (e) => {
-    e.preventDefault();
-    let fd = new FormData();
-    for (let file of initiative.thumbnail) {
-      fd.append("thumbnail", file);
-    }
-    fd.append("title", initiative.title);
-    fd.append("category", initiative.category);
-    fd.append("description", initiative.description);
-    fd.append("draft", true);
+    console.log(fd);
 
-    dispatch(createInitiative(fd));
-    history.push("/my-initiatives");
+    dispatch(editMyInitiative(id, fd));
+    history.push(`/single-initiative/${id}`);
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
@@ -104,7 +97,7 @@ const Newinitiative = () => {
                 color: "rgba(0, 0, 0, 0.85)",
               }}
             >
-              مبادرة جديدة
+              تعديل المبادرة
             </h2>
             <div className="text-right">
               <FormGroup>
@@ -177,20 +170,10 @@ const Newinitiative = () => {
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
                 <Input
-                  onClick={draftHandler}
-                  type="submit"
-                  value="حفظ كمسودة"
-                  style={{
-                    background: "rgba(0, 0, 0, 0.1)",
-                    color: "rgba(0, 0, 0, 0.25)",
-                    width: "49%",
-                  }}
-                />
-                <Input
                   onClick={submitHandler}
                   type="submit"
                   value="  نشر"
-                  style={{ background: "#f7b500", color: "#fff", width: "49%" }}
+                  style={{ background: "#f7b500", color: "#fff" }}
                 />
               </FormGroup>
             </div>
@@ -201,7 +184,7 @@ const Newinitiative = () => {
   );
 };
 
-export default Newinitiative;
+export default Editinitiative;
 const Wrapper = styled.div`
   max-width: 460px;
   margin: 0 auto;
