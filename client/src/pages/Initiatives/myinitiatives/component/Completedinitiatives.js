@@ -36,7 +36,7 @@ const Completedinitiatives = ({ myinitiatives }) => {
                     }/${
                       initiative.description
                         ? initiative.description
-                        : "no-description"
+                        : "add-a-description"
                     }`
                   )
                 }
