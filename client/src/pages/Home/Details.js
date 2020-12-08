@@ -8,6 +8,7 @@ import oval_2 from "../../assets/icons/oval_2.svg";
 import step_2 from "../../assets/icons/step_2.svg";
 import oval_3 from "../../assets/icons/oval_3.svg";
 import step_3 from "../../assets/icons/step_3.svg";
+import bond from "../../assets/icons/bonds/bond.png";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +40,7 @@ const Details = () => {
           background: "#ffffff",
           padding: "16px 14px",
           margin: "16px 0",
+          position: "relative",
         }}
       >
         <p style={{ textAlign: "right" }}>
@@ -51,9 +53,14 @@ const Details = () => {
           سألتني إحدى الفتيات الثلاث: أستاذة في شركات ممكن تسوي لنا هذي الأبحاث؟
            
         </p>
-        <Button variant="outlined">أقرأ أكثر</Button>
+        <Button variant="outlined" className="read-more">
+          أقرأ أكثر
+        </Button>
       </div>
-      <div style={{ margin: "34px 0" }}>
+      <div className="bond">
+        <img src={bond} width="106px" height="106px" alt="" />
+      </div>
+      <div style={{ margin: "67px 0" }}>
         <h2
           style={{ margin: "36px 0px", fontSize: "36px", fontWeight: "bold" }}
         >
@@ -296,5 +303,59 @@ const Wrapper = styled.div`
     margin: 1px 60.3px 1px 10.7px;
     transform: rotate(-1deg);
     border-right: dashed 3px #f7b500;
+  }
+  .read-more {
+    width: 55px !important;
+    height: 23px !important;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+    line-height: 1;
+    padding: 5px 8px;
+    border-radius: 10px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    color: rgba(0, 0, 0, 0.25);
+    outline: none;
+    position: absolute;
+    bottom: -10px;
+    left: 45%;
+  }
+  .bond {
+    position: absolute;
+    bottom: 275px;
+    left: 36%;
+    z-index: -1;
+  }
+  @media screen and (max-width: 1440px) {
+    .bond {
+      bottom: 160px;
+      left: 35%;
+    }
+  }
+  @media screen and (max-width: 1140px) {
+    .bond {
+      bottom: 160px;
+      left: 30%;
+    }
+  }
+  @media screen and (max-width: 960px) {
+    .bond {
+      bottom: 135px;
+      left: 28%;
+    }
+  }
+  @media screen and (max-width: 760px) {
+    .bond {
+      bottom: 115px;
+      left: 15%;
+    }
+  }
+  @media screen and (max-width: 560px) {
+    .bond {
+      bottom: 90px;
+      left: 25px;
+    }
   }
 `;
