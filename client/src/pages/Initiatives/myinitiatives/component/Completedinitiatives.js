@@ -7,18 +7,18 @@ import Initiativecard from "../../component/Initiativecard";
 
 const Completedinitiatives = ({ myinitiatives }) => {
   const history = useHistory();
-  const completedInitiatives = myinitiatives.filter(
+  let completedInitiatives = myinitiatives.filter(
     (item) => item.draft !== true && item.cloned !== true
   );
+
+  completedInitiatives = completedInitiatives.reverse();
 
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {completedInitiatives.length === 0 ? (
-          <span>No initiative yet..!</span>
-        ) : (
+        {completedInitiatives.length !== 0 &&
           completedInitiatives.map((initiative) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={initiative._id}>
               <div
                 onClick={() =>
                   history.push(`single-initiative/${initiative._id}`)
@@ -52,8 +52,7 @@ const Completedinitiatives = ({ myinitiatives }) => {
                 </p>
               </div>
             </Grid>
-          ))
-        )}
+          ))}
       </Grid>
     </Wrapper>
   );

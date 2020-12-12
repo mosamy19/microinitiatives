@@ -6,8 +6,8 @@ const Authorinfo = ({ author, date }) => {
   return (
     <div>
       {author &&
-        author.map((item) => (
-          <div className="d-flex align-items-center">
+        author.map((item, index) => (
+          <div className="d-flex align-items-center" key={index}>
             <img
               src={item.avatar ? item.avatar : user}
               alt=""

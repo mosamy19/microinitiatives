@@ -51,8 +51,8 @@ const Clonedinitiatives = () => {
         {clonedInitiatives.length === 0 ? (
           <span>No Cloned Initiatives Yet..!</span>
         ) : (
-          clonedInitiatives.slice(0, limit).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+          clonedInitiatives.slice(0, limit).map((item, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <div>
                 <Clonedslider images={item.thumbnail} />
               </div>

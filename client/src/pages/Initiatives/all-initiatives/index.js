@@ -51,6 +51,8 @@ const Allinitiatives = () => {
     }
   }, [initiatives]);
 
+  console.log(all_initiatives);
+
   return (
     <Wrapper>
       <div>
@@ -78,7 +80,7 @@ const Allinitiatives = () => {
               </div>
             ) : (
               all_initiatives.map((initiative) => (
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid item xs={12} sm={6} md={4} key={initiative._id}>
                   <div
                     onClick={() =>
                       history.push(

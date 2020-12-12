@@ -14,8 +14,8 @@ const Clonedslider = ({ images }) => {
     <Wrapper>
       <Slider {...state}>
         {images &&
-          images.map((item) => (
-            <div>
+          images.map((item, index) => (
+            <div key={index}>
               <img src={item} alt="" width="100%" height="150px" />
             </div>
           ))}

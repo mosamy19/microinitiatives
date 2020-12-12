@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -22,6 +22,7 @@ import Cloneinfobtn from "./components/Cloneinfobtn";
 const Singleinitiative = () => {
   const dispatch = useDispatch();
   const { initiativeId } = useParams();
+  const [initiative, setInitiative] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,6 +32,14 @@ const Singleinitiative = () => {
 
   const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (singleInitiative) {
+      setInitiative(singleInitiative);
+    }
+  }, [singleInitiative]);
+
+  console.log(initiative);
 
   return (
     <Wrapper>

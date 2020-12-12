@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
 
-const Imageslider = ({ images, imgHeight }) => {
+const Imageslider = ({ images }) => {
   const state = {
     cssEase: "ease-in-out",
     slidesToShow: 1,
@@ -14,8 +14,8 @@ const Imageslider = ({ images, imgHeight }) => {
     <Wrapper>
       <Slider {...state}>
         {images &&
-          images.map((item) => (
-            <div>
+          images.map((item, index) => (
+            <div key={index}>
               <img src={item} alt="" />
             </div>
           ))}

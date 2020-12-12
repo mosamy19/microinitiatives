@@ -119,12 +119,15 @@ const Comments = ({ initiativeId }) => {
         <Grid container spacing={3}>
           {loadedComments.length !== 0 &&
             loadedComments.length > 0 &&
-            loadedComments.slice(0, limit).map((item) => (
-              <Grid item xs={12}>
+            loadedComments.slice(0, limit).map((item, index) => (
+              <Grid item xs={12} key={index}>
                 <div className="d-flex align-items-center mb-flex ">
                   {item.author &&
-                    item.author.map((info) => (
-                      <div className="d-flex align-items-center ml-3 ">
+                    item.author.map((info, index) => (
+                      <div
+                        className="d-flex align-items-center ml-3 "
+                        key={index}
+                      >
                         <img
                           src={info.avatar ? info.avatar : user}
                           alt=""

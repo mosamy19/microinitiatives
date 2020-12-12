@@ -31,7 +31,7 @@ const Cloneinitiative = ({
   return (
     <div>
       {initiativeAuthor &&
-        initiativeAuthor.map((item) => (
+        initiativeAuthor.map((item, index) => (
           <Wrapper
             onClick={() =>
               history.push(
@@ -47,6 +47,7 @@ const Cloneinitiative = ({
               padding: "18px 0",
               cursor: "pointer",
             }}
+            key={index}
           >
             <div className="d-flex justify-content-center align-items-center mb-style">
               <img src={user_white} alt="" width="24.8px" height="16px" />
