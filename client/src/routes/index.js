@@ -89,7 +89,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/single-initiative/:initiativeId/:cloneCount"
+          path="/single-initiative/:initiativeId"
           component={Singleinitiative}
         />
         <PrivateRouteWithLayout

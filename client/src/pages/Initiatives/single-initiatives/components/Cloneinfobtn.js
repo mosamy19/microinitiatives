@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import people from "../../../../assets/images/people.svg";
+import { getAllInitiatives } from "../../../../store/actions/initiative-actions";
 
-const Cloneinfobtn = ({ cloneCount }) => {
+const Cloneinfobtn = () => {
+  const dispatch = useDispatch();
+  const [cloneCount, setCloneCount] = useState(0);
+
+  useEffect(() => {
+    dispatch(getAllInitiatives());
+  }, [dispatch]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      let allClone = initiatives.filter((item) => item.cloned === true);
+      setCloneCount(allClone.length);
+    }
+  }, [initiatives]);
+
   return (
     <div
       style={{

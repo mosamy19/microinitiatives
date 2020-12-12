@@ -1,6 +1,7 @@
 import * as types from "../../actions/types";
 const initialState = {
   initiatives: {},
+  singleInitiative: {},
   error: {},
 };
 
@@ -10,6 +11,12 @@ const initiativeReducer = (state = initialState, action) => {
       return {
         ...state,
         initiatives: action.payload.initiatives,
+        error: {},
+      };
+    case types.SET_SINGLE_INITIATIVE:
+      return {
+        ...state,
+        singleInitiative: action.payload.singleInitiative,
         error: {},
       };
     case types.INITIATIVES_ERROR:

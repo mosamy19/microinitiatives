@@ -128,9 +128,9 @@ export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.get(`/api/v1/initiatives/${initiativeId}`);
     dispatch({
-      type: types.SET_INITIATIVE,
+      type: types.SET_SINGLE_INITIATIVE,
       payload: {
-        initiatives: response.data,
+        singleInitiative: response.data,
       },
     });
     console.log(response);

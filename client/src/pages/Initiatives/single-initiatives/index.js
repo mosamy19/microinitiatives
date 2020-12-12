@@ -21,7 +21,7 @@ import Cloneinfobtn from "./components/Cloneinfobtn";
 
 const Singleinitiative = () => {
   const dispatch = useDispatch();
-  const { initiativeId, cloneCount } = useParams();
+  const { initiativeId } = useParams();
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,13 +29,13 @@ const Singleinitiative = () => {
     }, 200);
   }, [dispatch, initiativeId]);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
+  const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 
   return (
     <Wrapper>
       <div style={{ maxWidth: "783px", margin: "auto" }}>
-        <h2 className="mb-show"> {initiatives.title}</h2>
+        <h2 className="mb-show"> {singleInitiative.title}</h2>
         <div className="mb-hide">
           <Link
             to="/all-initiatives"
@@ -50,24 +50,24 @@ const Singleinitiative = () => {
           </Link>
         </div>
         <div className="d-flex justify-content-between align-items-center my-3">
-          <h2 className="mb-hide">{initiatives.title} </h2>
+          <h2 className="mb-hide">{singleInitiative.title} </h2>
           <div className="mb-show">
             <Authorinfo
-              author={initiatives.author}
-              date={initiatives.createdAt}
+              author={singleInitiative.author}
+              date={singleInitiative.createdAt}
             />
           </div>
-          <Cloneinfobtn cloneCount={cloneCount} />
+          <Cloneinfobtn />
         </div>
         <div style={{ marginBottom: "48px" }}>
-          <Imageslider images={initiatives.thumbnail} />
+          <Imageslider images={singleInitiative.thumbnail} />
         </div>
 
         <div className="d-flex justify-content-between align-items-center my-3">
           <div className="mb-hide">
             <Authorinfo
-              author={initiatives.author}
-              date={initiatives.createdAt}
+              author={singleInitiative.author}
+              date={singleInitiative.createdAt}
             />
           </div>
           <div className="cloneCount mb-hide">
@@ -76,15 +76,13 @@ const Singleinitiative = () => {
             <Sharebutton
               user={user}
               initiativeId={initiativeId}
-              title={initiatives.title}
+              title={singleInitiative.title}
             />
           </div>
         </div>
         <div>
           <p>
-            {initiatives.description
-              ? initiatives.description
-              : "No description"}
+            {singleInitiative.description ? singleInitiative.description : null}
           </p>
         </div>
         <div className="cloneCount mb-show">
@@ -94,17 +92,16 @@ const Singleinitiative = () => {
             <Sharebutton
               user={user}
               initiativeId={initiativeId}
-              ti={initiatives.title}
+              ti={singleInitiative.title}
             />
           </div>
         </div>
-        {initiatives.cloned !== true && (
+        {singleInitiative.cloned !== true && (
           <Cloneinitiative
-            initiativeId={initiatives._id}
-            title={initiatives.title}
-            category={initiatives.category}
-            initiativeAuthor={initiatives.author}
-            cloneCount={cloneCount}
+            initiativeId={singleInitiative._id}
+            title={singleInitiative.title}
+            category={singleInitiative.category}
+            initiativeAuthor={singleInitiative.author}
           />
         )}
 

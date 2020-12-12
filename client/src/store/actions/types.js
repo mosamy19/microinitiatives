@@ -1,6 +1,7 @@
 export const SET_USER = "SET_USER";
 export const USERS_ERROR = "USERS_ERROR";
 export const SET_INITIATIVE = "SET_INITIATIVE";
+export const SET_SINGLE_INITIATIVE = "SET_SINGLE_INITIATIVE";
 export const INITIATIVES_ERROR = "INITIATIVES_ERROR";
 export const SET_SUCCESS = "SET_SUCCESS";
 export const SET_ERROR = "SET_ERROR";

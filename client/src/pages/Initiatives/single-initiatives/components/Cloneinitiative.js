@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import user_white from "../../../../assets/icons/user_white.svg";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllInitiatives } from "../../../../store/actions/initiative-actions";
 
 const Cloneinitiative = ({
   initiativeId,
   title,
   category,
   initiativeAuthor,
-  cloneCount,
 }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [cloneCount, setCloneCount] = useState(0);
+
+  useEffect(() => {
+    dispatch(getAllInitiatives());
+  }, [dispatch]);
+
+  const { initiatives } = useSelector((state) => state.initiatives);
+
+  useEffect(() => {
+    if (initiatives.length > 0) {
+      let allClone = initiatives.filter((item) => item.cloned === true);
+      setCloneCount(allClone.length);
+    }
+  }, [initiatives]);
 
   return (
     <div>

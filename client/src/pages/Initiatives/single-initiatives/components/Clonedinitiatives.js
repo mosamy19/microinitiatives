@@ -32,7 +32,6 @@ const Clonedinitiatives = () => {
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
   };
-  console.log(clonedInitiatives);
 
   return (
     <div>

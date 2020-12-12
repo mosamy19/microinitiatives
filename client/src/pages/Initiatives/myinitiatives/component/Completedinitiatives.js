@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
@@ -10,7 +10,6 @@ const Completedinitiatives = ({ myinitiatives }) => {
   const completedInitiatives = myinitiatives.filter(
     (item) => item.draft !== true && item.cloned !== true
   );
-  console.log(completedInitiatives);
 
   return (
     <Wrapper>
