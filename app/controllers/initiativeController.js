@@ -98,6 +98,21 @@ module.exports = {
       serverError(res, error);
     }
   },
+  getLandingPageSingleInitiative: async (req, res) => {
+    let { initiativeId } = req.params;
+    try {
+      let initiative = await Initiative.findOne({ _id: initiativeId }).populate(
+        "author",
+        "_id firstName familyName avatar"
+      );
+      if (!initiative) {
+        return resourceError(res, "No Initiative Found");
+      }
+      res.status(200).json(initiative);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
   getAllInitiatives: async (req, res) => {
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(

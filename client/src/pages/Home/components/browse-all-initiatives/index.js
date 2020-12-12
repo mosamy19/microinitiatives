@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { RiArrowDownSLine } from "react-icons/ri";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
-import samimFont from "../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
+import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
 
 import { CircularProgress, Grid, makeStyles } from "@material-ui/core";
-import Initiativecard from "../component/Initiativecard";
+import Initiativecard from "../../../Initiatives/component/Initiativecard";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getAllInitiatives } from "../../../store/actions/initiative-actions";
+import { getLandingPageInitiatives } from "../../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   btn3: {
@@ -30,29 +30,29 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Allinitiatives = () => {
+
+const Browseallinitiatives = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [all_initiatives, set_all_initiative] = useState([]);
-  const [cloneCount, setCloneCount] = useState(0);
 
+  const [landingPageInitiatives, setLandingPageInitiatives] = useState([]);
+  const [cloneCount, setCloneCount] = useState(0);
   useEffect(() => {
-    dispatch(getAllInitiatives());
+    dispatch(getLandingPageInitiatives());
   }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
-
   useEffect(() => {
     if (initiatives.length > 0) {
-      set_all_initiative(initiatives);
+      setLandingPageInitiatives(initiatives);
       let allClone = initiatives.filter((item) => item.cloned === true);
       setCloneCount(allClone.length);
     }
   }, [initiatives]);
 
   return (
-    <Wrapper>
+    <Wrapper className="container">
       <div>
         <div className="d-flex align-items-center mb-style">
           <h2
@@ -72,17 +72,17 @@ const Allinitiatives = () => {
         </div>
         <div className="my-4">
           <Grid container spacing={3}>
-            {all_initiatives.length === 0 ? (
+            {landingPageInitiatives.length === 0 ? (
               <div style={{ maxWidth: "100px", margin: "0 auto" }}>
                 <CircularProgress />
               </div>
             ) : (
-              all_initiatives.map((initiative) => (
-                <Grid item xs={12} sm={6} md={4}>
+              landingPageInitiatives.map((initiative) => (
+                <Grid item xs={12} sm={6} md={4} key={initiative._id}>
                   <div
                     onClick={() =>
                       history.push(
-                        `/single-initiative/${initiative._id}/${cloneCount}`
+                        `/browse-single-initiative/${initiative._id}/${cloneCount}`
                       )
                     }
                   >
@@ -98,9 +98,9 @@ const Allinitiatives = () => {
   );
 };
 
-export default React.memo(Allinitiatives);
+export default Browseallinitiatives;
 const Wrapper = styled.div`
-  margin: 50px 0;
+  margin: 50px auto;
   text-align: right;
   font-family: Samim-FD-WOL;
   @font-face {

@@ -144,6 +144,30 @@ export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
+export const getLandingPageSingleInitiative = (initiativeId) => async (
+  dispatch
+) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/initiatives/get-landing-page-single-initiative/${initiativeId}`
+    );
+    dispatch({
+      type: types.SET_INITIATIVE,
+      payload: {
+        initiatives: response.data,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
 
 export const createInitiative = (initiative) => async (dispatch) => {
   try {

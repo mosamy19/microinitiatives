@@ -1,10 +1,10 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import users_black from "../../../../assets/icons/users_black.svg";
-import pic from "../../../../assets/images/pic.svg";
+import users_black from "../../../../../assets/icons/users_black.svg";
+import pic from "../../../../../assets/images/pic.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getClonedtInitiatives } from "../../../../store/actions/initiative-actions";
+import { getLandingPageInitiatives } from "../../../../../store/actions/initiative-actions";
 
 import Clonedslider from "./Clonedslider";
 
@@ -16,7 +16,7 @@ const Clonedinitiatives = () => {
   const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
-    dispatch(getClonedtInitiatives());
+    dispatch(getLandingPageInitiatives());
   }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
@@ -32,7 +32,6 @@ const Clonedinitiatives = () => {
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
   };
-  console.log(clonedInitiatives);
 
   return (
     <div>

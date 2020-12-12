@@ -10,6 +10,7 @@ const {
   getClonedtInitiatives,
   getLandingPageInitiatives,
   getPublicProfileInitiatives,
+  getLandingPageSingleInitiative,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
@@ -17,6 +18,10 @@ const isAuthenticated = require("../middlewares/authenticate");
 
 router.get("/get-initiatives", isAuthenticated, getAllInitiatives);
 router.get("/get-landing-page-initiatives", getLandingPageInitiatives);
+router.get(
+  "/get-landing-page-single-initiative/:initiativeId",
+  getLandingPageSingleInitiative
+);
 router.get(
   "/get-public-profile-initiatives/:userId",
   getPublicProfileInitiatives

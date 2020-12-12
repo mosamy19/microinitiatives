@@ -4,6 +4,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+*:focus {
+    outline: none;
+}
 
 body {
     font-family: Samim-FD-WOL!important;
@@ -49,7 +52,27 @@ ul li{
 }
 input, label {
     font-family: Samim-FD-WOL !important;
-    
+}
+
+textarea:hover,
+input:hover,
+select:hover,
+textarea:active,
+input:active,
+select:active,
+textarea:focus,
+input:focus,
+select:focus
+ {
+    outline: 0px !important;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none !important;
 }
 
 input::placeholder,

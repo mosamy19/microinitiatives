@@ -3,21 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FormGroup, Input } from "reactstrap";
-import commentIcon from "../../../../assets/icons/comments.svg";
-import user from "../../../../assets/images/user.svg";
+import commentIcon from "../../../../../assets/icons/comments.svg";
+import user from "../../../../../assets/images/user.svg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import {
-  makeComment,
-  getComments,
-} from "../../../../store/actions/comment-actions";
+import { getLandingPageComments } from "../../../../../store/actions/comment-actions";
 
 const Comments = ({ initiativeId }) => {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState({
-    body: "",
-  });
 
   const [limit, setLimit] = useState(2);
 
@@ -26,7 +20,7 @@ const Comments = ({ initiativeId }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(getComments(initiativeId));
+      dispatch(getLandingPageComments(initiativeId));
     }, 200);
   }, [dispatch, initiativeId]);
 
@@ -37,16 +31,6 @@ const Comments = ({ initiativeId }) => {
       setLoadedComments(comments);
     }
   }, [comments]);
-
-  console.log(loadedComments);
-
-  const addCommentHandler = () => {
-    dispatch(makeComment(initiativeId, comment));
-    setComment({ body: "" });
-    setTimeout(() => {
-      dispatch(getComments(initiativeId));
-    }, 200);
-  };
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 2);
@@ -84,10 +68,8 @@ const Comments = ({ initiativeId }) => {
               <Input
                 type="textarea"
                 name="comment"
-                value={comment.body}
-                onChange={(e) =>
-                  setComment({ ...comment, body: e.target.value })
-                }
+                value=""
+                onChange={(e) => alert("hi")}
                 placeholder="قل شيئاً لطيفاً…"
                 style={{
                   minHeight: "97px",
@@ -103,7 +85,6 @@ const Comments = ({ initiativeId }) => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
               <Button
-                onClick={addCommentHandler}
                 fullWidth
                 className="btns"
                 style={{ color: "rgba(16, 24, 32, 0.65)" }}

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
-
 import styled from "styled-components";
 
 import Clonedinitiatives from "./components/Clonedinitiatives";
@@ -11,7 +10,7 @@ import Imageslider from "./components/Imageslider";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSingleInitiatives } from "../../../store/actions/initiative-actions";
+import { getLandingPageSingleInitiative } from "../../../../store/actions/initiative-actions";
 
 import Likebutton from "./components/Likebutton";
 import Favoritebutton from "./components/Favoritebutton";
@@ -19,13 +18,13 @@ import Sharebutton from "./components/Sharebutton";
 import Authorinfo from "./components/Authorinfo";
 import Cloneinfobtn from "./components/Cloneinfobtn";
 
-const Singleinitiative = () => {
+const Browsesingleinitiative = () => {
   const dispatch = useDispatch();
   const { initiativeId, cloneCount } = useParams();
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(getSingleInitiatives(initiativeId));
+      dispatch(getLandingPageSingleInitiative(initiativeId));
     }, 200);
   }, [dispatch, initiativeId]);
 
@@ -38,7 +37,7 @@ const Singleinitiative = () => {
         <h2 className="mb-show"> {initiatives.title}</h2>
         <div className="mb-hide">
           <Link
-            to="/all-initiatives"
+            to="/browse-all-initiatives"
             style={{
               textDecoration: "none",
               fontSize: "12px",
@@ -71,13 +70,9 @@ const Singleinitiative = () => {
             />
           </div>
           <div className="cloneCount mb-hide">
-            <Likebutton user={user} initiativeId={initiativeId} />
-            <Favoritebutton user={user} initiativeId={initiativeId} />
-            <Sharebutton
-              user={user}
-              initiativeId={initiativeId}
-              title={initiatives.title}
-            />
+            <Likebutton likes={initiatives.likes} />
+            <Favoritebutton favorites={initiatives.favorites} />
+            <Sharebutton shares={initiatives.shares} />
           </div>
         </div>
         <div>
@@ -115,7 +110,7 @@ const Singleinitiative = () => {
   );
 };
 
-export default React.memo(Singleinitiative);
+export default Browsesingleinitiative;
 const Wrapper = styled.div`
   margin: 96px 0;
   text-align: right;

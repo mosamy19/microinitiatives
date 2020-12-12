@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import party from "../../assets/icons/party.svg";
@@ -9,6 +9,7 @@ import Initiativecard from "../Initiatives/component/Initiativecard";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getLandingPageInitiatives } from "../../store/actions/initiative-actions";
+import Nicewords from "../../components/Nicewords";
 const useStyles = makeStyles((theme) => ({
   btn: {
     background: "#f7b500",
@@ -43,7 +44,9 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [landingPageInitiatives, setLandingPageInitiatives] = useState([]);
+  const [cloneCount, setCloneCount] = useState(0);
   useEffect(() => {
     dispatch(getLandingPageInitiatives());
   }, [dispatch]);
@@ -52,152 +55,145 @@ const Home = () => {
   useEffect(() => {
     if (initiatives.length > 0) {
       setLandingPageInitiatives(initiatives);
+      let allClone = initiatives.filter((item) => item.cloned === true);
+      setCloneCount(allClone.length);
     }
   }, [initiatives]);
 
   const mostClonedInitiatives = landingPageInitiatives
     .sort((a, b) => b.clones - a.clones)
-    .slice(0, 9);
+    .slice(0, 3);
 
   const mostLikedInitiatives = landingPageInitiatives
     .sort((a, b) => b.likes - a.likes)
-    .slice(0, 9);
+    .slice(0, 3);
 
   return (
     <Wrapper>
-      <div className="text-center my-5">
-        <h2 style={{ margin: "0px", fontSize: "36px", fontWeight: "bold" }}>
-          قطرة
-        </h2>
-        <h2 style={{ fontSize: "30px", fontWeight: "bold" }}>
-          على هذه الأرض مايستحق الحياة
-        </h2>
-        <p style={{ fontSize: "16px", fontWeight: "500" }}>
-          قطرة هي مجتمع المبادرات المتناهية الصغر حيث يصمم المبادرون وينفذون
-          ويشاركون مبادراتهم .
-        </p>
-        <Link to="/details" style={{ textDecoration: "none" }}>
-          <Button variant="outlined" className={classes.btn3}>
-            أعرف أكثر
-          </Button>
-        </Link>
-      </div>
-      <div
-        style={{
-          background: "rgba(98, 54, 255, 0.05)",
-          padding: "20px",
-        }}
-      >
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{
-            paddingTop: "12px",
-            paddingBottom: "32px",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              marginBottom: "0",
-              marginLeft: "10px",
-            }}
-          >
-            أكثر المبادرات تنفيذاً
-          </h2>
-          <img src={party} alt="" />
-        </div>
-        <Grid container spacing={3}>
-          {mostClonedInitiatives.length > 0 &&
-            mostClonedInitiatives.map((initiative) => (
-              <Grid item xs={12} sm={6} md={4}>
-                <Initiativecard initiative={initiative} />
-              </Grid>
-            ))}
-        </Grid>
-      </div>
-      <div
-        style={{
-          margin: "32px 0",
-        }}
-      >
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{
-            paddingTop: "12px",
-            paddingBottom: "32px",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              marginBottom: "0",
-              marginLeft: "10px",
-            }}
-          >
-            مبادرات نحبها
-          </h2>
-          <span>😍</span>
-        </div>
-        <Grid container spacing={3}>
-          {mostLikedInitiatives.length > 0 &&
-            mostLikedInitiatives.map((initiative) => (
-              <Grid item xs={12} sm={6} md={4}>
-                <Initiativecard initiative={initiative} />
-              </Grid>
-            ))}
-        </Grid>
-      </div>
-      <div
-        style={{
-          background: "#6236ff",
-          margin: "32px 0",
-          padding: "20px",
-        }}
-      >
-        <div
-          className="d-flex flex-column justify-content-center align-items-center"
-          style={{
-            paddingTop: "12px",
-            paddingBottom: "32px",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "22px",
-              fontWeight: "bold",
-              marginBottom: "0",
-              marginLeft: "10px",
-              color: "#fff",
-            }}
-          >
-            هنا كلام لطيف وتشجيعي
+      <div className="container">
+        <div className="text-center my-5">
+          <h2 style={{ margin: "0px", fontSize: "36px", fontWeight: "bold" }}>
+            نوي
           </h2>
           <p
             style={{
-              textAlign: "center",
               fontSize: "16px",
-              fontWeight: "normal",
-              color: "#ffffff",
-              margin: "16px 0",
-              maxWidth: "600px",
+              fontWeight: "500",
+              margin: "24px 0 9px",
             }}
           >
-            هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا
-            النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد
-            من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
+            نوي هو مجتمع المبادرات المتناهية الصغر حيث يصمم المبادرون وينفذون
+            ويشاركون مبادراتهم من أي مكان وفي أي وقت .
           </p>
-          <Link style={{ textDecoration: "none" }} to="/signup">
-            <Button size="medium" className={classes.btn}>
-              انضم لقطرة الآن
-            </Button>
-          </Link>
+          <Button
+            variant="outlined"
+            className={classes.btn3}
+            onClick={() => history.push("/details")}
+          >
+            أعرف أكثر
+          </Button>
+          <Button
+            variant="outlined"
+            style={{ marginRight: "15px" }}
+            className={classes.btn3}
+            onClick={() => history.push("/browse-all-initiatives")}
+          >
+            تصفح المبادرات
+          </Button>
+        </div>
+        <div
+          style={{
+            background: "rgba(98, 54, 255, 0.05)",
+            padding: "20px 20px 60px",
+          }}
+        >
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              paddingTop: "12px",
+              paddingBottom: "32px",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                marginBottom: "0",
+                marginLeft: "10px",
+              }}
+            >
+              أكثر المبادرات تنفيذاً
+            </h2>
+            <img src={party} alt="" />
+          </div>
+          <Grid container spacing={3}>
+            {mostClonedInitiatives.length > 0 &&
+              mostClonedInitiatives.map((initiative) => (
+                <Grid item xs={12} sm={6} md={4} key={initiative._id}>
+                  <div
+                    onClick={() =>
+                      history.push(
+                        `/browse-single-initiative/${initiative._id}/${cloneCount}`
+                      )
+                    }
+                  >
+                    <Initiativecard initiative={initiative} />
+                  </div>
+                </Grid>
+              ))}
+          </Grid>
+        </div>
+        <div className="loved-initiatives">
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              paddingTop: "12px",
+              paddingBottom: "32px",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                marginBottom: "0",
+                marginLeft: "10px",
+              }}
+            >
+              مبادرات نحبها
+            </h2>
+            <span>😍</span>
+          </div>
+          <Grid container spacing={3}>
+            {mostLikedInitiatives.length > 0 &&
+              mostLikedInitiatives.map((initiative) => (
+                <Grid item xs={12} sm={6} md={4} key={initiative._id}>
+                  <div
+                    onClick={() =>
+                      history.push(
+                        `/browse-single-initiative/${initiative._id}/${cloneCount}`
+                      )
+                    }
+                  >
+                    <Initiativecard initiative={initiative} />
+                  </div>
+                </Grid>
+              ))}
+          </Grid>
         </div>
       </div>
+      <Nicewords />
     </Wrapper>
   );
 };
 
 export default Home;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .loved-initiatives {
+    margin: 60px 0 80px;
+  }
+  @media screen and (max-width: 760px) {
+    .loved-initiatives {
+      padding: 20px;
+    }
+  }
+`;

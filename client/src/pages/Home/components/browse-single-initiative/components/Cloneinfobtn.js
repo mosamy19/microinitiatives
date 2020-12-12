@@ -1,5 +1,5 @@
 import React from "react";
-import people from "../../../../assets/images/people.svg";
+import people from "../../../../../assets/images/people.svg";
 
 const Cloneinfobtn = ({ cloneCount }) => {
   return (

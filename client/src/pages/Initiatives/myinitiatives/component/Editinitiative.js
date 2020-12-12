@@ -111,6 +111,7 @@ const Editinitiative = () => {
                   type="text"
                   name="title"
                   value={initiative.title}
+                  disabled
                 />
               </FormGroup>
               <FormGroup>
@@ -124,6 +125,7 @@ const Editinitiative = () => {
                   type="text"
                   name="category"
                   value={initiative.category}
+                  disabled
                 />
               </FormGroup>
               <FormGroup>

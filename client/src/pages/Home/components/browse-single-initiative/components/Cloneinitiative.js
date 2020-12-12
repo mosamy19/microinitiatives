@@ -1,27 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import user_white from "../../../../assets/icons/user_white.svg";
+import user_white from "../../../../../assets/icons/user_white.svg";
 import styled from "styled-components";
 
-const Cloneinitiative = ({
-  initiativeId,
-  title,
-  category,
-  initiativeAuthor,
-  cloneCount,
-}) => {
-  const history = useHistory();
-
+const Cloneinitiative = ({ initiativeAuthor, cloneCount }) => {
   return (
     <div>
       {initiativeAuthor &&
         initiativeAuthor.map((item) => (
           <Wrapper
-            onClick={() =>
-              history.push(
-                `/clone-initiative/${initiativeId}/${item._id}/${title}/${category}`
-              )
-            }
+            onClick={() => alert("hi")}
             className="text-center"
             style={{
               background: "#f7b500",

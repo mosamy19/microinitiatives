@@ -44,7 +44,9 @@ const Publicnavigation = (props) => {
         <div className="container">
           <ul className="d-flex justify-content-between align-items-center mb-0">
             <li>
-              <img src={logo} width="50px" height="50px" alt="" />
+              <Link style={{ textDecoration: "none" }} to="/">
+                <img src={logo} width="50px" height="50px" alt="" />
+              </Link>
             </li>
             <div>
               <div>

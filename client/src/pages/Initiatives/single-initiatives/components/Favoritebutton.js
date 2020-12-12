@@ -45,9 +45,9 @@ const Favoritebutton = ({ user, initiativeId }) => {
   return (
     <Button
       onClick={setFavoriteUnfavorite}
-      className="btns"
+      className="btns fv-btn"
       variant="outlined"
-      style={{ margin: "0 36px" }}
+      // style={{ margin: "0 auto" }}
     >
       <div>
         <img

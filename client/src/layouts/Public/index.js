@@ -6,7 +6,7 @@ const PublicLayout = (props) => {
   return (
     <div>
       <Publicnavigation />
-      <div className="container">{props.children}</div>
+      <div>{props.children}</div>
       <PublicFooter />
     </div>
   );

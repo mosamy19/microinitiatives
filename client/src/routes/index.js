@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navigation from "../components/partials/Navigation";
 import AuthLayout from "../layouts/Auth";
 import MainLayout from "../layouts/Main";
 import PublicLayout from "../layouts/Public";
 import Home from "../pages/Home";
-import Details from "../pages/Home/Details";
+import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
+import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
+import Details from "../pages/Home/components/Details";
 import Allinitiatives from "../pages/Initiatives/all-initiatives";
 import CloneOtherInitiative from "../pages/Initiatives/cloneinitiative";
 import Editinitiative from "../pages/Initiatives/myinitiatives/component/Editinitiative";
@@ -41,6 +42,18 @@ const AppRoutes = () => {
           path="/details"
           component={Details}
         />
+        <RouteWithLayout
+          layout={PublicLayout}
+          path="/browse-all-initiatives"
+          component={Browseallinitiatives}
+        />
+        <RouteWithLayout
+          layout={PublicLayout}
+          path="/browse-single-initiative/:initiativeId/:cloneCount"
+          component={Browsesingleinitiative}
+        />
+
+        {/* all public auth routes */}
         <RouteWithLayout layout={AuthLayout} path="/login" component={Login} />
         <RouteWithLayout
           layout={AuthLayout}
@@ -76,7 +89,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/single-initiative/:initiativeId"
+          path="/single-initiative/:initiativeId/:cloneCount"
           component={Singleinitiative}
         />
         <PrivateRouteWithLayout
