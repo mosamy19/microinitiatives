@@ -17,7 +17,7 @@ const PublicFooter = (props) => {
           }}
           to="/"
         >
-          عن قطرة
+          عن نوي
         </Link>
         <div className="line"></div>
         <Link

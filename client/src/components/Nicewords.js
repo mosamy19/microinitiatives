@@ -63,7 +63,7 @@ const Nicewords = () => {
         </p>
         <Link style={{ textDecoration: "none" }} to="/signup">
           <Button size="medium" className={classes.btn}>
-            انضم لقطرة الآن
+            انضم لنوي الآن
           </Button>
         </Link>
       </div>

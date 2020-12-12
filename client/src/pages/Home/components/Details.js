@@ -35,7 +35,7 @@ const Details = () => {
     <Wrapper className="text-center">
       <div className="container" style={{ maxWidth: "760px" }}>
         <h2 style={{ margin: "0px", fontSize: "36px", fontWeight: "bold" }}>
-          قصة قطرة
+          قصة نوي
         </h2>
         <div
           style={{
@@ -66,7 +66,7 @@ const Details = () => {
           <h2
             style={{ margin: "36px 0px", fontSize: "36px", fontWeight: "bold" }}
           >
-            كيف تعمل قطرة؟
+            كيف تعمل نوي؟
           </h2>
           <div>
             <div className="steps">
