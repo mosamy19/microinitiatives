@@ -10,7 +10,6 @@ const MainLayout = (props) => {
         <Mainnavigation />
         <div className="container">{props.children}</div>
       </div>
-
       <MainFooter />
     </>
   );

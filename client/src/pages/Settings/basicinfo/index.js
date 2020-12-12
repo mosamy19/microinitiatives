@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 import uploadIcon from "../../../assets/icons/Upload_profile_image.svg";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateUser,
   getLoggedinUser,
@@ -10,9 +10,11 @@ import {
 
 const Basicinfo = () => {
   const dispatch = useDispatch();
+  const authUser = useSelector((state) => state.auth.user);
+  console.log(authUser);
   const [user, setUser] = useState({
-    firstName: "",
-    familyName: "",
+    firstName: authUser.firstName,
+    familyName: authUser.familyName,
     avatar: "",
   });
 
