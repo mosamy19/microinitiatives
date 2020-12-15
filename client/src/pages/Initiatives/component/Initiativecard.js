@@ -95,11 +95,11 @@ const Initiativecard = ({ initiative }) => {
         style={{ padding: "12px" }}
       >
         <div>
-          <Button className={classes.btn1}>
+          {/* <Button className={classes.btn1}>
             <div>
               <img src={pic} alt="" width="26px" height="100%" />
             </div>
-          </Button>
+          </Button> */}
         </div>
         <div>
           <Button className={classes.btn2}>

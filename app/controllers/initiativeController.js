@@ -79,6 +79,7 @@ module.exports = {
         user: updatedInitiative,
       });
     } catch (error) {
+      console.log(error);
       serverError(res, error);
     }
   },

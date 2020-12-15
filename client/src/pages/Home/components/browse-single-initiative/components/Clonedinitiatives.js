@@ -1,6 +1,6 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import users_black from "../../../../../assets/icons/users_black.svg";
 import pic from "../../../../../assets/images/pic.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import Clonedslider from "./Clonedslider";
 
 const Clonedinitiatives = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [limit, setLimit] = useState(3);
   const [size, setSize] = useState(0);
 
@@ -48,9 +49,7 @@ const Clonedinitiatives = () => {
         </p>
       </div>
       <Grid container spacing={3}>
-        {clonedInitiatives.length === 0 ? (
-          <span>No Cloned Initiatives Yet..!</span>
-        ) : (
+        {clonedInitiatives.length !== 0 &&
           clonedInitiatives.slice(0, limit).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <div>
@@ -59,7 +58,12 @@ const Clonedinitiatives = () => {
               <p style={{ marginTop: "24px" }}>
                 {item.title}
                 <Link
-                  to={`/single-initiative/${item._id}`}
+                  onClick={() => {
+                    history.push(
+                      `/browse-single-initiative/${item._id}/${size}`
+                    );
+                    window.scrollTo(0, 0);
+                  }}
                   style={{ textDecoration: "none" }}
                 >
                   {" "}
@@ -67,8 +71,7 @@ const Clonedinitiatives = () => {
                 </Link>
               </p>
             </Grid>
-          ))
-        )}
+          ))}
       </Grid>
       {size > limit && (
         <Grid container spacing={3}>

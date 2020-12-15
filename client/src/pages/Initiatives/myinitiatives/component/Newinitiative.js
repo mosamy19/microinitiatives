@@ -1,6 +1,8 @@
 import { Button, Grid, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { TiDelete } from "react-icons/ti";
 import { FormGroup, Label, Input } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
@@ -43,6 +45,62 @@ const Newinitiative = () => {
     description: "",
     thumbnail: [],
   });
+
+  const [uploadedFiles, setUploadedFiles] = useState({ images: [] });
+  const [result, setResult] = useState([]);
+  const [imageId, setImageId] = useState(null);
+
+  const handleFileOnChange = async (e) => {
+    let fd = new FormData();
+    for (let file of e.target.files) {
+      fd.append("images", file);
+    }
+    try {
+      const res = await axios.post(`/api/v1/upload/images`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // setUploadedFiles(res.data);
+      setImageId(res.data._id);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setInitiative({ ...initiative, thumbnail: e.target.files });
+  };
+
+  const removeImages = (id) => {
+    axios
+      .delete(`/api/v1/upload/delete-images/${id}`)
+      .then((res) => console.log(res.data));
+
+    getImages(imageId);
+  };
+
+  useEffect(() => {
+    getImages(imageId);
+  }, [imageId]);
+
+  const getImages = (imageId) => {
+    axios
+      .get(`/api/v1/upload/get-images/${imageId}`)
+      .then((res) => setResult(res.data));
+  };
+
+  useEffect(() => {
+    if (result) {
+      result.map((item) => {
+        console.log(item);
+        setUploadedFiles({
+          ...uploadedFiles,
+          images: [...uploadedFiles.images, item.images],
+        });
+      });
+    }
+  }, [result]);
+  console.log(uploadedFiles);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -157,9 +215,7 @@ const Newinitiative = () => {
                   multiple
                   type="file"
                   name="thumbnail"
-                  onChange={(e) =>
-                    setInitiative({ ...initiative, thumbnail: e.target.files })
-                  }
+                  onChange={handleFileOnChange}
                 />
                 <label
                   style={{ width: "100%" }}
@@ -193,6 +249,19 @@ const Newinitiative = () => {
                   style={{ background: "#f7b500", color: "#fff", width: "49%" }}
                 />
               </FormGroup>
+            </div>
+            <div>
+              <h1>File uploads</h1>
+              {uploadedFiles.images
+                ? uploadedFiles.images.map((item) => (
+                    <div className="d-flex">
+                      <img src={item} alt="" width="60px" height="60px" />
+                      <span>
+                        <TiDelete onClick={() => removeImages(item._id)} />
+                      </span>
+                    </div>
+                  ))
+                : null}
             </div>
           </div>
         </Grid>

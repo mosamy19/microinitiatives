@@ -1,11 +1,14 @@
 import { Button, Grid, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label, Input } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { editMyInitiative } from "../../../../store/actions/initiative-actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  editMyInitiative,
+  getSingleInitiatives,
+} from "../../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,20 +38,32 @@ const useStyles = makeStyles((theme) => ({
 
 const Editinitiative = () => {
   const classes = useStyles();
-  const {
-    id,
-    initiativeTitle,
-    initiativeCategory,
-    initiativeDescription,
-  } = useParams();
+  const { initiativeId, type } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const [initiative, setInitiative] = useState({
-    title: initiativeTitle,
-    category: [initiativeCategory],
-    description: initiativeDescription,
+    title: "",
+    category: [],
+    description: "",
     thumbnail: [],
   });
+
+  useEffect(() => {
+    dispatch(getSingleInitiatives(initiativeId));
+  }, [dispatch, initiativeId]);
+
+  const { singleInitiative } = useSelector((state) => state.initiatives);
+
+  useEffect(() => {
+    if (singleInitiative) {
+      setInitiative({
+        ...initiative,
+        title: singleInitiative.title,
+        category: singleInitiative.category,
+        description: singleInitiative.description,
+      });
+    }
+  }, [singleInitiative]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -62,8 +77,8 @@ const Editinitiative = () => {
 
     console.log(fd);
 
-    dispatch(editMyInitiative(id, fd));
-    history.push(`/single-initiative/${id}`);
+    dispatch(editMyInitiative(initiativeId, fd));
+    history.push(`/single-initiative/${initiativeId}`);
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
@@ -97,7 +112,11 @@ const Editinitiative = () => {
                 color: "rgba(0, 0, 0, 0.85)",
               }}
             >
-              تعديل المبادرة
+              {type === "draft" ? (
+                <span>نشر المسودة</span>
+              ) : (
+                <span>تعديل المبادرة</span>
+              )}
             </h2>
             <div className="text-right">
               <FormGroup>
@@ -111,7 +130,7 @@ const Editinitiative = () => {
                   type="text"
                   name="title"
                   value={initiative.title}
-                  disabled
+                  disabled={type === "draft" ? false : true}
                 />
               </FormGroup>
               <FormGroup>
@@ -125,7 +144,7 @@ const Editinitiative = () => {
                   type="text"
                   name="category"
                   value={initiative.category}
-                  disabled
+                  disabled={type === "draft" ? false : true}
                 />
               </FormGroup>
               <FormGroup>

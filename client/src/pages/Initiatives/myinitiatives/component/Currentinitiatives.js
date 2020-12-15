@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import plusIcon from "../../../../assets/icons/Add_new_initiative.svg";
 import styled from "styled-components";
@@ -8,6 +8,9 @@ import samimFont from "../../../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf"
 const Currentinitiatives = ({ myinitiatives }) => {
   const history = useHistory();
   const draft = myinitiatives.filter((item) => item.draft === true);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Grid container spacing={3}>
@@ -38,7 +41,7 @@ const Currentinitiatives = ({ myinitiatives }) => {
         draft.map((item) => (
           <Grid item xs={12} sm={6} md={4}>
             <div
-              onClick={() => history.push("/new-initiative")}
+              onClick={() => history.push(`/edit-initiative/${item._id}/draft`)}
               className="d-flex align-items-center justify-content-center"
               style={{
                 backgroundColor: "#fff",

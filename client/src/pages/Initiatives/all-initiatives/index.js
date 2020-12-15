@@ -35,7 +35,6 @@ const Allinitiatives = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [all_initiatives, set_all_initiative] = useState([]);
-  const [cloneCount, setCloneCount] = useState(0);
 
   useEffect(() => {
     dispatch(getAllInitiatives());
@@ -46,10 +45,12 @@ const Allinitiatives = () => {
   useEffect(() => {
     if (initiatives.length > 0) {
       set_all_initiative(initiatives);
-      let allClone = initiatives.filter((item) => item.cloned === true);
-      setCloneCount(allClone.length);
     }
   }, [initiatives]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   console.log(all_initiatives);
 
@@ -83,9 +84,7 @@ const Allinitiatives = () => {
                 <Grid item xs={12} sm={6} md={4} key={initiative._id}>
                   <div
                     onClick={() =>
-                      history.push(
-                        `/single-initiative/${initiative._id}/${cloneCount}`
-                      )
+                      history.push(`/single-initiative/${initiative._id}`)
                     }
                   >
                     <Initiativecard initiative={initiative} />

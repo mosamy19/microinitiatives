@@ -18,6 +18,7 @@ import Favoritebutton from "./components/Favoritebutton";
 import Sharebutton from "./components/Sharebutton";
 import Authorinfo from "./components/Authorinfo";
 import Cloneinfobtn from "./components/Cloneinfobtn";
+import Baseinitiative from "./components/Baseinitiative";
 
 const Singleinitiative = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,7 @@ const Singleinitiative = () => {
   const [initiative, setInitiative] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getSingleInitiatives(initiativeId));
-    }, 200);
+    dispatch(getSingleInitiatives(initiativeId));
   }, [dispatch, initiativeId]);
 
   const { singleInitiative } = useSelector((state) => state.initiatives);
@@ -39,7 +38,9 @@ const Singleinitiative = () => {
     }
   }, [singleInitiative]);
 
-  console.log(initiative);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Wrapper>
@@ -108,13 +109,16 @@ const Singleinitiative = () => {
         {singleInitiative.cloned !== true && (
           <Cloneinitiative
             initiativeId={singleInitiative._id}
-            title={singleInitiative.title}
-            category={singleInitiative.category}
             initiativeAuthor={singleInitiative.author}
           />
         )}
 
         <Comments user={user} initiativeId={initiativeId} />
+        {singleInitiative.cloned === true && (
+          <Baseinitiative
+            baseInitiativeId={singleInitiative.clonedInitiativeId}
+          />
+        )}
         <Clonedinitiatives />
       </div>
     </Wrapper>

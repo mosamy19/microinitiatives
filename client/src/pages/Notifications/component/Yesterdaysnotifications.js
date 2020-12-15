@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
-import bookmarkbtn from "../../../assets/icons/bookmarkbtn.svg";
-import bluehands from "../../../assets/icons/bluehands.svg";
+import bookmarkbtn from "../../../assets/icons/notification/bookmarkbtn.svg";
+import bluehands from "../../../assets/icons/notification/bluehands.svg";
 import lovebtn from "../../../assets/icons/lovebtn.svg";
 import blueshare from "../../../assets/icons/blueshare.svg";
-import yellow_comment from "../../../assets/icons/yellow_comment.svg";
+import yellow_comment from "../../../assets/icons/notification/yellow_comment.svg";
 import moment from "moment";
 
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { makeIsCheckedTrue } from "../../../store/actions/notification-actions";
+
 const Yesterdaysnotifications = ({ yesterdaysNotification }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(null);
+
+  const { notifications } = useSelector((state) => state.notifications);
+
+  const handleOnClick = (id) => {
+    dispatch(makeIsCheckedTrue());
+    history.push(`single-initiative/${id}`);
+  };
+  useEffect(() => {
+    if (notifications.length > 0) {
+      notifications.map(
+        (item) => item.isChecked === true && setIsChecked("ckecked")
+      );
+    }
+  });
   return (
     <div>
       {yesterdaysNotification.length !== 0 ? (
         <div>
           <p>أمس</p>
-          <ListGroup>
+          <ListGroup style={{ cursor: "pointer" }}>
             {yesterdaysNotification.length !== 0
               ? yesterdaysNotification.map((item) => (
-                  <ListGroupItem>
+                  <ListGroupItem onClick={() => handleOnClick(item.initiative)}>
                     <button className="ntBtn">
                       <img
                         src={

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
-import bookmarkbtn from "../../../assets/icons/bookmarkbtn.svg";
-import bluehands from "../../../assets/icons/bluehands.svg";
+import bookmarkbtn from "../../../assets/icons/notification/bookmarkbtn.svg";
+import bluehands from "../../../assets/icons/notification/bluehands.svg";
 import lovebtn from "../../../assets/icons/lovebtn.svg";
 import blueshare from "../../../assets/icons/blueshare.svg";
-import yellow_comment from "../../../assets/icons/yellow_comment.svg";
+import yellow_comment from "../../../assets/icons/notification/yellow_comment.svg";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeIsCheckedTrue } from "../../../store/actions/notification-actions";

@@ -1,6 +1,6 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import users_black from "../../../../assets/icons/users_black.svg";
 import pic from "../../../../assets/images/pic.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import Clonedslider from "./Clonedslider";
 
 const Clonedinitiatives = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [limit, setLimit] = useState(3);
   const [size, setSize] = useState(0);
 
@@ -31,6 +32,11 @@ const Clonedinitiatives = () => {
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
+  };
+
+  const goToTop = (id) => {
+    history.push(`/single-initiative/${id}`);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -59,7 +65,7 @@ const Clonedinitiatives = () => {
               <p style={{ marginTop: "24px" }}>
                 {item.title}
                 <Link
-                  to={`/single-initiative/${item._id}`}
+                  onClick={() => goToTop(item._id)}
                   style={{ textDecoration: "none" }}
                 >
                   {" "}

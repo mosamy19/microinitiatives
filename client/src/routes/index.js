@@ -99,7 +99,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/clone-initiative/:id/:initiativeAuthor/:initiativeTitle/:initiativeCategory"
+          path="/clone-initiative/:initiativeId/:initiativeAuthor"
           component={CloneOtherInitiative}
         />
         <PrivateRouteWithLayout
@@ -109,7 +109,7 @@ const AppRoutes = () => {
         />
         <PrivateRouteWithLayout
           layout={MainLayout}
-          path="/edit-initiative/:id/:initiativeTitle/:initiativeCategory/:initiativeDescription"
+          path="/edit-initiative/:initiativeId/:type"
           component={Editinitiative}
         />
         <PrivateRouteWithLayout

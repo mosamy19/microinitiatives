@@ -7,8 +7,6 @@ import { getAllInitiatives } from "../../../../store/actions/initiative-actions"
 
 const Cloneinitiative = ({
   initiativeId,
-  title,
-  category,
   initiativeAuthor,
 }) => {
   const history = useHistory();
@@ -35,7 +33,7 @@ const Cloneinitiative = ({
           <Wrapper
             onClick={() =>
               history.push(
-                `/clone-initiative/${initiativeId}/${item._id}/${title}/${category}`
+                `/clone-initiative/${initiativeId}/${item._id}`
               )
             }
             className="text-center"

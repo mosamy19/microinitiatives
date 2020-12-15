@@ -28,6 +28,10 @@ const Browsesingleinitiative = () => {
     }, 200);
   }, [dispatch, initiativeId]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { initiatives } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 

@@ -60,6 +60,10 @@ const Home = () => {
     }
   }, [initiatives]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const mostClonedInitiatives = landingPageInitiatives
     .sort((a, b) => b.clones - a.clones)
     .slice(0, 3);

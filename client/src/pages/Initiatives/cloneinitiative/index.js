@@ -1,12 +1,15 @@
 import { Button, Grid, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label, Input } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { createInitiative } from "../../../store/actions/initiative-actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createInitiative,
+  getSingleInitiatives,
+} from "../../../store/actions/initiative-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,20 +41,37 @@ const Newinitiative = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const {
-    id,
-    initiativeTitle,
-    initiativeCategory,
-    initiativeAuthor,
-  } = useParams();
+  const { initiativeId, initiativeAuthor } = useParams();
 
   const [initiative, setInitiative] = useState({
-    title: initiativeTitle,
-    category: ["initiativeCategory"],
+    title: "",
+    category: [],
     description: "",
     thumbnail: [],
   });
+
+  useEffect(() => {
+    dispatch(getSingleInitiatives(initiativeId));
+  }, [dispatch, initiativeId]);
+
+  const { singleInitiative } = useSelector((state) => state.initiatives);
+
+  useEffect(() => {
+    if (singleInitiative) {
+      setInitiative({
+        ...initiative,
+        title: singleInitiative.title,
+        category: singleInitiative.category,
+        description: singleInitiative.description,
+      });
+    }
+  }, [singleInitiative]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  console.log(initiativeAuthor);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -63,7 +83,7 @@ const Newinitiative = () => {
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
     fd.append("clonedInitiativeOwner", initiativeAuthor);
-    fd.append("clonedInitiativeId", id);
+    fd.append("clonedInitiativeId", initiativeId);
     fd.append("cloned", true);
 
     dispatch(createInitiative(fd));
@@ -80,7 +100,7 @@ const Newinitiative = () => {
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
     fd.append("clonedInitiativeOwner", initiativeAuthor);
-    fd.append("clonedInitiativeId", id);
+    fd.append("clonedInitiativeId", initiativeId);
     fd.append("cloned", true);
     fd.append("draft", true);
 
@@ -126,7 +146,7 @@ const Newinitiative = () => {
                   }
                   type="text"
                   name="title"
-                  value={initiativeTitle ? initiativeTitle : null}
+                  value={initiative.title ? initiative.title : null}
                   disabled
                 />
               </FormGroup>
@@ -140,7 +160,7 @@ const Newinitiative = () => {
                   }
                   type="text"
                   name="category"
-                  value={initiativeCategory ? initiativeCategory : null}
+                  value={initiative.category ? initiative.category : null}
                   disabled
                 />
               </FormGroup>
@@ -156,6 +176,7 @@ const Newinitiative = () => {
                     })
                   }
                   style={{ minHeight: "130px" }}
+                  value={initiative.description ? initiative.description : null}
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
                 />
               </FormGroup>
