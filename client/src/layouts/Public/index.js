@@ -5,8 +5,10 @@ import Publicnavigation from "../../components/partials/Publicnavigation";
 const PublicLayout = (props) => {
   return (
     <div>
-      <Publicnavigation />
-      <div>{props.children}</div>
+      <div style={{ minHeight: "92vh" }}>
+        <Publicnavigation />
+        <div>{props.children}</div>
+      </div>
       <PublicFooter />
     </div>
   );

@@ -1,8 +1,10 @@
 import axios from "axios";
+import { hideLoading, showLoading } from "../loading-actions";
 import * as types from "../types";
 
 export const getNotifications = () => async (dispatch) => {
   try {
+    dispatch(showLoading());
     let response = await axios.get(`/api/v1/notifications/get-notifications`);
     dispatch({
       type: types.SET_NOTIFICATIONS,
@@ -10,6 +12,7 @@ export const getNotifications = () => async (dispatch) => {
         notifications: response.data,
       },
     });
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.NOTIFICATIONS_ERROR,
@@ -22,7 +25,9 @@ export const getNotifications = () => async (dispatch) => {
 
 export const makeIsCheckedTrue = () => async (dispatch) => {
   try {
-    let response = await axios.get(`/api/v1/notifications/get-notifications/is-checked`);
+    let response = await axios.get(
+      `/api/v1/notifications/get-notifications/is-checked`
+    );
     dispatch({
       type: types.SET_NOTIFICATIONS,
       payload: {

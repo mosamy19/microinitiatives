@@ -14,6 +14,7 @@ const PublicFooter = (props) => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "rgba(16, 24, 32, 0.65)",
+            margin: "0 auto",
           }}
           to="/"
         >
@@ -27,6 +28,7 @@ const PublicFooter = (props) => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "rgba(16, 24, 32, 0.65)",
+            margin: "0 auto",
           }}
           to="/"
         >
@@ -48,7 +50,7 @@ const Wrapper = styled.div.attrs((props) => ({
   .line {
     width: 1px;
     height: 48px;
-    margin: 0 55px 0 55px;
+    // margin: 0 55px 0 55px;
     opacity: 0.3;
     border: solid 1px rgba(0, 0, 0, 0.1);
   }

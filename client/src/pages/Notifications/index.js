@@ -10,6 +10,7 @@ import { getLoggedinUser } from "../../store/actions/auth-actions";
 import Todaynotifications from "./component/Todaynotifications";
 import Yesterdaysnotifications from "./component/Yesterdaysnotifications";
 import Oldernotifications from "./component/Oldernotifications";
+import { CircularProgress } from "@material-ui/core";
 
 const Notifications = () => {
   const dispatch = useDispatch();
@@ -17,18 +18,22 @@ const Notifications = () => {
 
   useEffect(() => {
     dispatch(getNotifications());
+
     setTimeout(() => {
       dispatch(getLoggedinUser());
     }, 200);
   }, [dispatch]);
 
   const { notifications } = useSelector((state) => state.notifications);
+  const { isLoading } = useSelector((state) => state.loader);
+
+  console.log(isLoading);
+
   useEffect(() => {
     if (notifications.length > 0) {
       set_all_notification(notifications);
     }
   }, [notifications]);
-
 
   const todaysNotification = all_notification.filter(
     (item) => moment(item.createdAt).format("LL") === moment().format("LL")
@@ -46,9 +51,11 @@ const Notifications = () => {
       moment().add(-1, "day").format("MM-DD-YYYY")
   );
 
-  console.log(todaysNotification);
-
-  return (
+  return isLoading ? (
+    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+      <CircularProgress />
+    </div>
+  ) : (
     <Wrapper>
       <h2
         style={{
@@ -59,7 +66,7 @@ const Notifications = () => {
       >
         التنبيهات
       </h2>
-      {all_notification.length !== 0 ? (
+      {all_notification.length > 0 && (
         <div>
           <Todaynotifications todaysNotification={todaysNotification} />
           <Yesterdaysnotifications
@@ -67,8 +74,11 @@ const Notifications = () => {
           />
           <Oldernotifications olderNotification={olderNotification} />
         </div>
-      ) : (
-        <span>No Notifications</span>
+      )}
+      {all_notification.length === 0 && (
+        <div>
+          <h3>No New Notifications</h3>
+        </div>
       )}
     </Wrapper>
   );

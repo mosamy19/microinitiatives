@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as types from "../types";
 import { setSuccess, setError } from "../snackbar-actions";
+import { hideLoading, showLoading } from "../loading-actions";
 
 export const getAllInitiatives = () => async (dispatch) => {
   try {
@@ -106,13 +107,15 @@ export const getClonedtInitiatives = () => async (dispatch) => {
 
 export const getMyInitiatives = () => async (dispatch) => {
   try {
+    dispatch(showLoading())
     let response = await axios.get("/api/v1/initiatives/my-initiatives");
     dispatch({
-      type: types.SET_INITIATIVE,
+      type: types.SET_MY_INITIATIVE,
       payload: {
-        initiatives: response.data,
+        myInitiatives: response.data,
       },
     });
+    dispatch(hideLoading())
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,

@@ -16,6 +16,7 @@ const MainFooter = () => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "#ffffff",
+            margin: "0 auto",
           }}
           to="/all-initiatives"
         >
@@ -30,6 +31,7 @@ const MainFooter = () => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "#ffffff",
+            margin: "0 auto",
           }}
           to="/my-initiatives"
         >
@@ -52,7 +54,6 @@ const Wrapper = styled.footer`
   .line {
     width: 1px;
     height: 48px;
-    margin: 0 55px 0 55px;
     opacity: 0.3;
     border: solid 1px #ffffff;
   }

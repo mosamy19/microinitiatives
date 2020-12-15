@@ -17,7 +17,7 @@ import { getMyInitiatives } from "../../../store/actions/initiative-actions";
 import Currentinitiatives from "./component/Currentinitiatives";
 import Favoriteinitiatives from "./component/Favoriteinitiatives";
 import Completedinitiatives from "./component/Completedinitiatives";
-import { Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import Noinitiativeyet from "./Noinitiativeyet";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,22 +39,22 @@ const MyAllinitiatives = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const dispatch = useDispatch();
-  const [myinitiatives, setMyinitiatives] = useState([]);
+  const [my_initiatives, set_my_initiatives] = useState([]);
 
   useEffect(() => {
     dispatch(getMyInitiatives());
   }, [dispatch]);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
+  const { myInitiatives } = useSelector((state) => state.initiatives);
+  const { isLoading } = useSelector((state) => state.loader);
   const user = useSelector((state) => state.auth.user);
   useEffect(() => {
-    if (initiatives.length > 0) {
-      const tempInitiatives = initiatives.filter(
-        (item) => item.author == user._id
-      );
-      setMyinitiatives(tempInitiatives);
+    if (myInitiatives.length > 0) {
+      set_my_initiatives(myInitiatives);
     }
-  }, [initiatives, user._id]);
+  }, [myInitiatives]);
+
+  console.log(my_initiatives);
 
   useEffect(() => {
     if (value === 0) {
@@ -74,11 +74,13 @@ const MyAllinitiatives = () => {
     }
   }, [value]);
 
-  return (
+  return isLoading ? (
+    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+      <CircularProgress />
+    </div>
+  ) : (
     <Wrapper>
-      {myinitiatives.length === 0 ? (
-        <Noinitiativeyet />
-      ) : (
+      {my_initiatives.length > 0 && (
         <div>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
@@ -134,13 +136,14 @@ const MyAllinitiatives = () => {
               </Tabs>
             </Grid>
           </Grid>
-          {value === 0 && <Currentinitiatives myinitiatives={myinitiatives} />}
+          {value === 0 && <Currentinitiatives myinitiatives={my_initiatives} />}
           {value === 1 && (
-            <Completedinitiatives myinitiatives={myinitiatives} />
+            <Completedinitiatives myinitiatives={my_initiatives} />
           )}
           {value === 2 && <Favoriteinitiatives user={user} />}
         </div>
       )}
+      {my_initiatives.length === 0 && <Noinitiativeyet />}
     </Wrapper>
   );
 };

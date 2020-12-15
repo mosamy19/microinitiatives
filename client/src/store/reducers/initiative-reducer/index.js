@@ -3,6 +3,7 @@ const initialState = {
   initiatives: {},
   singleInitiative: {},
   baseInitiative: {},
+  myInitiatives: {},
   error: {},
 };
 
@@ -24,6 +25,12 @@ const initiativeReducer = (state = initialState, action) => {
       return {
         ...state,
         baseInitiative: action.payload.baseInitiative,
+        error: {},
+      };
+    case types.SET_MY_INITIATIVE:
+      return {
+        ...state,
+        myInitiatives: action.payload.myInitiatives,
         error: {},
       };
     case types.INITIATIVES_ERROR:
