@@ -8,7 +8,7 @@ const {
 const isAuthenticated = require("../middlewares/authenticate");
 
 router.post("/images", upload.array("images"), uploadMulipleFiles);
-router.get("/get-images/:imageId", isAuthenticated, getUploadedImages);
+router.get("/get-images", isAuthenticated, getUploadedImages);
 router.delete("/delete-images/:imageId", isAuthenticated, deleteUploadedImage);
 
 module.exports = router;

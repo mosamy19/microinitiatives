@@ -1,112 +1,75 @@
-import { Button, Grid, makeStyles } from "@material-ui/core";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { Grid } from "@material-ui/core";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { TiDelete } from "react-icons/ti";
 import { FormGroup, Label, Input } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
+import { Upload, Modal } from "antd";
+
 import { useDispatch } from "react-redux";
 import { createInitiative } from "../../../../store/actions/initiative-actions";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  input: {
-    display: "none",
-  },
-  btn: {
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    borderStyle: "dashed",
-    color: "rgba(16, 24, 32, 0.65)",
-    fontFamily: "inherit",
-    fontSize: "14px",
-    fontWeight: "normal",
-    padding: "6px 20px",
-    "&:hover": {
-      color: "rgba(16, 24, 32, 0.65)",
-    },
-    "&:focus": {
-      outline: "none",
-    },
-  },
-}));
-
 const Newinitiative = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const [initiative, setInitiative] = useState({
     title: "",
     category: [],
     description: "",
-    thumbnail: [],
+  });
+  const [state, setState] = useState({
+    previewVisible: false,
+    previewImage: "",
+    previewTitle: "",
+    fileList: [],
   });
 
-  const [uploadedFiles, setUploadedFiles] = useState({ images: [] });
-  const [result, setResult] = useState([]);
-  const [imageId, setImageId] = useState(null);
-
-  const handleFileOnChange = async (e) => {
-    let fd = new FormData();
-    for (let file of e.target.files) {
-      fd.append("images", file);
-    }
-    try {
-      const res = await axios.post(`/api/v1/upload/images`, fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // setUploadedFiles(res.data);
-      setImageId(res.data._id);
-    } catch (error) {
-      console.log(error);
-    }
-
-    setInitiative({ ...initiative, thumbnail: e.target.files });
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
-  const removeImages = (id) => {
-    axios
-      .delete(`/api/v1/upload/delete-images/${id}`)
-      .then((res) => console.log(res.data));
-
-    getImages(imageId);
+  const handleCancel = () => {
+    setState({ ...state, previewVisible: false });
   };
 
-  useEffect(() => {
-    getImages(imageId);
-  }, [imageId]);
-
-  const getImages = (imageId) => {
-    axios
-      .get(`/api/v1/upload/get-images/${imageId}`)
-      .then((res) => setResult(res.data));
-  };
-
-  useEffect(() => {
-    if (result) {
-      result.map((item) => {
-        console.log(item);
-        setUploadedFiles({
-          ...uploadedFiles,
-          images: [...uploadedFiles.images, item.images],
-        });
-      });
+  //Image Preview
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
-  }, [result]);
-  console.log(uploadedFiles);
+
+    setState({
+      ...state,
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+      previewTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+  };
+
+  const handleChange = async ({ fileList }) => {
+    setState({ ...state, fileList: fileList });
+  };
+
+  const uploadButton = (
+    <div>
+      <div style={{ padding: "6px 0", color: "rgba(16, 24, 32, 0.65)" }}>
+        ارفع صور للمبادرة
+      </div>
+    </div>
+  );
+
 
   const submitHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
-    for (let file of initiative.thumbnail) {
-      fd.append("thumbnail", file);
+    for (let file of state.fileList) {
+      fd.append("thumbnail", file.originFileObj);
     }
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
@@ -119,8 +82,8 @@ const Newinitiative = () => {
   const draftHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
-    for (let file of initiative.thumbnail) {
-      fd.append("thumbnail", file);
+    for (let file of state.fileList) {
+      fd.append("thumbnail", file.originFileObj);
     }
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
@@ -208,28 +171,27 @@ const Newinitiative = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  name="thumbnail"
-                  onChange={handleFileOnChange}
-                />
-                <label
-                  style={{ width: "100%" }}
-                  htmlFor="contained-button-file"
+                <Upload
+                  listType="picture-card"
+                  fileList={state.fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                  beforeUpload={() => false}
                 >
-                  <Button
-                    fullWidth={true}
-                    variant="outlined"
-                    component="p"
-                    className={classes.btn}
-                  >
-                    ارفع صور للمبادرة
-                  </Button>
-                </label>
+                  {uploadButton}
+                </Upload>
+                <Modal
+                  visible={state.previewVisible}
+                  title={state.previewTitle}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{ width: "100%" }}
+                    src={state.previewImage}
+                  />
+                </Modal>
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
                 <Input
@@ -250,19 +212,6 @@ const Newinitiative = () => {
                 />
               </FormGroup>
             </div>
-            <div>
-              <h1>File uploads</h1>
-              {uploadedFiles.images
-                ? uploadedFiles.images.map((item) => (
-                    <div className="d-flex">
-                      <img src={item} alt="" width="60px" height="60px" />
-                      <span>
-                        <TiDelete onClick={() => removeImages(item._id)} />
-                      </span>
-                    </div>
-                  ))
-                : null}
-            </div>
           </div>
         </Grid>
       </Grid>
@@ -277,12 +226,6 @@ const Wrapper = styled.div`
   .myform {
     margin: 64px 0;
     text-align: right;
-    input,
-    textarea {
-      border: none;
-      font-size: 14px;
-      resize: none;
-    }
     label {
       font-size: 14px;
       color: rgba(16, 24, 32, 0.65);
@@ -290,6 +233,16 @@ const Wrapper = styled.div`
     .filed {
       font-size: 12px;
       color: rgba(0, 0, 0, 0.25);
+    }
+    .ant-upload.ant-upload-select-picture-card {
+      width: 100%;
+      height: 100%;
+      margin-right: 0;
+    }
+    .ant-upload-list-picture-card-container {
+      width: 80px;
+      height: 80px;
+      margin: 0 0 8px 0;
     }
   }
   @media screen and (max-width: 760px) {

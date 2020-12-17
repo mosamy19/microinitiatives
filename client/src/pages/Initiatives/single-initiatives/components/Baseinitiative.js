@@ -2,7 +2,7 @@ import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiFlag } from "react-icons/fi";
-import Imageslider from "../../../Home/components/browse-single-initiative/components/Imageslider";
+import Imageslider from "./Imageslider";
 import Cloneinitiative from "./Cloneinitiative";
 import { useSelector, useDispatch } from "react-redux";
 import { getBaseInitiative } from "../../../../store/actions/initiative-actions";

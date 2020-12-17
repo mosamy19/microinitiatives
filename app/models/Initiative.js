@@ -18,8 +18,8 @@ const initiativeSchema = new Schema(
     },
     thumbnail: [
       {
-        type: Array,
-        default: [],
+        type: String,
+        default: "",
       },
     ],
     draft: {

@@ -3,8 +3,6 @@ import logo from "../../assets/images/Project-Logo.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import PublicFooter from "../../components/partials/PublicFooter";
-import { Navbar, NavbarBrand } from "reactstrap";
-import { Container } from "@material-ui/core";
 
 const AuthLayout = (props) => {
   return (

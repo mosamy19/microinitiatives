@@ -17,6 +17,7 @@ import Favoritebutton from "./components/Favoritebutton";
 import Sharebutton from "./components/Sharebutton";
 import Authorinfo from "./components/Authorinfo";
 import Cloneinfobtn from "./components/Cloneinfobtn";
+import Baseinitiative from "./components/Baseinitiative";
 
 const Browsesingleinitiative = () => {
   const dispatch = useDispatch();
@@ -32,13 +33,13 @@ const Browsesingleinitiative = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
+  const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 
   return (
     <Wrapper>
       <div style={{ maxWidth: "783px", margin: "auto" }}>
-        <h2 className="mb-show"> {initiatives.title}</h2>
+        <h2 className="mb-show"> {singleInitiative.title}</h2>
         <div className="mb-hide">
           <Link
             to="/browse-all-initiatives"
@@ -53,36 +54,38 @@ const Browsesingleinitiative = () => {
           </Link>
         </div>
         <div className="d-flex justify-content-between align-items-center my-3">
-          <h2 className="mb-hide">{initiatives.title} </h2>
+          <h2 className="mb-hide">{singleInitiative.title} </h2>
           <div className="mb-show">
             <Authorinfo
-              author={initiatives.author}
-              date={initiatives.createdAt}
+              author={singleInitiative.author}
+              date={singleInitiative.createdAt}
             />
           </div>
           <Cloneinfobtn cloneCount={cloneCount} />
         </div>
         <div style={{ marginBottom: "48px" }}>
-          <Imageslider images={initiatives.thumbnail} />
+          <Imageslider images={singleInitiative.thumbnail} />
         </div>
 
         <div className="d-flex justify-content-between align-items-center my-3">
           <div className="mb-hide">
             <Authorinfo
-              author={initiatives.author}
-              date={initiatives.createdAt}
+              author={singleInitiative.author}
+              date={singleInitiative.createdAt}
             />
           </div>
           <div className="cloneCount mb-hide">
-            <Likebutton likes={initiatives.likes} />
-            <Favoritebutton favorites={initiatives.favorites} />
-            <Sharebutton shares={initiatives.shares} />
+            <div className="d-flex justify-content-between align-items-center ">
+              <Likebutton likes={singleInitiative.likes} />
+              <Favoritebutton favorites={singleInitiative.favorites} />
+              <Sharebutton shares={singleInitiative.shares} />
+            </div>
           </div>
         </div>
         <div>
           <p>
-            {initiatives.description
-              ? initiatives.description
+            {singleInitiative.description
+              ? singleInitiative.description
               : "No description"}
           </p>
         </div>
@@ -93,21 +96,25 @@ const Browsesingleinitiative = () => {
             <Sharebutton
               user={user}
               initiativeId={initiativeId}
-              ti={initiatives.title}
+              ti={singleInitiative.title}
             />
           </div>
         </div>
-        {initiatives.cloned !== true && (
+        {singleInitiative.cloned !== true && (
           <Cloneinitiative
-            initiativeId={initiatives._id}
-            title={initiatives.title}
-            category={initiatives.category}
-            initiativeAuthor={initiatives.author}
+            initiativeId={singleInitiative._id}
+            title={singleInitiative.title}
+            category={singleInitiative.category}
+            initiativeAuthor={singleInitiative.author}
             cloneCount={cloneCount}
           />
         )}
-
         <Comments user={user} initiativeId={initiativeId} />
+        {singleInitiative.cloned === true && (
+          <Baseinitiative
+            baseInitiativeId={singleInitiative.clonedInitiativeId}
+          />
+        )}
         <Clonedinitiatives />
       </div>
     </Wrapper>

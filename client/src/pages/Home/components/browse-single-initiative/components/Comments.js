@@ -1,12 +1,13 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { FormGroup, Input } from "reactstrap";
 import commentIcon from "../../../../../assets/icons/comments.svg";
 import user from "../../../../../assets/images/user.svg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import Popup from "../../pop-up";
 
 import { getLandingPageComments } from "../../../../../store/actions/comment-actions";
 
@@ -34,6 +35,19 @@ const Comments = ({ initiativeId }) => {
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 2);
+  };
+
+  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const handleOnPopupClick = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClick = () => {
+    history.push("/signup");
+    setOpen(false);
   };
 
   return (
@@ -69,7 +83,7 @@ const Comments = ({ initiativeId }) => {
                 type="textarea"
                 name="comment"
                 value=""
-                onChange={(e) => alert("hi")}
+                onChange={handleOnPopupClick}
                 placeholder="قل شيئاً لطيفاً…"
                 style={{
                   minHeight: "97px",
@@ -81,10 +95,16 @@ const Comments = ({ initiativeId }) => {
                 }}
               />
             </FormGroup>
+            <Popup
+              isOpen={open}
+              handleClose={handleClose}
+              handleClick={handleClick}
+            />
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
               <Button
+                onClick={handleOnPopupClick}
                 fullWidth
                 className="btns"
                 style={{ color: "rgba(16, 24, 32, 0.65)" }}

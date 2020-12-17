@@ -37,6 +37,7 @@ module.exports = {
     });
 
     if (req.files) {
+      console.log(req.files);
       for (let file of req.files) {
         newInitiative.thumbnail = [
           ...newInitiative.thumbnail,
@@ -218,7 +219,7 @@ module.exports = {
 
   editInitiative: async (req, res) => {
     const { initiativeId } = req.params;
-    const { title, category, description } = req.body;
+    const { title, category, description, draft } = req.body;
     console.log(req.body);
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -231,7 +232,7 @@ module.exports = {
       if (!initiative) {
         return resourceError(res, "Initiative not found");
       }
-      console.log(initiative.thumbnail);
+
       let thumbnail = initiative.thumbnail;
       thumbnail = [];
       if (req.files) {
@@ -242,7 +243,7 @@ module.exports = {
 
       let updatedInitiative = await Initiative.findOneAndUpdate(
         { _id: initiativeId },
-        { $set: { title, category, description, thumbnail } },
+        { $set: { title, category, description, thumbnail, draft } },
         { new: true }
       );
 

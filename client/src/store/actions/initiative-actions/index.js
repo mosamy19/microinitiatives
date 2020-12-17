@@ -107,7 +107,7 @@ export const getClonedtInitiatives = () => async (dispatch) => {
 
 export const getMyInitiatives = () => async (dispatch) => {
   try {
-    dispatch(showLoading())
+    dispatch(showLoading());
     let response = await axios.get("/api/v1/initiatives/my-initiatives");
     dispatch({
       type: types.SET_MY_INITIATIVE,
@@ -115,7 +115,7 @@ export const getMyInitiatives = () => async (dispatch) => {
         myInitiatives: response.data,
       },
     });
-    dispatch(hideLoading())
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
@@ -167,6 +167,7 @@ export const getBaseInitiative = (initiativeId) => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
+
 export const getLandingPageSingleInitiative = (initiativeId) => async (
   dispatch
 ) => {
@@ -175,9 +176,33 @@ export const getLandingPageSingleInitiative = (initiativeId) => async (
       `/api/v1/initiatives/get-landing-page-single-initiative/${initiativeId}`
     );
     dispatch({
-      type: types.SET_INITIATIVE,
+      type: types.SET_SINGLE_INITIATIVE,
       payload: {
-        initiatives: response.data,
+        singleInitiative: response.data,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const getLandingPageBaseInitiative = (initiativeId) => async (
+  dispatch
+) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/initiatives/get-landing-page-single-initiative/${initiativeId}`
+    );
+    dispatch({
+      type: types.SET_BASE_INITIATIVE,
+      payload: {
+        baseInitiative: response.data,
       },
     });
     console.log(response);

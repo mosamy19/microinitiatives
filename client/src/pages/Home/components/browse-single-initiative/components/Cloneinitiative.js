@@ -1,14 +1,28 @@
 import React from "react";
 import user_white from "../../../../../assets/icons/user_white.svg";
 import styled from "styled-components";
+import Popup from "../../pop-up";
+import { useHistory } from "react-router-dom";
 
 const Cloneinitiative = ({ initiativeAuthor, cloneCount }) => {
+  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const handleOnClick = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClick = () => {
+    history.push("/signup");
+    setOpen(false);
+  };
   return (
     <div>
       {initiativeAuthor &&
         initiativeAuthor.map((item) => (
           <Wrapper
-            onClick={() => alert("hi")}
+            onClick={handleOnClick}
             className="text-center"
             style={{
               background: "#f7b500",
@@ -48,6 +62,11 @@ const Cloneinitiative = ({ initiativeAuthor, cloneCount }) => {
             </h2>
           </Wrapper>
         ))}
+      <Popup
+        isOpen={open}
+        handleClose={handleClose}
+        handleClick={handleClick}
+      />
     </div>
   );
 };

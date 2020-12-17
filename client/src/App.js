@@ -1,5 +1,6 @@
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "antd/dist/antd.css";
 import AppRoutes from "./routes";
 
 // Import react slick css files

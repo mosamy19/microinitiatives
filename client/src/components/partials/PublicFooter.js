@@ -14,7 +14,7 @@ const PublicFooter = (props) => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "rgba(16, 24, 32, 0.65)",
-            margin: "0 auto",
+            margin: "0 40px",
           }}
           to="/"
         >
@@ -28,9 +28,9 @@ const PublicFooter = (props) => {
             fontSize: "14px",
             fontWeight: "normal",
             color: "rgba(16, 24, 32, 0.65)",
-            margin: "0 auto",
+            margin: "0 40px",
           }}
-          to="/"
+          to="/contact-us"
         >
           اتصل بنا
         </Link>
@@ -50,11 +50,13 @@ const Wrapper = styled.div.attrs((props) => ({
   .line {
     width: 1px;
     height: 48px;
-    // margin: 0 55px 0 55px;
     opacity: 0.3;
     border: solid 1px rgba(0, 0, 0, 0.1);
   }
   @media screen and (max-width: 760px) {
     display: block;
+    .mb-menu {
+      margin: 0 auto !important;
+    }
   }
 `;

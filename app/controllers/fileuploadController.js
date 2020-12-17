@@ -17,6 +17,10 @@ module.exports = {
       return resourceError(res, "No file Uploaded");
     }
 
+    // if (req.file) {
+    //   newImages.images = `/uploads/${req.file.filename}`;
+    // }
+
     if (req.files) {
       for (let file of req.files) {
         newImages.images = [...newImages.images, `/uploads/${file.filename}`];
@@ -31,27 +35,27 @@ module.exports = {
     }
   },
   getUploadedImages: async (req, res) => {
-    const { imageId } = req.params;
+    // const { imageId } = req.params;
     try {
-      let uploadedImages = await Image.find({ _id: imageId });
-      res.status(200).json(uploadedImages);
+      let images = await Image.find();
+      res.status(200).json(images);
     } catch (error) {
       console.log(error);
       serverError(res, error);
     }
   },
-  deleteUploadedImage: async (req, res) =>{
-       let { imageId } = req.params;
-       try {
-         let images = await Image.findOneAndDelete({
-           _id: imageId,
-         });
-         if (!images) {
-           return resourceError(res, "No images Found");
-         }
-         res.status(200).json({ message: "Deleted successfully", images });
-       } catch (error) {
-         serverError(res, error);
-       }
-  }
+  deleteUploadedImage: async (req, res) => {
+    let { imageId } = req.params;
+    try {
+      let images = await Image.findOneAndDelete({
+        _id: imageId,
+      });
+      if (!images) {
+        return resourceError(res, "No images Found");
+      }
+      res.status(200).json({ message: "Deleted successfully", images });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };

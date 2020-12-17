@@ -24,6 +24,10 @@ const Signup = (props) => {
     props.register(user, props.history);
   };
 
+   useEffect(() => {
+     window.scrollTo(0, 0);
+   }, []);
+
   return (
     <Wrapper>
       <div className="myform">

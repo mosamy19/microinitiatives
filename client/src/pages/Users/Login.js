@@ -5,12 +5,10 @@ import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/auth-actions";
 import styled from "styled-components";
-// import Alerts from "../../components/Alert";
 
 const Login = (props) => {
   const [user, setUser] = useState({});
   const [error, setError] = useState({});
-  // const [success, setSuccess] = useState({});
 
   const changeHanlder = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -25,14 +23,12 @@ const Login = (props) => {
     e.preventDefault();
     props.login(user, props.history);
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Wrapper>
-      {/* {error.message && (
-        <Alerts type="error" message={error.message} isOpen={true} />
-      )}
-      {success.message && (
-        <Alerts type="success" message={success.message} isOpen={true} />
-      )} */}
       <div className="myform">
         <h2
           style={{

@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthLayout from "../layouts/Auth";
 import MainLayout from "../layouts/Main";
 import PublicLayout from "../layouts/Public";
+import Contact from "../pages/Contact";
+import Successmsg from "../pages/Contact/components/Successmsg";
 import Home from "../pages/Home";
 import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
 import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
@@ -41,6 +43,16 @@ const AppRoutes = () => {
           layout={PublicLayout}
           path="/details"
           component={Details}
+        />
+        <RouteWithLayout
+          layout={PublicLayout}
+          path="/contact-us"
+          component={Contact}
+        />
+        <RouteWithLayout
+          layout={PublicLayout}
+          path="/contact/:message"
+          component={Successmsg}
         />
         <RouteWithLayout
           layout={PublicLayout}
