@@ -34,9 +34,9 @@ router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
 router.get("/:initiativeId", isAuthenticated, getSingleInitiative);
 router.post(
   "/create-initiatives",
-  initiativeValidator,
   isAuthenticated,
   upload.array("thumbnail"),
+  initiativeValidator,
   createInitiative
 );
 router.put(

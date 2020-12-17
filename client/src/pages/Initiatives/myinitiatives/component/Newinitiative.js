@@ -18,6 +18,8 @@ const Newinitiative = () => {
     category: [],
     description: "",
   });
+  const [errors, setErrors] = useState({});
+
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -55,6 +57,7 @@ const Newinitiative = () => {
 
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
+    setErrors({ ...errors, thumbnail: [] });
   };
 
   const uploadButton = (
@@ -66,15 +69,13 @@ const Newinitiative = () => {
   );
 
   // error handling
-  const [errors, setErrors] = useState([]);
+
   const { error } = useSelector((state) => state.initiatives);
   useEffect(() => {
     if (error) {
       setErrors(error);
     }
   }, [error]);
-
-  console.log(errors);
 
   // form submition
   const submitHandler = (e) => {
@@ -88,7 +89,7 @@ const Newinitiative = () => {
     fd.append("description", initiative.description);
     dispatch(createInitiative(fd, history));
     // history.push("/all-initiatives");
-    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
+    setInitiative({ title: "", category: [], description: "" });
   };
 
   const draftHandler = (e) => {
@@ -103,6 +104,7 @@ const Newinitiative = () => {
     fd.append("draft", true);
 
     dispatch(createInitiative(fd));
+
     // history.push("/my-initiatives");
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
@@ -145,9 +147,10 @@ const Newinitiative = () => {
                   عنوان المبادرة <span className="filed">(حقل إلزامي)</span>
                 </Label>
                 <Input
-                  onChange={(e) =>
-                    setInitiative({ ...initiative, title: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setInitiative({ ...initiative, title: e.target.value });
+                    setErrors({ ...errors, title: "" });
+                  }}
                   type="text"
                   name="title"
                   value={initiative.title}
@@ -160,9 +163,10 @@ const Newinitiative = () => {
                   تصنيف المبادرة <span className="filed">(حقل إلزامي)</span>
                 </Label>
                 <Input
-                  onChange={(e) =>
-                    setInitiative({ ...initiative, category: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setInitiative({ ...initiative, category: e.target.value });
+                    setErrors({ ...errors, category: "" });
+                  }}
                   type="text"
                   name="category"
                   value={initiative.category}
@@ -179,12 +183,13 @@ const Newinitiative = () => {
                 <Input
                   type="textarea"
                   name="description"
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setInitiative({
                       ...initiative,
                       description: e.target.value,
-                    })
-                  }
+                    });
+                    setErrors({ ...errors, description: "" });
+                  }}
                   style={{ minHeight: "130px" }}
                   value={initiative.description}
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
@@ -206,8 +211,7 @@ const Newinitiative = () => {
                 </Upload>
                 {errors.thumbnail && (
                   <div style={{ color: "#dc3545", fontSize: "10px" }}>
-                    {" "}
-                    {errors.thumbnail}{" "}
+                    {errors.thumbnail}
                   </div>
                 )}
                 <Modal
