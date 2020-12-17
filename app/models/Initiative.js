@@ -11,10 +11,13 @@ const initiativeSchema = new Schema(
     category: {
       type: [String],
       required: true,
+      trim: true,
     },
     description: {
       type: String,
       maxlength: 5000,
+      required: true,
+      trim: true,
     },
     thumbnail: [
       {

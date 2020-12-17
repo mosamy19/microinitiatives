@@ -1,13 +1,14 @@
 import { Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import { Upload, Modal } from "antd";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createInitiative } from "../../../../store/actions/initiative-actions";
+import { useEffect } from "react";
 
 const Newinitiative = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,18 @@ const Newinitiative = () => {
     </div>
   );
 
+  // error handling
+  const [errors, setErrors] = useState([]);
+  const { error } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (error) {
+      setErrors(error);
+    }
+  }, [error]);
 
+  console.log(errors);
+
+  // form submition
   const submitHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
@@ -74,8 +86,8 @@ const Newinitiative = () => {
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
-    dispatch(createInitiative(fd));
-    history.push("/all-initiatives");
+    dispatch(createInitiative(fd, history));
+    // history.push("/all-initiatives");
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
@@ -91,7 +103,7 @@ const Newinitiative = () => {
     fd.append("draft", true);
 
     dispatch(createInitiative(fd));
-    history.push("/my-initiatives");
+    // history.push("/my-initiatives");
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
@@ -139,7 +151,9 @@ const Newinitiative = () => {
                   type="text"
                   name="title"
                   value={initiative.title}
+                  invalid={errors.title ? true : false}
                 />
+                {errors.title && <FormFeedback> {errors.title} </FormFeedback>}
               </FormGroup>
               <FormGroup>
                 <Label>
@@ -152,10 +166,16 @@ const Newinitiative = () => {
                   type="text"
                   name="category"
                   value={initiative.category}
+                  invalid={errors.category ? true : false}
                 />
+                {errors.category && (
+                  <FormFeedback> {errors.category} </FormFeedback>
+                )}
               </FormGroup>
               <FormGroup>
-                <Label>وصف المبادرة </Label>
+                <Label>
+                  وصف المبادرة <span className="filed">(حقل إلزامي)</span>
+                </Label>
                 <Input
                   type="textarea"
                   name="description"
@@ -168,7 +188,11 @@ const Newinitiative = () => {
                   style={{ minHeight: "130px" }}
                   value={initiative.description}
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
+                  invalid={errors.description ? true : false}
                 />
+                {errors.description && (
+                  <FormFeedback> {errors.description} </FormFeedback>
+                )}
               </FormGroup>
               <FormGroup>
                 <Upload
@@ -180,6 +204,12 @@ const Newinitiative = () => {
                 >
                   {uploadButton}
                 </Upload>
+                {errors.thumbnail && (
+                  <div style={{ color: "#dc3545", fontSize: "10px" }}>
+                    {" "}
+                    {errors.thumbnail}{" "}
+                  </div>
+                )}
                 <Modal
                   visible={state.previewVisible}
                   title={state.previewTitle}
@@ -226,6 +256,12 @@ const Wrapper = styled.div`
   .myform {
     margin: 64px 0;
     text-align: right;
+    input,
+    textarea {
+      border: none;
+      font-size: 14px;
+      resize: none;
+    }
     label {
       font-size: 14px;
       color: rgba(16, 24, 32, 0.65);
@@ -233,6 +269,11 @@ const Wrapper = styled.div`
     .filed {
       font-size: 12px;
       color: rgba(0, 0, 0, 0.25);
+    }
+    .is-invalid {
+      border: 1px solid #dc3545;
+      padding-left: calc(1.5em + 0.75rem);
+      background-position: left calc(0.375em + 0.1875rem) center;
     }
     .ant-upload.ant-upload-select-picture-card {
       width: 100%;

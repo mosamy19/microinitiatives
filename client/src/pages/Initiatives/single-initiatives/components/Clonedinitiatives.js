@@ -43,20 +43,18 @@ const Clonedinitiatives = () => {
     <div>
       <div className="d-flex align-items-center" style={{ margin: "16px 0" }}>
         <img src={users_black} alt="" />
-        <p style={{ fontSize: "16px", fontWeight: "bold", margin: "0 8px" }}>
+        <p style={{ fontSize: "18px", fontWeight: "bold", margin: "0 8px" }}>
           المبادرات المنفّذة مثل هذا المبادرة
         </p>
         <p
           className="cloneCount"
-          style={{ fontSize: "16px", fontWeight: "bold" }}
+          style={{ fontSize: "18px", fontWeight: "bold" }}
         >
           ({size})
         </p>
       </div>
       <Grid container spacing={3}>
-        {clonedInitiatives.length === 0 ? (
-          <span>No Cloned Initiatives Yet..!</span>
-        ) : (
+        {clonedInitiatives.length > 0 &&
           clonedInitiatives.slice(0, limit).map((item, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <div>
@@ -73,7 +71,17 @@ const Clonedinitiatives = () => {
                 </Link>
               </p>
             </Grid>
-          ))
+          ))}
+        {clonedInitiatives.length === 0 && (
+          <p
+            style={{
+              color: "rgba(16, 24, 32, 0.5)",
+              fontSize: "14px",
+              margin: "0 auto",
+            }}
+          >
+            لا يوجد مبادرات مماثلة منفذة بعد كم أول المبادرين
+          </p>
         )}
       </Grid>
       {size > limit && (

@@ -64,7 +64,7 @@ const Comments = ({ initiativeId }) => {
               <img src={commentIcon} alt="" />
               <p
                 style={{
-                  fontSize: "16px",
+                  fontSize: "18px",
                   fontWeight: "bold",
                   margin: "0 8px",
                 }}
@@ -73,7 +73,7 @@ const Comments = ({ initiativeId }) => {
               </p>
               <p
                 className="cloneCount"
-                style={{ fontSize: "16px", fontWeight: "bold" }}
+                style={{ fontSize: "18px", fontWeight: "bold" }}
               >
                 ({commentCount})
               </p>

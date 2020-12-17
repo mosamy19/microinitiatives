@@ -217,12 +217,13 @@ export const getLandingPageBaseInitiative = (initiativeId) => async (
   }
 };
 
-export const createInitiative = (initiative) => async (dispatch) => {
+export const createInitiative = (initiative, history) => async (dispatch) => {
   try {
     let response = await axios.post(
       "/api/v1/initiatives/create-initiatives",
       initiative
     );
+    history.push("/all-initiatives");
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
