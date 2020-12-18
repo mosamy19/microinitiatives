@@ -8,7 +8,7 @@ import Successmsg from "../pages/Contact/components/Successmsg";
 import Home from "../pages/Home";
 import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
 import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
-import Details from "../pages/Home/components/Details";
+import Details from "../pages/Home/components/details/index";
 import Allinitiatives from "../pages/Initiatives/all-initiatives";
 import CloneOtherInitiative from "../pages/Initiatives/cloneinitiative";
 import Editinitiative from "../pages/Initiatives/myinitiatives/component/Editinitiative";
