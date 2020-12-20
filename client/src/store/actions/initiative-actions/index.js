@@ -159,7 +159,6 @@ export const getBaseInitiative = (initiativeId) => async (dispatch) => {
         baseInitiative: response.data,
       },
     });
-    console.log(response);
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
@@ -175,6 +174,7 @@ export const getLandingPageSingleInitiative = (initiativeId) => async (
   dispatch
 ) => {
   try {
+    dispatch(showLoading());
     let response = await axios.get(
       `/api/v1/initiatives/get-landing-page-single-initiative/${initiativeId}`
     );
@@ -184,7 +184,7 @@ export const getLandingPageSingleInitiative = (initiativeId) => async (
         singleInitiative: response.data,
       },
     });
-    console.log(response);
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
@@ -206,6 +206,29 @@ export const getLandingPageBaseInitiative = (initiativeId) => async (
       type: types.SET_BASE_INITIATIVE,
       payload: {
         baseInitiative: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const getLandingPageClonedInitiative = (baseInitiativeId) => async (
+  dispatch
+) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/initiatives/get-landing-page-cloned-initiative/${baseInitiativeId}`
+    );
+    dispatch({
+      type: types.SET_CLONED_INITIATIVES,
+      payload: {
+        clonedInitiatives: response.data,
       },
     });
   } catch (error) {

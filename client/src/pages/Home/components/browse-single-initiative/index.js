@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 
@@ -33,10 +34,15 @@ const Browsesingleinitiative = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 
-  return (
+  return isLoading ? (
+    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+      <CircularProgress />
+    </div>
+  ) : (
     <Wrapper>
       <div style={{ maxWidth: "783px", margin: "auto" }}>
         <h2 className="mb-show"> {singleInitiative.title}</h2>
@@ -116,7 +122,7 @@ const Browsesingleinitiative = () => {
           />
         )}
         <Clonedinitiatives
-          initativeId={
+          initiativeId={
             singleInitiative.cloned === true
               ? singleInitiative.clonedInitiativeId
               : singleInitiative._id

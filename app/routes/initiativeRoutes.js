@@ -13,6 +13,7 @@ const {
   getLandingPageInitiatives,
   getPublicProfileInitiatives,
   getLandingPageSingleInitiative,
+  getLandingPageClonedtInitiatives,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
@@ -23,6 +24,10 @@ router.get("/get-landing-page-initiatives", getLandingPageInitiatives);
 router.get(
   "/get-landing-page-single-initiative/:initiativeId",
   getLandingPageSingleInitiative
+);
+router.get(
+  "/get-landing-page-cloned-initiative/:clonedInitiativeId",
+  getLandingPageClonedtInitiatives
 );
 router.get(
   "/get-public-profile-initiatives/:userId",

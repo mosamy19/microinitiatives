@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import users_black from "../../../../../assets/icons/users_black.svg";
 import pic from "../../../../../assets/images/pic.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getLandingPageInitiatives } from "../../../../../store/actions/initiative-actions";
+import { getLandingPageClonedInitiative } from "../../../../../store/actions/initiative-actions";
 
 import Clonedslider from "./Clonedslider";
 
@@ -13,23 +13,26 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
   const history = useHistory();
   const [limit, setLimit] = useState(3);
 
-  const [clonedInitiatives, setClonedInitiatives] = useState([]);
+  console.log(initiativeId);
+
+  // const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
-    dispatch(getLandingPageInitiatives());
-  }, [dispatch]);
+    dispatch(getLandingPageClonedInitiative(initiativeId));
+  }, [dispatch, initiativeId]);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
+  const { clonedInitiatives } = useSelector((state) => state.initiatives);
+  console.log(clonedInitiatives);
 
-  useEffect(() => {
-    if (initiatives.length > 0) {
-      let allCloned = initiatives.filter(
-        (item) => item.clonedInitiativeId === initiativeId
-      );
+  // useEffect(() => {
+  //   if (initiatives.length > 0) {
+  //     let allCloned = initiatives.filter(
+  //       (item) => item.clonedInitiativeId === initiativeId
+  //     );
 
-      setClonedInitiatives(allCloned);
-    }
-  }, [initiatives, initiativeId]);
+  //     setClonedInitiatives(allCloned);
+  //   }
+  // }, [initiatives, initiativeId]);
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
@@ -57,7 +60,7 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
                 <Clonedslider images={item.thumbnail} />
               </div>
               <p style={{ marginTop: "24px" }}>
-                {item.title}
+                {item.description}
                 <Link
                   onClick={() => {
                     history.push(`/browse-single-initiative/${item._id}`);
@@ -71,7 +74,7 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
               </p>
             </Grid>
           ))}
-        {clonedInitiatives.length === 0 && (
+        {cloneCount === 0 && (
           <p
             style={{
               color: "rgba(16, 24, 32, 0.5)",

@@ -123,6 +123,33 @@ module.exports = {
       serverError(res, error);
     }
   },
+  getLandingPageClonedtInitiatives: async (req, res) => {
+    let order = req.body.order ? req.body.order : "desc";
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+    let { clonedInitiativeId } = req.params;
+    console.log(clonedInitiativeId);
+    try {
+      let initiatives = await Initiative.find({
+        draft: false,
+        cloned: true,
+        clonedInitiativeId,
+      })
+        .populate("author", "firstName familyName email avatar")
+        .sort([[sortBy, order]]);
+
+      
+
+      if (initiatives.length === 0) {
+        return res.status(200).json({
+          message: "No Initiative Found",
+        });
+      }
+      res.status(200).json(initiatives);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
   getAllInitiatives: async (req, res) => {
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(
@@ -176,7 +203,6 @@ module.exports = {
       }
       res.status(200).json(initiatives);
     } catch (error) {
-      console.log(error);
       serverError(res, error);
     }
   },
@@ -255,8 +281,6 @@ module.exports = {
         { $set: { title, category, description, thumbnail, draft } },
         { new: true }
       );
-
-      console.log(updatedInitiative);
       res
         .status(200)
         .json({ message: "Edited successfully", updatedInitiative });
