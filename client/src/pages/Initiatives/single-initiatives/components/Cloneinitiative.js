@@ -5,26 +5,23 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllInitiatives } from "../../../../store/actions/initiative-actions";
 
-const Cloneinitiative = ({
-  initiativeId,
-  initiativeAuthor,
-}) => {
+const Cloneinitiative = ({ initiativeId, initiativeAuthor, cloneCount }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [cloneCount, setCloneCount] = useState(0);
+  // const dispatch = useDispatch();
+  // const [cloneCount, setCloneCount] = useState(0);
 
-  useEffect(() => {
-    dispatch(getAllInitiatives());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllInitiatives());
+  // }, [dispatch]);
 
-  const { initiatives } = useSelector((state) => state.initiatives);
+  // const { initiatives } = useSelector((state) => state.initiatives);
 
-  useEffect(() => {
-    if (initiatives.length > 0) {
-      let allClone = initiatives.filter((item) => item.cloned === true);
-      setCloneCount(allClone.length);
-    }
-  }, [initiatives]);
+  // useEffect(() => {
+  //   if (initiatives.length > 0) {
+  //     let allClone = initiatives.filter((item) => item.cloned === true);
+  //     setCloneCount(allClone.length);
+  //   }
+  // }, [initiatives]);
 
   return (
     <div>
@@ -32,9 +29,7 @@ const Cloneinitiative = ({
         initiativeAuthor.map((item, index) => (
           <Wrapper
             onClick={() =>
-              history.push(
-                `/clone-initiative/${initiativeId}/${item._id}`
-              )
+              history.push(`/clone-initiative/${initiativeId}/${item._id}`)
             }
             className="text-center"
             style={{

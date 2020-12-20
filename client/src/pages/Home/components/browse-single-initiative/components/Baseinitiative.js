@@ -52,6 +52,7 @@ const Baseinitiative = ({ baseInitiativeId }) => {
           <Cloneinitiative
             initiativeId={base_initiative._id}
             initiativeAuthor={base_initiative.author}
+            cloneCount={base_initiative.clones}
           />
         </Grid>
       </Grid>

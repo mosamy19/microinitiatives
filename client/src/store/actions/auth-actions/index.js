@@ -47,7 +47,6 @@ export const login = (userdata, history) => async (dispatch) => {
       type: types.SET_USER,
       payload: {
         user,
-        success: res.data,
       },
     });
     history.push("/all-initiatives");

@@ -17,7 +17,6 @@ module.exports = {
       clonedInitiativeOwner,
       clonedInitiativeId,
     } = req.body;
-    // let userId = req.user._id;
 
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
@@ -53,9 +52,18 @@ module.exports = {
         let user = await User.findOne({ _id: clonedInitiativeOwner });
         user.notifications++;
         user.save();
-        let initiative = await Initiative.findOne({ _id: clonedInitiativeId });
-        initiative.clones++;
-        initiative.save();
+
+        let baseInitiative = await Initiative.findOne({
+          _id: clonedInitiativeId,
+        });
+        baseInitiative.clones++;
+        baseInitiative.save();
+
+        let all_initiative = await Initiative.find({ clonedInitiativeId });
+        all_initiative.map((item) => {
+          item.clones = baseInitiative.clones;
+          item.save();
+        });
 
         await new Notification({
           body: `You have a new clone on post ${initiative.title} by ${
@@ -152,11 +160,12 @@ module.exports = {
   getClonedtInitiatives: async (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
-
+    let { clonedInitiativeId } = req.params;
     try {
       let initiatives = await Initiative.find({
         draft: false,
         cloned: true,
+        clonedInitiativeId,
       })
         .populate("author", "firstName familyName email avatar")
         .sort([[sortBy, order]]);

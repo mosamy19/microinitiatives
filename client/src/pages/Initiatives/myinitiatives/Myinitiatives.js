@@ -54,7 +54,6 @@ const MyAllinitiatives = () => {
     }
   }, [myInitiatives]);
 
-  console.log(my_initiatives);
 
   useEffect(() => {
     if (value === 0) {

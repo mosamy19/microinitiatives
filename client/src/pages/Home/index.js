@@ -46,7 +46,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [landingPageInitiatives, setLandingPageInitiatives] = useState([]);
-  const [cloneCount, setCloneCount] = useState(0);
+  // const [cloneCount, setCloneCount] = useState(0);
   useEffect(() => {
     dispatch(getLandingPageInitiatives());
   }, [dispatch]);
@@ -55,8 +55,8 @@ const Home = () => {
   useEffect(() => {
     if (initiatives.length > 0) {
       setLandingPageInitiatives(initiatives);
-      let allClone = initiatives.filter((item) => item.cloned === true);
-      setCloneCount(allClone.length);
+      // let allClone = initiatives.filter((item) => item.cloned === true);
+      // setCloneCount(allClone.length);
     }
   }, [initiatives]);
 
@@ -137,7 +137,7 @@ const Home = () => {
                   <div
                     onClick={() =>
                       history.push(
-                        `/browse-single-initiative/${initiative._id}/${cloneCount}`
+                        `/browse-single-initiative/${initiative._id}`
                       )
                     }
                   >
@@ -174,7 +174,7 @@ const Home = () => {
                   <div
                     onClick={() =>
                       history.push(
-                        `/browse-single-initiative/${initiative._id}/${cloneCount}`
+                        `/browse-single-initiative/${initiative._id}`
                       )
                     }
                   >

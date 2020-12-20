@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const Comment = require("./Comment");
 const initiativeSchema = new Schema(
   {
     title: {

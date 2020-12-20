@@ -14,9 +14,11 @@ const {
   editUser,
   getLoggedinUser,
   getPublicProfileUser,
+  getAllUsers,
 } = require("../controllers/authController");
 
 const isAuthenticated = require("../middlewares/authenticate");
+const isAdmin = require("../middlewares/admin");
 const upload = require("../middlewares/uploadMiddleware");
 
 router.post("/signup", signupValidator, signupController);
@@ -41,5 +43,6 @@ router.get(
   isAuthenticated,
   getPublicProfileUser
 );
+router.get("/get-all-users", isAuthenticated, isAdmin, getAllUsers);
 
 module.exports = router;

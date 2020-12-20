@@ -29,7 +29,11 @@ router.get(
   getPublicProfileInitiatives
 );
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
-router.get("/cloned-initiatives", isAuthenticated, getClonedtInitiatives);
+router.get(
+  "/cloned-initiatives/:clonedInitiativeId",
+  isAuthenticated,
+  getClonedtInitiatives
+);
 router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
 router.get("/:initiativeId", isAuthenticated, getSingleInitiative);
 router.post(

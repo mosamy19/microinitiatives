@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import styled from "styled-components";
@@ -23,26 +24,31 @@ import Baseinitiative from "./components/Baseinitiative";
 const Singleinitiative = () => {
   const dispatch = useDispatch();
   const { initiativeId } = useParams();
-  const [initiative, setInitiative] = useState([]);
+  // const [initiative, setInitiative] = useState([]);
 
   useEffect(() => {
     dispatch(getSingleInitiatives(initiativeId));
   }, [dispatch, initiativeId]);
 
+  const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (singleInitiative) {
-      setInitiative(singleInitiative);
-    }
-  }, [singleInitiative]);
+  // useEffect(() => {
+  //   if (singleInitiative) {
+  //     setInitiative(singleInitiative);
+  //   }
+  // }, [singleInitiative]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  return (
+  return isLoading ? (
+    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+      <CircularProgress />
+    </div>
+  ) : (
     <Wrapper>
       <div style={{ maxWidth: "783px", margin: "auto" }}>
         <h2 className="mb-show"> {singleInitiative.title}</h2>
@@ -67,7 +73,7 @@ const Singleinitiative = () => {
               date={singleInitiative.createdAt}
             />
           </div>
-          <Cloneinfobtn />
+          <Cloneinfobtn cloneCount={singleInitiative.clones} />
         </div>
         <div style={{ marginBottom: "48px" }}>
           <Imageslider images={singleInitiative.thumbnail} />
@@ -110,6 +116,7 @@ const Singleinitiative = () => {
           <Cloneinitiative
             initiativeId={singleInitiative._id}
             initiativeAuthor={singleInitiative.author}
+            cloneCount={singleInitiative.clones}
           />
         )}
 
@@ -119,7 +126,14 @@ const Singleinitiative = () => {
             baseInitiativeId={singleInitiative.clonedInitiativeId}
           />
         )}
-        <Clonedinitiatives />
+        <Clonedinitiatives
+          baseInitiativeId={
+            singleInitiative.cloned === true
+              ? singleInitiative.clonedInitiativeId
+              : singleInitiative._id
+          }
+          cloneCount={singleInitiative.clones}
+        />
       </div>
     </Wrapper>
   );

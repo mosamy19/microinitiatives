@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const _ = require("lodash");
 const config = require("../../config/config");
 const { validationResult } = require("express-validator");
 const User = require("../models/User");
@@ -21,6 +22,12 @@ const transporter = nodemailer.createTransport(
 module.exports = {
   signupController: async (req, res, next) => {
     let { firstName, familyName, email, password } = req.body;
+    const pickedProperty = _.pick(req.body, [
+      "firstName",
+      "familyName",
+      "email",
+      "password",
+    ]);
 
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
@@ -38,13 +45,14 @@ module.exports = {
       //   { expiresIn: "20m" }
       // );
 
-      let hashedPassword = await bcrypt.hash(password, 11);
+      let hashedPassword = await bcrypt.hash(pickedProperty.password, 11);
       let newUser = new User({
         firstName,
         familyName,
         email,
         password: hashedPassword,
       });
+
       let user = await newUser.save();
       res.status(status.created).json({
         message: "You have soigned up successfully, Now you can login ",
@@ -130,6 +138,7 @@ module.exports = {
           firstName: user.firstName,
           familyName: user.familyName,
           email: user.email,
+          isAdmin: user.isAdmin,
         },
         config.jwtSecret,
         { expiresIn: "24h" }
@@ -294,6 +303,18 @@ module.exports = {
         "_id title category likes clones favorites shares description"
       );
       res.status(200).json(user);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  getAllUsers: async (req, res) => {
+    try {
+      let users = await User.find();
+      if (users.length === 0) {
+        return resourceError(res, "No user found");
+      }
+      res.status(200).json(users);
     } catch (error) {
       serverError(res, error);
     }

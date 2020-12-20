@@ -8,11 +8,10 @@ import { getLandingPageInitiatives } from "../../../../../store/actions/initiati
 
 import Clonedslider from "./Clonedslider";
 
-const Clonedinitiatives = () => {
+const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [limit, setLimit] = useState(3);
-  const [size, setSize] = useState(0);
 
   const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
@@ -24,11 +23,13 @@ const Clonedinitiatives = () => {
 
   useEffect(() => {
     if (initiatives.length > 0) {
-      let allCloned = initiatives.filter((item) => item.cloned === true);
-      setSize(allCloned.length);
+      let allCloned = initiatives.filter(
+        (item) => item.clonedInitiativeId === initiativeId
+      );
+
       setClonedInitiatives(allCloned);
     }
-  }, [initiatives]);
+  }, [initiatives, initiativeId]);
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
@@ -45,7 +46,7 @@ const Clonedinitiatives = () => {
           className="cloneCount"
           style={{ fontSize: "16px", fontWeight: "bold" }}
         >
-          ({size})
+          ({cloneCount})
         </p>
       </div>
       <Grid container spacing={3}>
@@ -59,9 +60,7 @@ const Clonedinitiatives = () => {
                 {item.title}
                 <Link
                   onClick={() => {
-                    history.push(
-                      `/browse-single-initiative/${item._id}/${size}`
-                    );
+                    history.push(`/browse-single-initiative/${item._id}`);
                     window.scrollTo(0, 0);
                   }}
                   style={{ textDecoration: "none" }}
@@ -84,7 +83,7 @@ const Clonedinitiatives = () => {
           </p>
         )}
       </Grid>
-      {size > limit && (
+      {cloneCount > limit && (
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <Button

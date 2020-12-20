@@ -71,7 +71,7 @@ const Newinitiative = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log(initiativeAuthor);
+  console.log(initiative.description);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -86,8 +86,8 @@ const Newinitiative = () => {
     fd.append("clonedInitiativeId", initiativeId);
     fd.append("cloned", true);
 
-    dispatch(createInitiative(fd));
-    history.push("/all-initiatives");
+    dispatch(createInitiative(fd, history));
+    // history.push("/all-initiatives");
   };
 
   const draftHandler = (e) => {

@@ -36,6 +36,10 @@ const useSchema = new Schema(
       type: String,
       default: "",
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     notifications: {
       type: Number,
       default: 0,

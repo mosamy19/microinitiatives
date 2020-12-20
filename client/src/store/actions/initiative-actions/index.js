@@ -85,13 +85,15 @@ export const getDraftInitiatives = () => async (dispatch) => {
   }
 };
 
-export const getClonedtInitiatives = () => async (dispatch) => {
+export const getClonedtInitiatives = (baseInitiativeId) => async (dispatch) => {
   try {
-    let response = await axios.get("/api/v1/initiatives/cloned-initiatives");
+    let response = await axios.get(
+      `/api/v1/initiatives/cloned-initiatives/${baseInitiativeId}`
+    );
     dispatch({
-      type: types.SET_INITIATIVE,
+      type: types.SET_CLONED_INITIATIVES,
       payload: {
-        initiatives: response.data,
+        clonedInitiatives: response.data,
       },
     });
   } catch (error) {
@@ -129,6 +131,7 @@ export const getMyInitiatives = () => async (dispatch) => {
 
 export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
   try {
+    dispatch(showLoading());
     let response = await axios.get(`/api/v1/initiatives/${initiativeId}`);
     dispatch({
       type: types.SET_SINGLE_INITIATIVE,
@@ -136,7 +139,7 @@ export const getSingleInitiatives = (initiativeId) => async (dispatch) => {
         singleInitiative: response.data,
       },
     });
-    console.log(response);
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
@@ -205,7 +208,6 @@ export const getLandingPageBaseInitiative = (initiativeId) => async (
         baseInitiative: response.data,
       },
     });
-    console.log(response);
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,

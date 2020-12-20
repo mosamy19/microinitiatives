@@ -28,13 +28,16 @@ const Favoriteinitiatives = ({ user }) => {
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {myFavInitiatives.map((item) => (
-          <Grid item xs={12} sm={6} md={4}>
-            <div onClick={() => history.push(`/single-initiative/${item._id}`)}>
-              <Initiativecard initiative={item} />
-            </div>
-          </Grid>
-        ))}
+        {myFavInitiatives > 0 &&
+          myFavInitiatives.map((item) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <div
+                onClick={() => history.push(`/single-initiative/${item._id}`)}
+              >
+                <Initiativecard initiative={item} />
+              </div>
+            </Grid>
+          ))}
       </Grid>
     </Wrapper>
   );

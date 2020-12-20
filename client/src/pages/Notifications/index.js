@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import moment from "moment";
 
-// import { BsFillHeartFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotifications } from "../../store/actions/notification-actions";
 import { getLoggedinUser } from "../../store/actions/auth-actions";

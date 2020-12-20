@@ -8,27 +8,27 @@ import { getClonedtInitiatives } from "../../../../store/actions/initiative-acti
 
 import Clonedslider from "./Clonedslider";
 
-const Clonedinitiatives = () => {
+const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [limit, setLimit] = useState(3);
-  const [size, setSize] = useState(0);
+  // const [size, setSize] = useState(0);
 
-  const [clonedInitiatives, setClonedInitiatives] = useState([]);
-
-  useEffect(() => {
-    dispatch(getClonedtInitiatives());
-  }, [dispatch]);
-
-  const { initiatives } = useSelector((state) => state.initiatives);
+  // const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
-    if (initiatives.length > 0) {
-      let allCloned = initiatives.filter((item) => item.cloned === true);
-      setSize(allCloned.length);
-      setClonedInitiatives(allCloned);
-    }
-  }, [initiatives]);
+    dispatch(getClonedtInitiatives(baseInitiativeId));
+  }, [dispatch, baseInitiativeId]);
+
+  const { clonedInitiatives } = useSelector((state) => state.initiatives);
+
+  // useEffect(() => {
+  //   if (initiatives.length > 0) {
+  //     let allCloned = initiatives.filter((item) => item.cloned === true);
+  //     setSize(allCloned.length);
+  //     setClonedInitiatives(allCloned);
+  //   }
+  // }, [initiatives]);
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
@@ -50,7 +50,7 @@ const Clonedinitiatives = () => {
           className="cloneCount"
           style={{ fontSize: "18px", fontWeight: "bold" }}
         >
-          ({size})
+          ({cloneCount})
         </p>
       </div>
       <Grid container spacing={3}>
@@ -61,7 +61,7 @@ const Clonedinitiatives = () => {
                 <Clonedslider images={item.thumbnail} />
               </div>
               <p style={{ marginTop: "24px" }}>
-                {item.title}
+                {item.description}
                 <Link
                   onClick={() => goToTop(item._id)}
                   style={{ textDecoration: "none" }}
@@ -72,19 +72,23 @@ const Clonedinitiatives = () => {
               </p>
             </Grid>
           ))}
-        {clonedInitiatives.length === 0 && (
-          <p
-            style={{
-              color: "rgba(16, 24, 32, 0.5)",
-              fontSize: "14px",
-              margin: "0 auto",
-            }}
-          >
-            لا يوجد مبادرات مماثلة منفذة بعد كم أول المبادرين
-          </p>
+        {cloneCount === 0 && (
+          <Grid item xs={12} sm={6} md={4}>
+            <p
+              style={{
+                color: "rgba(16, 24, 32, 0.5)",
+                fontSize: "14px",
+                textAlign: "center",
+                maxWidth: "200px",
+                margin: "0 0 60px",
+              }}
+            >
+              لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين
+            </p>
+          </Grid>
         )}
       </Grid>
-      {size > limit && (
+      {cloneCount > limit && (
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <Button

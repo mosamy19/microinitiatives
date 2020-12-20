@@ -1,8 +1,8 @@
 import * as types from "../../actions/types";
 const initialState = {
   isAuthenticated: false,
+  isAdmin: false,
   user: {},
-  success: {},
   error: {},
 };
 
@@ -11,8 +11,8 @@ const authReducer = (state = initialState, action) => {
     case types.SET_USER:
       return {
         user: action.payload.user,
-        success: action.payload.success,
         isAuthenticated: Object.keys(action.payload.user).length !== 0,
+        isAdmin: action.payload.user.isAdmin,
         error: {},
       };
     case types.USERS_ERROR:

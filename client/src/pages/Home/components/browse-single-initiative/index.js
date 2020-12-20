@@ -21,7 +21,7 @@ import Baseinitiative from "./components/Baseinitiative";
 
 const Browsesingleinitiative = () => {
   const dispatch = useDispatch();
-  const { initiativeId, cloneCount } = useParams();
+  const { initiativeId } = useParams();
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,7 +61,7 @@ const Browsesingleinitiative = () => {
               date={singleInitiative.createdAt}
             />
           </div>
-          <Cloneinfobtn cloneCount={cloneCount} />
+          <Cloneinfobtn cloneCount={singleInitiative.clones} />
         </div>
         <div style={{ marginBottom: "48px" }}>
           <Imageslider images={singleInitiative.thumbnail} />
@@ -106,7 +106,7 @@ const Browsesingleinitiative = () => {
             title={singleInitiative.title}
             category={singleInitiative.category}
             initiativeAuthor={singleInitiative.author}
-            cloneCount={cloneCount}
+            cloneCount={singleInitiative.clones}
           />
         )}
         <Comments user={user} initiativeId={initiativeId} />
@@ -115,7 +115,14 @@ const Browsesingleinitiative = () => {
             baseInitiativeId={singleInitiative.clonedInitiativeId}
           />
         )}
-        <Clonedinitiatives />
+        <Clonedinitiatives
+          initativeId={
+            singleInitiative.cloned === true
+              ? singleInitiative.clonedInitiativeId
+              : singleInitiative._id
+          }
+          cloneCount={singleInitiative.clones}
+        />
       </div>
     </Wrapper>
   );

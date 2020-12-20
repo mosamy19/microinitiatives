@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthLayout from "../layouts/Auth";
+import DashboardLayout from "../layouts/Dashboard";
 import MainLayout from "../layouts/Main";
 import PublicLayout from "../layouts/Public";
 import Contact from "../pages/Contact";
 import Successmsg from "../pages/Contact/components/Successmsg";
+import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
 import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
 import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
@@ -25,6 +27,7 @@ import Login from "../pages/Users/Login";
 import Resetmessage from "../pages/Users/Resetmessage";
 import Resetpassword from "../pages/Users/Resetpassword";
 import Signup from "../pages/Users/Signup";
+import AdminRouteWithLayout from "./AdminRouteWithLayout";
 import PrivateRouteWithLayout from "./PrivateRouteWithLayout";
 import RouteWithLayout from "./RouteWithLayout";
 
@@ -32,6 +35,14 @@ const AppRoutes = () => {
   return (
     <Router>
       <Switch>
+        {/* all admin routes */}
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard"
+          exact
+          component={Dashboard}
+        />
+
         {/* all public routes */}
         <RouteWithLayout
           layout={PublicLayout}
@@ -61,7 +72,7 @@ const AppRoutes = () => {
         />
         <RouteWithLayout
           layout={PublicLayout}
-          path="/browse-single-initiative/:initiativeId/:cloneCount"
+          path="/browse-single-initiative/:initiativeId"
           component={Browsesingleinitiative}
         />
 
