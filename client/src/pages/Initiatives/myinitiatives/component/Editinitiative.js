@@ -103,7 +103,6 @@ const Editinitiative = () => {
     if (initiative.thumbnail) {
       let count = -1;
       let arr = [];
-
       initiative.thumbnail.map((item) => {
         arr = [
           ...arr,
@@ -135,12 +134,18 @@ const Editinitiative = () => {
     }
   }, [error]);
 
+
   // handle form submitions
   const submitHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
     for (let file of state.fileList) {
-      fd.append("thumbnail", file.originFileObj);
+      if (file.originFileObj) {
+        fd.append("thumbnail", file.originFileObj);
+      }
+      if (file.url) {
+        fd.append("thumbnailUri", file.url);
+      }
     }
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);

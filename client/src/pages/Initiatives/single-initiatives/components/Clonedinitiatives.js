@@ -12,23 +12,12 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [limit, setLimit] = useState(3);
-  // const [size, setSize] = useState(0);
-
-  // const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
     dispatch(getClonedtInitiatives(baseInitiativeId));
   }, [dispatch, baseInitiativeId]);
 
   const { clonedInitiatives } = useSelector((state) => state.initiatives);
-
-  // useEffect(() => {
-  //   if (initiatives.length > 0) {
-  //     let allCloned = initiatives.filter((item) => item.cloned === true);
-  //     setSize(allCloned.length);
-  //     setClonedInitiatives(allCloned);
-  //   }
-  // }, [initiatives]);
 
   const handleOnClick = () => {
     setLimit((prevValue) => prevValue + 3);
@@ -98,7 +87,7 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
               style={{
                 color: "#3b86fb",
                 background: "rgba(59, 134, 251, 0.08)",
-                marginTop: "24px",
+                margin: "24px 0 50px",
                 border: "none",
               }}
               variant="outlined"

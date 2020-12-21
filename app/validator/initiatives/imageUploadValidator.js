@@ -4,7 +4,7 @@ const { status } = require("../../utils/status");
 
 module.exports = (req, res, next) => {
   const types = /jpeg|jpg|png|gif/;
-  if (req.files.length === 0) {
+  if (req.files.length === 0 && !req.body.thumbnailUri) {
     return res.status(status.bad).json({
       thumbnail: "هذه الخانة مطلوبة",
     });

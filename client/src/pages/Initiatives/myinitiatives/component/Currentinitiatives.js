@@ -39,7 +39,7 @@ const Currentinitiatives = ({ myinitiatives }) => {
       </Grid>
       {draft.length !== 0 &&
         draft.map((item) => (
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} key={item._id}>
             <div
               onClick={() => history.push(`/edit-initiative/${item._id}/draft`)}
               className="d-flex align-items-center justify-content-center"

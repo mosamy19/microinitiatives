@@ -14,6 +14,7 @@ module.exports = {
       title,
       category,
       description,
+      thumbnailUri,
       draft,
       cloned,
       clonedInitiativeOwner,
@@ -24,6 +25,10 @@ module.exports = {
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
       return res.status(status.bad).json(errors.mapped());
+    }
+
+    if (thumbnailUri) {
+      images = thumbnailUri;
     }
 
     for (let file of req.files) {
@@ -248,7 +253,7 @@ module.exports = {
 
   editInitiative: async (req, res) => {
     const { initiativeId } = req.params;
-    const { title, category, description, draft } = req.body;
+    const { title, category, description, thumbnailUri, draft } = req.body;
     console.log(req.body);
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -264,6 +269,9 @@ module.exports = {
 
       let thumbnail = initiative.thumbnail;
       thumbnail = [];
+      if (thumbnailUri) {
+        thumbnail = thumbnailUri;
+      }
       if (req.files) {
         for (let file of req.files) {
           thumbnail = [...thumbnail, `/uploads/${file.filename}`];

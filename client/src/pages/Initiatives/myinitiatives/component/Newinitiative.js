@@ -112,7 +112,6 @@ const Newinitiative = () => {
     fd.append("draft", true);
 
     dispatch(createInitiative(fd, history));
-    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
   return (

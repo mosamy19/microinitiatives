@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -24,7 +24,6 @@ import Baseinitiative from "./components/Baseinitiative";
 const Singleinitiative = () => {
   const dispatch = useDispatch();
   const { initiativeId } = useParams();
-  // const [initiative, setInitiative] = useState([]);
 
   useEffect(() => {
     dispatch(getSingleInitiatives(initiativeId));
@@ -33,12 +32,6 @@ const Singleinitiative = () => {
   const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
   const { user } = useSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (singleInitiative) {
-  //     setInitiative(singleInitiative);
-  //   }
-  // }, [singleInitiative]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
