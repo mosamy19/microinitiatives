@@ -18,7 +18,12 @@ const Newinitiative = () => {
     category: [],
     description: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    title: "",
+    category: "",
+    description: "",
+    thumbnail: "",
+  });
 
   const [state, setState] = useState({
     previewVisible: false,
@@ -57,7 +62,7 @@ const Newinitiative = () => {
 
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
-    setErrors({ ...errors, thumbnail: [] });
+    setErrors({ ...errors, thumbnail: "" });
   };
 
   const uploadButton = (
@@ -69,11 +74,16 @@ const Newinitiative = () => {
   );
 
   // error handling
-
   const { error } = useSelector((state) => state.initiatives);
   useEffect(() => {
     if (error) {
-      setErrors(error);
+      setErrors({
+        ...errors,
+        title: error.title,
+        category: error.category,
+        description: error.description,
+        thumbnail: error.thumbnail,
+      });
     }
   }, [error]);
 
@@ -88,8 +98,6 @@ const Newinitiative = () => {
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
     dispatch(createInitiative(fd, history));
-    // history.push("/all-initiatives");
-    setInitiative({ title: "", category: [], description: "" });
   };
 
   const draftHandler = (e) => {
@@ -103,9 +111,7 @@ const Newinitiative = () => {
     fd.append("description", initiative.description);
     fd.append("draft", true);
 
-    dispatch(createInitiative(fd));
-
-    // history.push("/my-initiatives");
+    dispatch(createInitiative(fd, history));
     setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
@@ -200,6 +206,9 @@ const Newinitiative = () => {
                 )}
               </FormGroup>
               <FormGroup>
+                <Label>
+                  صور المبادرة <span className="filed">(حقل إلزامي)</span>
+                </Label>
                 <Upload
                   listType="picture-card"
                   fileList={state.fileList}

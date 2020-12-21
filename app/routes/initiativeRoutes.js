@@ -1,5 +1,6 @@
 const upload = require("../middlewares/uploadMiddleware");
 const initiativeValidator = require("../validator/initiatives/initiativeValidator");
+const imageUploadValidator = require("../validator/initiatives/imageUploadValidator");
 
 const {
   getAllInitiatives,
@@ -45,6 +46,7 @@ router.post(
   "/create-initiatives",
   isAuthenticated,
   upload.array("thumbnail"),
+  imageUploadValidator,
   initiativeValidator,
   createInitiative
 );
@@ -52,6 +54,8 @@ router.put(
   "/edit-initiative/:initiativeId",
   isAuthenticated,
   upload.array("thumbnail"),
+  imageUploadValidator,
+  initiativeValidator,
   editInitiative
 );
 router.delete("/:initiativeId", isAuthenticated, deleteInitiative);

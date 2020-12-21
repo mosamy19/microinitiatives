@@ -25,9 +25,7 @@ const Browsesingleinitiative = () => {
   const { initiativeId } = useParams();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getLandingPageSingleInitiative(initiativeId));
-    }, 200);
+    dispatch(getLandingPageSingleInitiative(initiativeId));
   }, [dispatch, initiativeId]);
 
   useEffect(() => {
@@ -43,7 +41,7 @@ const Browsesingleinitiative = () => {
       <CircularProgress />
     </div>
   ) : (
-    <Wrapper>
+    <Wrapper className="container">
       <div style={{ maxWidth: "783px", margin: "auto" }}>
         <h2 className="mb-show"> {singleInitiative.title}</h2>
         <div className="mb-hide">
@@ -136,7 +134,7 @@ const Browsesingleinitiative = () => {
 
 export default Browsesingleinitiative;
 const Wrapper = styled.div`
-  margin: 96px 0;
+  margin: 96px auto;
   text-align: right;
   p {
     margin-bottom: 0;

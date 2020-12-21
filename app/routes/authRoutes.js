@@ -20,6 +20,8 @@ const {
 const isAuthenticated = require("../middlewares/authenticate");
 const isAdmin = require("../middlewares/admin");
 const upload = require("../middlewares/uploadMiddleware");
+const edituserValidator = require("../validator/auth/edituserValidator");
+const editProfilePicValidator = require("../validator/auth/editProfilePicValidator");
 
 router.post("/signup", signupValidator, signupController);
 router.post("/activate-account", activateAccountController);
@@ -36,7 +38,14 @@ router.post(
   changePasswordValidator,
   changePasswordController
 );
-router.put("/edit-user", isAuthenticated, upload.single("avatar"), editUser);
+router.put(
+  "/edit-user",
+  isAuthenticated,
+  upload.single("avatar"),
+  editProfilePicValidator,
+  edituserValidator,
+  editUser
+);
 router.get("/get-loggedin-user", isAuthenticated, getLoggedinUser);
 router.get(
   "/get-public-profile-user/:userId",

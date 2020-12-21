@@ -11,7 +11,7 @@ import {
 const Basicinfo = () => {
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.auth.user);
-  console.log(authUser);
+  
   const [user, setUser] = useState({
     firstName: authUser.firstName,
     familyName: authUser.familyName,

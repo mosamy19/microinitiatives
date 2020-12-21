@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const Initiative = require("../models/Initiative");
 const User = require("../models/User");
 const { validationResult } = require("express-validator");
@@ -17,10 +19,15 @@ module.exports = {
       clonedInitiativeOwner,
       clonedInitiativeId,
     } = req.body;
+    let images = [];
 
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
       return res.status(status.bad).json(errors.mapped());
+    }
+
+    for (let file of req.files) {
+      images = [...images, `/uploads/${file.filename}`];
     }
 
     let newInitiative = new Initiative({
@@ -31,19 +38,9 @@ module.exports = {
       cloned,
       clonedInitiativeOwner,
       clonedInitiativeId,
-      thumbnail: [],
+      thumbnail: images,
       author: req.user._id,
     });
-
-    if (req.files) {
-      console.log(req.files);
-      for (let file of req.files) {
-        newInitiative.thumbnail = [
-          ...newInitiative.thumbnail,
-          `/uploads/${file.filename}`,
-        ];
-      }
-    }
 
     try {
       let initiative = await newInitiative.save();
@@ -85,7 +82,6 @@ module.exports = {
       res.status(status.success).json({
         message: "Initiative created successfully",
         ...initiative._doc,
-        user: updatedInitiative,
       });
     } catch (error) {
       console.log(error);
@@ -136,8 +132,6 @@ module.exports = {
       })
         .populate("author", "firstName familyName email avatar")
         .sort([[sortBy, order]]);
-
-      
 
       if (initiatives.length === 0) {
         return res.status(200).json({

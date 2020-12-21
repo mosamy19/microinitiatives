@@ -1,7 +1,8 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@material-ui/core";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import { Upload, Modal } from "antd";
@@ -15,14 +16,22 @@ const Editinitiative = () => {
   const { initiativeId, type } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+
   const [initiative, setInitiative] = useState({
     title: "",
     category: [],
     description: "",
     thumbnail: [],
-    draft: type === "draft" ? false : true,
+    // draft: type === "draft" ? false : true,
+  });
+  const [errors, setErrors] = useState({
+    title: "",
+    category: "",
+    description: "",
+    thumbnail: "",
   });
 
+  // image upload handling
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -43,7 +52,6 @@ const Editinitiative = () => {
     setState({ ...state, previewVisible: false });
   };
 
-  //Image Preview
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -60,7 +68,7 @@ const Editinitiative = () => {
 
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
-    console.log(fileList);
+    setErrors({ ...errors, thumbnail: "" });
   };
 
   const uploadButton = (
@@ -71,10 +79,12 @@ const Editinitiative = () => {
     </div>
   );
 
+  // fetching the single initiative and updating the state
   useEffect(() => {
     dispatch(getSingleInitiatives(initiativeId));
   }, [dispatch, initiativeId]);
 
+  const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
 
   useEffect(() => {
@@ -92,23 +102,40 @@ const Editinitiative = () => {
   useEffect(() => {
     if (initiative.thumbnail) {
       let count = -1;
+      let arr = [];
+
       initiative.thumbnail.map((item) => {
-        setState({
-          ...state,
-          fileList: [
-            ...state.fileList,
-            {
-              uid: count--,
-              status: "done",
-              url: item,
-            },
-          ],
-        });
-        return true;
+        arr = [
+          ...arr,
+          {
+            uid: count--,
+            status: "done",
+            url: item,
+          },
+        ];
+      });
+      setState({
+        ...state,
+        fileList: [...arr],
       });
     }
   }, [initiative.thumbnail]);
 
+  // error handling
+  const { error } = useSelector((state) => state.initiatives);
+  useEffect(() => {
+    if (error) {
+      setErrors({
+        ...errors,
+        title: error.title,
+        category: error.category,
+        description: error.description,
+        thumbnail: error.thumbnail,
+      });
+    }
+  }, [error]);
+
+  // handle form submitions
   const submitHandler = (e) => {
     e.preventDefault();
     let fd = new FormData();
@@ -118,16 +145,17 @@ const Editinitiative = () => {
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
-    fd.append("draft", initiative.draft);
+    fd.append("draft", false);
 
-    console.log(fd);
-
-    dispatch(editMyInitiative(initiativeId, fd));
-    history.push(`/single-initiative/${initiativeId}`);
-    setInitiative({ title: "", category: [], description: "", thumbnail: [] });
+    dispatch(editMyInitiative(initiativeId, fd, history));
+    // setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
 
-  return (
+  return isLoading ? (
+    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
+      <CircularProgress />
+    </div>
+  ) : (
     <Wrapper>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
@@ -165,48 +193,57 @@ const Editinitiative = () => {
             </h2>
             <div className="text-right">
               <FormGroup>
-                <Label>
-                  عنوان المبادرة <span className="filed">(حقل إلزامي)</span>
-                </Label>
+                <Label>عنوان المبادرة</Label>
                 <Input
-                  onChange={(e) =>
-                    setInitiative({ ...initiative, title: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setInitiative({ ...initiative, title: e.target.value });
+                    setErrors({ ...errors, title: "" });
+                  }}
                   type="text"
                   name="title"
                   value={initiative.title}
                   disabled={type === "draft" ? false : true}
+                  invalid={errors.title ? true : false}
                 />
+                {errors.title && <FormFeedback> {errors.title} </FormFeedback>}
               </FormGroup>
               <FormGroup>
-                <Label>
-                  تصنيف المبادرة <span className="filed">(حقل إلزامي)</span>
-                </Label>
+                <Label>تصنيف المبادرة</Label>
                 <Input
-                  onChange={(e) =>
-                    setInitiative({ ...initiative, category: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setInitiative({ ...initiative, category: e.target.value });
+                    setErrors({ ...errors, category: "" });
+                  }}
                   type="text"
                   name="category"
                   value={initiative.category}
                   disabled={type === "draft" ? false : true}
+                  invalid={errors.category ? true : false}
                 />
+                {errors.category && (
+                  <FormFeedback> {errors.category} </FormFeedback>
+                )}
               </FormGroup>
               <FormGroup>
                 <Label>وصف المبادرة </Label>
                 <Input
                   type="textarea"
                   name="description"
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setInitiative({
                       ...initiative,
                       description: e.target.value,
-                    })
-                  }
+                    });
+                    setErrors({ ...errors, description: "" });
+                  }}
                   style={{ minHeight: "130px" }}
                   value={initiative.description}
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
+                  invalid={errors.description ? true : false}
                 />
+                {errors.description && (
+                  <FormFeedback> {errors.description} </FormFeedback>
+                )}
               </FormGroup>
               <FormGroup>
                 <Upload
@@ -218,6 +255,11 @@ const Editinitiative = () => {
                 >
                   {uploadButton}
                 </Upload>
+                {errors.thumbnail && (
+                  <div style={{ color: "#dc3545", fontSize: "10px" }}>
+                    {errors.thumbnail}
+                  </div>
+                )}
                 <Modal
                   visible={state.previewVisible}
                   title={state.previewTitle}
@@ -267,6 +309,11 @@ const Wrapper = styled.div`
     .filed {
       font-size: 12px;
       color: rgba(0, 0, 0, 0.25);
+    }
+    .is-invalid {
+      border: 1px solid #dc3545;
+      padding-left: calc(1.5em + 0.75rem);
+      background-position: left calc(0.375em + 0.1875rem) center;
     }
     .ant-upload.ant-upload-select-picture-card {
       width: 100%;

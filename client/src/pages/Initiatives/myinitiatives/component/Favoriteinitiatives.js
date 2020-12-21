@@ -24,11 +24,10 @@ const Favoriteinitiatives = ({ user }) => {
     }
   }, [favorites, user._id]);
 
-  console.log(favorites);
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {myFavInitiatives > 0 &&
+        {myFavInitiatives.length > 0 &&
           myFavInitiatives.map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <div

@@ -8,7 +8,7 @@ import Initiativecard from "../../component/Initiativecard";
 const Completedinitiatives = ({ myinitiatives }) => {
   const history = useHistory();
   let completedInitiatives = myinitiatives.filter(
-    (item) => item.draft !== true && item.cloned !== true
+    (item) => item.draft !== true
   );
 
   completedInitiatives = completedInitiatives.reverse();

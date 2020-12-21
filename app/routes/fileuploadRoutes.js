@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const upload = require("../middlewares/uploadMiddleware");
+// const upload = require("../middlewares/uploadMiddleware");
 const {
   uploadMulipleFiles,
   getUploadedImages,
@@ -7,7 +7,7 @@ const {
 } = require("../controllers/fileuploadController");
 const isAuthenticated = require("../middlewares/authenticate");
 
-router.post("/images", upload.array("images"), uploadMulipleFiles);
+// router.post("/images", upload.array("images"), uploadMulipleFiles);
 router.get("/get-images", isAuthenticated, getUploadedImages);
 router.delete("/delete-images/:imageId", isAuthenticated, deleteUploadedImage);
 

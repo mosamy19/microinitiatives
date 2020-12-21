@@ -11,6 +11,7 @@ import bond from "../../../../assets/icons/bonds/bond.png";
 import { makeStyles } from "@material-ui/core";
 import Nicewords from "../../../../components/Nicewords";
 import Noistory from "./components/Noistory";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Details = () => {
   const classes = useStyles();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Wrapper className="text-center">
       <div className="container" style={{ maxWidth: "760px" }}>

@@ -248,7 +248,11 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
       "/api/v1/initiatives/create-initiatives",
       initiative
     );
-    history.push("/all-initiatives");
+    if (response.data.draft === true) {
+      history.push("/my-initiatives");
+    } else {
+      history.push(`/single-initiative/${response.data._id}`);
+    }
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
@@ -261,12 +265,15 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
   }
 };
 
-export const editMyInitiative = (id, initiative) => async (dispatch) => {
+export const editMyInitiative = (id, initiative, history) => async (
+  dispatch
+) => {
   try {
     let response = await axios.put(
       `/api/v1/initiatives/edit-initiative/${id}`,
       initiative
     );
+    history.push(`/single-initiative/${id}`);
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({

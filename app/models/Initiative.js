@@ -18,12 +18,11 @@ const initiativeSchema = new Schema(
       required: true,
       trim: true,
     },
-    thumbnail: [
-      {
-        type: String,
-        default: "",
-      },
-    ],
+    thumbnail: {
+      type: Array,
+      required: true,
+    },
+
     draft: {
       type: Boolean,
       default: false,

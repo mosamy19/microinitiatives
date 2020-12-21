@@ -1,9 +1,9 @@
 import React from "react";
-
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const PublicFooter = (props) => {
+  const history = useHistory();
   return (
     <Wrapper bgColor={props.bgColor}>
       <div className="container d-flex justify-content-center align-items-center">
@@ -16,7 +16,10 @@ const PublicFooter = (props) => {
             color: "rgba(16, 24, 32, 0.65)",
             margin: "0 40px",
           }}
-          to="/"
+          onClick={() => {
+            history.push("/details");
+            window.scrollTo(0, 0);
+          }}
         >
           عن نوي
         </Link>
