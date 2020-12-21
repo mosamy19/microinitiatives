@@ -134,7 +134,6 @@ const Editinitiative = () => {
     }
   }, [error]);
 
-
   // handle form submitions
   const submitHandler = (e) => {
     e.preventDefault();

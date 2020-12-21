@@ -3,6 +3,7 @@ const initialState = {
   isAuthenticated: false,
   isAdmin: false,
   user: {},
+  logedinUser: {},
   error: {},
 };
 
@@ -10,9 +11,16 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_USER:
       return {
+        ...state,
         user: action.payload.user,
         isAuthenticated: Object.keys(action.payload.user).length !== 0,
         isAdmin: action.payload.user.isAdmin,
+        error: {},
+      };
+    case types.SET_LOGEDIN_USER:
+      return {
+        ...state,
+        logedinUser: action.payload.logedinUser,
         error: {},
       };
     case types.USERS_ERROR:

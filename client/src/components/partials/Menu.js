@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CircularProgress } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/auth-actions";
@@ -13,7 +14,7 @@ import userIcon from "../../assets/images/user.svg";
 import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
 
-const Menu = ({ name, avatar }) => {
+const Menu = ({ name, avatar, loading }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -43,7 +44,11 @@ const Menu = ({ name, avatar }) => {
                 background: "rgba(0, 0, 0, 0.1)",
               }}
             />
-            <p style={{ margin: "0 3px" }}> {name ? name : null}</p>
+            {loading ? (
+              <CircularProgress size={15} />
+            ) : (
+              <p style={{ margin: "0 3px" }}> {name ? name : null}</p>
+            )}
             <RiArrowDownSLine />
           </div>
         </DropdownToggle>

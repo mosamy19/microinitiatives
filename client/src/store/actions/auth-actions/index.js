@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 import * as types from "../types";
 import setAuthToken from "../../../utils/setAuthToken";
 import { setSuccess, setError } from "../snackbar-actions";
+import { hideLoading, showLoading } from "../loading-actions";
 
 export const register = (user, history) => async (dispatch) => {
   try {
@@ -111,9 +112,9 @@ export const updateUser = (user) => async (dispatch) => {
   try {
     let response = await axios.put("/api/v1/auth/edit-user", user);
     dispatch({
-      type: types.SET_USER,
+      type: types.SET_LOGEDIN_USER,
       payload: {
-        user: response.data,
+        logedinUser: response.data,
       },
     });
     dispatch(setSuccess(response.data.message));
@@ -130,13 +131,15 @@ export const updateUser = (user) => async (dispatch) => {
 
 export const getLoggedinUser = () => async (dispatch) => {
   try {
+     dispatch(showLoading());
     let response = await axios.get("/api/v1/auth/get-loggedin-user");
     dispatch({
-      type: types.SET_USER,
+      type: types.SET_LOGEDIN_USER,
       payload: {
-        user: response.data,
+        logedinUser: response.data,
       },
     });
+    dispatch(hideLoading())
   } catch (error) {
     dispatch({
       type: types.USERS_ERROR,
