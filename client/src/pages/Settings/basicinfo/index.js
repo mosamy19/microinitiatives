@@ -136,7 +136,7 @@ const Basicinfo = () => {
     setUser({ firstName: "", familyName: "", avatar: "" });
     setTimeout(() => {
       dispatch(getLoggedinUser());
-    }, 200);
+    }, 300);
   };
 
   return (
