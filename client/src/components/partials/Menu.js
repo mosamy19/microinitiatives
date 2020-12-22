@@ -44,11 +44,11 @@ const Menu = ({ name, avatar, loading }) => {
                 background: "rgba(0, 0, 0, 0.1)",
               }}
             />
-            {loading ? (
+            {/* {loading ? (
               <CircularProgress size={15} />
-            ) : (
+            ) : ( */}
               <p style={{ margin: "0 3px" }}> {name ? name : null}</p>
-            )}
+            {/* )} */}
             <RiArrowDownSLine />
           </div>
         </DropdownToggle>
