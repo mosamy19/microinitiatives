@@ -38,9 +38,9 @@ const Likebutton = ({ user, initiativeId }) => {
       dispatch(createLike(initiativeId));
       setLike(like + 1);
       setIsLiked("liked");
-      setTimeout(() => {
-        dispatch(getLoggedinUser());
-      }, 200);
+      // setTimeout(() => {
+      //   dispatch(getLoggedinUser());
+      // }, 200);
     } else {
       dispatch(createUnlike(initiativeId));
       setLike(like - 1);
@@ -58,7 +58,9 @@ const Likebutton = ({ user, initiativeId }) => {
           height="14px"
           style={{ marginLeft: "5px" }}
         />
-        <span className={isLiked === "liked" ? 'likedStyle' : null}>{like} </span>
+        <span className={isLiked === "liked" ? "likedStyle" : null}>
+          {like}{" "}
+        </span>
       </div>
     </Button>
   );

@@ -71,7 +71,11 @@ const DashboardSidebar = ({ collapsed }) => {
           onOpenChange={onOpenChange}
           defaultSelectedKeys={["1"]}
         >
-          <Menu.Item key="1" icon={<FiHome />}>
+          <Menu.Item
+            key="1"
+            icon={<FiHome />}
+            onClick={() => history.push("/dashboard")}
+          >
             Home
           </Menu.Item>
           <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Initiatives">
