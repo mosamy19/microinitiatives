@@ -7,6 +7,7 @@ import PublicLayout from "../layouts/Public";
 import Contact from "../pages/Contact";
 import Successmsg from "../pages/Contact/components/Successmsg";
 import Dashboard from "../pages/Dashboard";
+import Users from "../pages/Dashboard/Users";
 import Home from "../pages/Home";
 import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
 import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
@@ -41,6 +42,12 @@ const AppRoutes = () => {
           path="/dashboard"
           exact
           component={Dashboard}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/all-users"
+          exact
+          component={Users}
         />
 
         {/* all public routes */}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
+import { Spin, Space } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 
@@ -37,8 +38,11 @@ const Browsesingleinitiative = () => {
   const { user } = useSelector((state) => state.auth);
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "80px", margin: "0 auto" }}>
+      {/* <CircularProgress /> */}
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper className="container">
@@ -136,6 +140,7 @@ export default Browsesingleinitiative;
 const Wrapper = styled.div`
   margin: 96px auto;
   text-align: right;
+  overflow: hidden;
   p {
     margin-bottom: 0;
     font-size: 14px;

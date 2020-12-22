@@ -1,9 +1,14 @@
 import React from "react";
 import { Layout, Menu } from "antd";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { FiHome } from "react-icons/fi";
 import { GoCommentDiscussion } from "react-icons/go";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  MailOutlined,
+  AppstoreOutlined,
+} from "@ant-design/icons";
 import logo from "../../assets/images/Project-Logo.png";
 import avatar from "../../assets/images/avatar.png";
 const { Sider } = Layout;
@@ -12,6 +17,7 @@ const { SubMenu } = Menu;
 const rootSubmenuKeys = ["sub1", "sub2"];
 
 const DashboardSidebar = ({ collapsed }) => {
+  const history = useHistory();
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
 
   const onOpenChange = (keys) => {
@@ -68,20 +74,22 @@ const DashboardSidebar = ({ collapsed }) => {
           <Menu.Item key="1" icon={<FiHome />}>
             Home
           </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="Initiatives">
+          <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Initiatives">
             <Menu.Item key="2">Tom</Menu.Item>
             <Menu.Item key="3">Bill</Menu.Item>
             <Menu.Item key="4">Alex</Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="5">Tom</Menu.Item>
+            <Menu.Item key="5" onClick={() => history.push("/all-users")}>
+              All Users
+            </Menu.Item>
             <Menu.Item key="6">Bill</Menu.Item>
             <Menu.Item key="7">Alex</Menu.Item>
           </SubMenu>
           <Menu.Item key="8" icon={<GoCommentDiscussion />}>
             Comments
           </Menu.Item>
-          <Menu.Item key="9" icon={<UploadOutlined />}>
+          <Menu.Item key="9" icon={<MailOutlined />}>
             Email
           </Menu.Item>
         </Menu>

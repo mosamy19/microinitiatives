@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Spin, Space } from "antd";
 import { CircularProgress } from "@material-ui/core";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -38,8 +39,11 @@ const Singleinitiative = () => {
   }, []);
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "80px", margin: "0 auto" }}>
+      {/* <CircularProgress /> */}
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper>
@@ -136,6 +140,7 @@ export default React.memo(Singleinitiative);
 const Wrapper = styled.div`
   margin: 96px 0;
   text-align: right;
+  overflow: hidden;
   p {
     margin-bottom: 0;
     font-size: 14px;
