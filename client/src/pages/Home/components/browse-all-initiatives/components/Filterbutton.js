@@ -17,9 +17,9 @@ const Filterbutton = ({ getTheValue }) => {
       </span>
       <Select
         defaultValue="newest"
-        style={{ width: 96, textAlign: "right" }}
+        style={{ width: 142, textAlign: "right" }}
         onChange={handleChange}
-        dropdownStyle={{ textAlign: "right" }}
+        dropdownStyle={{ textAlign: "right", fontSize: "10px" }}
       >
         <Option value="newest">الاحداث</Option>
         <Option value="cloned">أكثر المبادرات تنفيذاً</Option>
@@ -43,7 +43,6 @@ const Wrapper = styled.div`
     border-radius: 4px;
   }
   .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-    width: 96px;
     height: auto;
   }
   .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
