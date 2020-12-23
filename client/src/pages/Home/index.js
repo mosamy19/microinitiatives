@@ -46,17 +46,14 @@ const Home = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [landingPageInitiatives, setLandingPageInitiatives] = useState([]);
-  // const [cloneCount, setCloneCount] = useState(0);
   useEffect(() => {
-    dispatch(getLandingPageInitiatives());
+    dispatch(getLandingPageInitiatives("newest"));
   }, [dispatch]);
 
   const { initiatives } = useSelector((state) => state.initiatives);
   useEffect(() => {
     if (initiatives.length > 0) {
       setLandingPageInitiatives(initiatives);
-      // let allClone = initiatives.filter((item) => item.cloned === true);
-      // setCloneCount(allClone.length);
     }
   }, [initiatives]);
 

@@ -93,7 +93,10 @@ const DashboardSidebar = ({ collapsed }) => {
           <Menu.Item key="8" icon={<GoCommentDiscussion />}>
             Comments
           </Menu.Item>
-          <Menu.Item key="9" icon={<MailOutlined />}>
+          <Menu.Item key="9" icon={<GoCommentDiscussion />}>
+            Categories
+          </Menu.Item>
+          <Menu.Item key="10" icon={<MailOutlined />}>
             Email
           </Menu.Item>
         </Menu>

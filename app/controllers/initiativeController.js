@@ -7,6 +7,7 @@ const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
 const Notification = require("../models/Notification");
+const { sort } = require("../validator/auth/loginValidator");
 
 module.exports = {
   createInitiative: async (req, res) => {
@@ -94,6 +95,7 @@ module.exports = {
     }
   },
   getLandingPageInitiatives: async (req, res) => {
+    const { sortBy } = req.params;
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(
         "author",
@@ -104,7 +106,23 @@ module.exports = {
           message: "No Initiative Found",
         });
       }
-      res.status(200).json(initiatives.reverse());
+
+      let sortedInitiatives;
+      if (sortBy === "newest" || sortBy === "") {
+        sortedInitiatives = initiatives.reverse();
+      } else if (sortBy === "cloned") {
+        sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);
+      } else if (sortBy === "liked") {
+        sortedInitiatives = initiatives.sort((a, b) => b.likes - a.likes);
+      } else if (sortBy === "saved") {
+        sortedInitiatives = initiatives.sort(
+          (a, b) => b.favorites - a.favorites
+        );
+      } else if (sortBy === "shared") {
+        sortedInitiatives = initiatives.sort((a, b) => b.shares - a.shares);
+      }
+
+      res.status(200).json(sortedInitiatives);
     } catch (error) {
       serverError(res, error);
     }
@@ -128,7 +146,7 @@ module.exports = {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
     let { clonedInitiativeId } = req.params;
-    console.log(clonedInitiativeId);
+
     try {
       let initiatives = await Initiative.find({
         draft: false,
@@ -150,6 +168,7 @@ module.exports = {
   },
 
   getAllInitiatives: async (req, res) => {
+    const { sortBy } = req.params;
     try {
       let initiatives = await Initiative.find({ draft: false }).populate(
         "author",
@@ -160,7 +179,22 @@ module.exports = {
           message: "No Initiative Found",
         });
       }
-      res.status(200).json(initiatives.reverse());
+      let sortedInitiatives;
+      if (sortBy === "newest" || sortBy === "") {
+        sortedInitiatives = initiatives.reverse();
+      } else if (sortBy === "cloned") {
+        sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);
+      } else if (sortBy === "liked") {
+        sortedInitiatives = initiatives.sort((a, b) => b.likes - a.likes);
+      } else if (sortBy === "saved") {
+        sortedInitiatives = initiatives.sort(
+          (a, b) => b.favorites - a.favorites
+        );
+      } else if (sortBy === "shared") {
+        sortedInitiatives = initiatives.sort((a, b) => b.shares - a.shares);
+      }
+
+      res.status(200).json(sortedInitiatives);
     } catch (error) {
       serverError(res, error);
     }

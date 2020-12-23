@@ -20,8 +20,8 @@ const {
 const router = require("express").Router();
 const isAuthenticated = require("../middlewares/authenticate");
 
-router.get("/get-initiatives", isAuthenticated, getAllInitiatives);
-router.get("/get-landing-page-initiatives", getLandingPageInitiatives);
+router.get("/get-initiatives/:sortBy", isAuthenticated, getAllInitiatives);
+router.get("/get-landing-page-initiatives/:sortBy", getLandingPageInitiatives);
 router.get(
   "/get-landing-page-single-initiative/:initiativeId",
   getLandingPageSingleInitiative

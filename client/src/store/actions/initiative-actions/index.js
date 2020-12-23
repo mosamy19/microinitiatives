@@ -3,15 +3,19 @@ import * as types from "../types";
 import { setSuccess, setError } from "../snackbar-actions";
 import { hideLoading, showLoading } from "../loading-actions";
 
-export const getAllInitiatives = () => async (dispatch) => {
+export const getAllInitiatives = (value) => async (dispatch) => {
   try {
-    let response = await axios.get("/api/v1/initiatives/get-initiatives");
+    dispatch(showLoading());
+    let response = await axios.get(
+      `/api/v1/initiatives/get-initiatives/${value}`
+    );
     dispatch({
       type: types.SET_INITIATIVE,
       payload: {
         initiatives: response.data,
       },
     });
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
@@ -22,10 +26,11 @@ export const getAllInitiatives = () => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
-export const getLandingPageInitiatives = () => async (dispatch) => {
+export const getLandingPageInitiatives = (value) => async (dispatch) => {
   try {
+    dispatch(showLoading());
     let response = await axios.get(
-      "/api/v1/initiatives/get-landing-page-initiatives"
+      `/api/v1/initiatives/get-landing-page-initiatives/${value}`
     );
     dispatch({
       type: types.SET_INITIATIVE,
@@ -33,6 +38,7 @@ export const getLandingPageInitiatives = () => async (dispatch) => {
         initiatives: response.data,
       },
     });
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.INITIATIVES_ERROR,
