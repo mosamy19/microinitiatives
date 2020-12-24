@@ -53,6 +53,7 @@ const Dashboardinitiatives = () => {
             shares: item.shares,
             saves: item.favorites,
             comments: item.comments,
+            type: item.draft === true ? "Draft" : "Published",
           },
         ];
         return true;
@@ -217,6 +218,11 @@ const Dashboardinitiatives = () => {
       title: "Comments",
       dataIndex: "comments",
       key: "comments",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
     },
     {
       title: "Action",
