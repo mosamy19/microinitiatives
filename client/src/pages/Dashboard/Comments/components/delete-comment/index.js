@@ -20,12 +20,12 @@ const Deletecomment = ({ userId, isOpen, handleCancel }) => {
         onClose={handleCancel}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Delete User</DialogTitle>
+        <DialogTitle id="form-dialog-title">Delete Comment</DialogTitle>
         <DialogContent>
           <div className="d-flex align-items-center">
             <ExclamationCircleOutlined className="text-warning" />{" "}
             <Typography className="mx-2">
-              Are you sure you want to delete this user
+              Are you sure you want to delete this comment
             </Typography>
           </div>
         </DialogContent>

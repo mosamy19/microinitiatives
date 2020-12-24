@@ -19,7 +19,7 @@ const Editcomment = ({ userId, isOpen, handleCancel }) => {
         onClose={handleCancel}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Comment</DialogTitle>
         <DialogContent></DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="danger">
