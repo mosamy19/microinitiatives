@@ -1,5 +1,6 @@
 export const SET_USER = "SET_USER";
 export const SET_LOGEDIN_USER = "SET_LOGEDIN_USER";
+export const SET_ALL_USERS = "SET_ALL_USERS";
 export const USERS_ERROR = "USERS_ERROR";
 export const SET_INITIATIVE = "SET_INITIATIVE";
 export const SET_CLONED_INITIATIVES = "SET_CLONED_INITIATIVES";

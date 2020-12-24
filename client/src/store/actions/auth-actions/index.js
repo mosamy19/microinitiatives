@@ -149,6 +149,28 @@ export const getLoggedinUser = () => async (dispatch) => {
     });
   }
 };
+
+// admin routes actions
+export const getAllUsers = () => async (dispatch) => {
+  try {
+     dispatch(showLoading());
+    let response = await axios.get("/api/v1/auth/get-all-users");
+    dispatch({
+      type: types.SET_ALL_USERS,
+      payload: {
+        allUsers: response.data,
+      },
+    });
+    dispatch(hideLoading())
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 export const getPublicProfileUser = (userId) => async (dispatch) => {
   try {
     let response = await axios.get(

@@ -3,6 +3,7 @@ import { Layout, Menu } from "antd";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { FiHome } from "react-icons/fi";
+import { MdViewList } from "react-icons/md";
 import { GoCommentDiscussion } from "react-icons/go";
 import {
   UserOutlined,
@@ -79,21 +80,26 @@ const DashboardSidebar = ({ collapsed }) => {
             Home
           </Menu.Item>
           <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Initiatives">
-            <Menu.Item key="2">Tom</Menu.Item>
-            <Menu.Item key="3">Bill</Menu.Item>
-            <Menu.Item key="4">Alex</Menu.Item>
+            <Menu.Item
+              key="2"
+              onClick={() => history.push("/dashboard/initiatives")}
+            >
+              All Initiatives
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="5" onClick={() => history.push("/all-users")}>
+            <Menu.Item key="5" onClick={() => history.push("/dashboard/users")}>
               All Users
             </Menu.Item>
-            <Menu.Item key="6">Bill</Menu.Item>
-            <Menu.Item key="7">Alex</Menu.Item>
           </SubMenu>
-          <Menu.Item key="8" icon={<GoCommentDiscussion />}>
+          <Menu.Item
+            key="8"
+            icon={<GoCommentDiscussion />}
+            onClick={() => history.push("/dashboard/comments")}
+          >
             Comments
           </Menu.Item>
-          <Menu.Item key="9" icon={<GoCommentDiscussion />}>
+          <Menu.Item key="9" icon={<MdViewList />}>
             Categories
           </Menu.Item>
           <Menu.Item key="10" icon={<MailOutlined />}>

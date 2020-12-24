@@ -8,6 +8,8 @@ import Contact from "../pages/Contact";
 import Successmsg from "../pages/Contact/components/Successmsg";
 import Dashboard from "../pages/Dashboard";
 import Users from "../pages/Dashboard/Users";
+import Dashboardinitiatives from "../pages/Dashboard/Initiatives/index";
+import Dashboardcomment from "../pages/Dashboard/Comments";
 import Home from "../pages/Home";
 import Browseallinitiatives from "../pages/Home/components/browse-all-initiatives";
 import Browsesingleinitiative from "../pages/Home/components/browse-single-initiative";
@@ -45,9 +47,21 @@ const AppRoutes = () => {
         />
         <AdminRouteWithLayout
           layout={DashboardLayout}
-          path="/all-users"
+          path="/dashboard/users"
           exact
           component={Users}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/initiatives"
+          exact
+          component={Dashboardinitiatives}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/comments"
+          exact
+          component={Dashboardcomment}
         />
 
         {/* all public routes */}

@@ -23,6 +23,8 @@ const upload = require("../middlewares/uploadMiddleware");
 const edituserValidator = require("../validator/auth/edituserValidator");
 const editProfilePicValidator = require("../validator/auth/editProfilePicValidator");
 
+
+// public routes
 router.post("/signup", signupValidator, signupController);
 router.post("/activate-account", activateAccountController);
 router.post("/login", loginValidator, loginController);
@@ -38,6 +40,8 @@ router.post(
   changePasswordValidator,
   changePasswordController
 );
+
+// private routes
 router.put(
   "/edit-user",
   isAuthenticated,
@@ -52,6 +56,8 @@ router.get(
   isAuthenticated,
   getPublicProfileUser
 );
+
+// admin routes
 router.get("/get-all-users", isAuthenticated, isAdmin, getAllUsers);
 
 module.exports = router;

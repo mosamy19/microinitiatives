@@ -4,10 +4,16 @@ import Chart9 from "../../components/Charts/9";
 import Chart5 from "../../components/Charts/5";
 import Chart10 from "../../components/Charts/10";
 import Chart1 from "../../components/Charts/1";
+import { Grid } from "@material-ui/core";
 
 const Dashboard = () => {
   return (
     <div>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6} md={4}>
+          
+        </Grid>
+      </Grid>
       <div className="air__utils__heading">
         <h5>Dashboard: Analytics</h5>
       </div>

@@ -1,26 +1,22 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Table, Space, Button, Input } from "antd";
-import styled from "styled-components";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getAllUsers } from "../../../store/actions/auth-actions";
-import { useState, useRef } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { getAllInitiatives } from "../../../store/actions/initiative-actions";
 import moment from "moment";
+import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import Edituser from "./components/edit-user";
-import Deleteuser from "./components/delete-user";
-import Adduser from "./components/add-user";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import Editinitiatives from "./components/edit-initiatives";
+import Deleteinitiative from "./components/delete-initiatives";
+import Addinitiative from "./components/add-initiatives";
 
-const Users = () => {
+const Dashboardinitiatives = () => {
   const dispatch = useDispatch();
   let searchInput = useRef();
 
-  console.log(searchInput);
-
   const [data, setDatat] = useState([]);
-  const [all_users, set_all_users] = useState([]);
+  const [all_initiatives, set_all_initiatives] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState({
     searchText: "",
@@ -29,37 +25,41 @@ const Users = () => {
 
   // setting the data source
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllInitiatives("newest"));
   }, [dispatch]);
 
   const { isLoading } = useSelector((state) => state.loader);
-  const { allUsers } = useSelector((state) => state.auth);
+  const { initiatives } = useSelector((state) => state.initiatives);
   useEffect(() => {
-    if (allUsers) {
-      set_all_users(allUsers);
+    if (initiatives) {
+      set_all_initiatives(initiatives);
     }
-  }, [allUsers]);
+  }, [initiatives]);
+  console.log(all_initiatives);
 
   useEffect(() => {
-    if (all_users.length > 0) {
-      let users = [];
-      all_users.map((item, index) => {
-        users = [
-          ...users,
+    if (all_initiatives.length > 0) {
+      let temp = [];
+      all_initiatives.map((item, index) => {
+        temp = [
+          ...temp,
           {
             key: item._id,
             date: moment(item.createdAt).format("l"),
-            firstName: item.firstName,
-            familyName: item.familyName,
-            email: item.email,
-            initiatives: item.initiatives.length,
+            title: item.title,
+            description: item.description,
+            clones: item.clones,
+            likes: item.likes,
+            shares: item.shares,
+            saves: item.favorites,
+            comments: item.comments,
           },
         ];
         return true;
       });
-      setDatat([...users]);
+      setDatat([...temp]);
     }
-  }, [all_users]);
+  }, [all_initiatives]);
 
   // filtration
   const getColumnSearchProps = (dataIndex) => ({
@@ -148,14 +148,14 @@ const Users = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [initiativeId, setInitiativeId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
-    setUserId(id);
+    setInitiativeId(id);
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setUserId(id);
+    setInitiativeId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -171,8 +171,7 @@ const Users = () => {
     setIsAddOpen(false);
   };
 
-  // columns
-
+  //   columns
   const columns = [
     {
       title: "Creation Date",
@@ -181,30 +180,43 @@ const Users = () => {
       width: "15%",
     },
     {
-      title: "First Name",
-      dataIndex: "firstName",
-      key: "firstName",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
       width: "12%",
-      ...getColumnSearchProps("firstName"),
+      ...getColumnSearchProps("title"),
     },
     {
-      title: "Family Name",
-      dataIndex: "familyName",
-      key: "familyName",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
       width: "12%",
-      ...getColumnSearchProps("familyName"),
+      ...getColumnSearchProps("description"),
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      width: "20%",
-      ...getColumnSearchProps("email"),
+      title: "Clones",
+      dataIndex: "clones",
+      key: "clones",
     },
     {
-      title: "Initiatives",
-      dataIndex: "initiatives",
-      key: "initiatives",
+      title: "Likes",
+      dataIndex: "likes",
+      key: "likes",
+    },
+    {
+      title: "Share",
+      dataIndex: "shares",
+      key: "shares",
+    },
+    {
+      title: "Saves",
+      dataIndex: "saves",
+      key: "saves",
+    },
+    {
+      title: "Comments",
+      dataIndex: "comments",
+      key: "comments",
     },
     {
       title: "Action",
@@ -234,7 +246,7 @@ const Users = () => {
   ];
 
   return (
-    <Wrapper>
+    <div>
       <div className="my-3">
         <Button
           className="d-flex justify-content-center align-items-center"
@@ -243,30 +255,29 @@ const Users = () => {
           size="large"
           onClick={handleOnClickAdd}
         >
-          Add New User
+          Add New Initiative
         </Button>
       </div>
       <Table columns={columns} dataSource={data} />
-      <Adduser
+      <Addinitiative
         showModal={handleOnClickAdd}
         handleCancel={handleCancelAdd}
         isOpen={isAddOpen}
       />
-      <Edituser
-        userId={userId}
+      <Editinitiatives
+        initiativeId={initiativeId}
         showModal={handleOnClick}
         handleCancel={handleCancel}
         isOpen={isOpen}
       />
-      <Deleteuser
-        userId={userId}
+      <Deleteinitiative
+        initiativeId={initiativeId}
         showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}
       />
-    </Wrapper>
+    </div>
   );
 };
 
-export default Users;
-const Wrapper = styled.div``;
+export default Dashboardinitiatives;

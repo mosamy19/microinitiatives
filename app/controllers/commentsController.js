@@ -80,4 +80,18 @@ module.exports = {
       serverError(res, error);
     }
   },
+
+  getAllComments: async (req, res) => {
+    let order = req.body.order ? req.body.order : "desc";
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+    try {
+      let comments = await Comment.find()
+        .populate("author", "firstName familyName avatar")
+        .sort([[sortBy, order]]);
+      res.status(200).json(comments);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
 };

@@ -30,15 +30,6 @@ const Mainnavigation = (props) => {
   const location = useLocation();
   const [isMyInitiative, setIsMyInitiative] = useState(false);
   const [isAllInitiative, setIsAllInitiative] = useState(false);
-  // const [loggedinUser, setLoggedinUser] = useState({});
-
-  // const user = useSelector((state) => state.auth.user);
-  // useEffect(() => {
-  //   if (user) {
-  //     setLoggedinUser(user);
-  //   }
-  // }, [user]);
-  // const { firstName, familyName, avatar, notifications } = loggedinUser;
 
   useEffect(() => {
     dispatch(getLoggedinUser());
@@ -46,7 +37,7 @@ const Mainnavigation = (props) => {
 
   const { isLoading } = useSelector((state) => state.loader);
   const { logedinUser } = useSelector((state) => state.auth);
-  const { firstName, familyName, avatar, notifications } = logedinUser;
+  const { firstName, familyName, avatar, notifications, isAdmin } = logedinUser;
 
   useEffect(() => {
     if (location.pathname === "/my-initiatives") {
@@ -132,6 +123,7 @@ const Mainnavigation = (props) => {
                   to="#"
                 >
                   <Menu
+                    admin={isAdmin}
                     name={firstName + " " + familyName}
                     avatar={avatar}
                     loading={isLoading}

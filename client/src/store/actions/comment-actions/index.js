@@ -20,6 +20,24 @@ export const getComments = (initiativeId) => async (dispatch) => {
     });
   }
 };
+export const getAllComments = () => async (dispatch) => {
+  try {
+    let response = await axios.get(`/api/v1/comments/get-all-comments`);
+    dispatch({
+      type: types.SET_COMMENTS,
+      payload: {
+        comments: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.COMMENTS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 export const getLandingPageComments = (initiativeId) => async (dispatch) => {
   try {
     let response = await axios.get(

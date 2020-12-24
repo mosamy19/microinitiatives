@@ -4,7 +4,7 @@ import Publicnavigation from "../../components/partials/Publicnavigation";
 
 const PublicLayout = (props) => {
   return (
-    <div>
+    <div style={{direction: "rtl"}}>
       <div style={{ minHeight: "92vh" }}>
         <Publicnavigation />
         <div>{props.children}</div>

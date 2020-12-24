@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
+
 import styled from "styled-components";
 import logo from "../../../../assets/images/Project-Logo.png";
 import { useHistory } from "react-router-dom";
@@ -85,10 +86,6 @@ const Popup = ({ isOpen, handleClose, handleClick }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  //   const handleClick = () => {
-  //     setOpen(false);
-  //     history.push("/signup");
-  //   };
 
   return (
     <Wrapper>

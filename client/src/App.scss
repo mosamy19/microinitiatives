@@ -104,3 +104,14 @@ input[type=password],
     
 }
 
+.my-modal {
+    input[type=text],
+    input[type=email],
+    input[type=password],
+    input[type=submit],
+    textarea,
+    label {
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+    }
+}
+

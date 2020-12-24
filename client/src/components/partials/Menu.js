@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CircularProgress } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/auth-actions";
@@ -14,7 +13,7 @@ import userIcon from "../../assets/images/user.svg";
 import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
 
-const Menu = ({ name, avatar, loading }) => {
+const Menu = ({ name, avatar, admin }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -52,6 +51,20 @@ const Menu = ({ name, avatar, loading }) => {
           <DropdownItem>
             <Link to="/settings">إعدادات</Link>
           </DropdownItem>
+          {admin ? (
+            <DropdownItem>
+              <Link
+                to="/dashboard"
+                // target="_blank"
+                // onClick={(event) => {
+                //   event.preventDefault();
+                //   // window.open(props.history.makeHref("/dashboard"));
+                // }}
+              >
+                لوحة التحكم
+              </Link>
+            </DropdownItem>
+          ) : null}
           <DropdownItem>
             <Link to="#" onClick={hadnleLogout}>
               تسجيل خروج
@@ -73,8 +86,9 @@ const Wrapper = styled.div`
     border-radius: 0;
     .dropdown-item {
       text-align: right;
-      &:nth-child(1) {
-        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+      border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+      &:last-child {
+         border-bottom: none;
       }
       a {
         text-decoration: none;

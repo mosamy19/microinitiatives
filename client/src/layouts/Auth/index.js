@@ -6,7 +6,7 @@ import PublicFooter from "../../components/partials/PublicFooter";
 
 const AuthLayout = (props) => {
   return (
-    <Wrapper>
+    <Wrapper style={{direction: "rtl"}}>
       <div style={{ minHeight: "92vh" }}>
         <div className="d-flex justify-content-center align-items-center mb-hide">
           <Link style={{ textDecoration: "none", cursor: "pointer" }} to="/">

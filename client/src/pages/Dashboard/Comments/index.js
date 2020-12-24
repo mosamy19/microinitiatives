@@ -1,26 +1,25 @@
 import React from "react";
 import { Table, Space, Button, Input } from "antd";
 import styled from "styled-components";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllUsers } from "../../../store/actions/auth-actions";
+import { getAllComments } from "../../../store/actions/comment-actions";
 import { useState, useRef } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
-import Edituser from "./components/edit-user";
-import Deleteuser from "./components/delete-user";
-import Adduser from "./components/add-user";
+import Editcomment from "./components/edit-comment";
+import Deletecomment from "./components/delete-comment";
 
-const Users = () => {
+const Dassboardcomment = () => {
   const dispatch = useDispatch();
   let searchInput = useRef();
 
   console.log(searchInput);
 
   const [data, setDatat] = useState([]);
-  const [all_users, set_all_users] = useState([]);
+  const [all_comments, set_all_comments] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState({
     searchText: "",
@@ -29,37 +28,36 @@ const Users = () => {
 
   // setting the data source
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllComments());
   }, [dispatch]);
 
   const { isLoading } = useSelector((state) => state.loader);
-  const { allUsers } = useSelector((state) => state.auth);
+  const { comments } = useSelector((state) => state.comments);
   useEffect(() => {
-    if (allUsers) {
-      set_all_users(allUsers);
+    if (comments) {
+      set_all_comments(comments);
     }
-  }, [allUsers]);
+  }, [comments]);
 
   useEffect(() => {
-    if (all_users.length > 0) {
-      let users = [];
-      all_users.map((item, index) => {
-        users = [
-          ...users,
+    if (all_comments.length > 0) {
+      let temp = [];
+      all_comments.map((item, index) => {
+        temp = [
+          ...temp,
           {
             key: item._id,
             date: moment(item.createdAt).format("l"),
-            firstName: item.firstName,
-            familyName: item.familyName,
-            email: item.email,
-            initiatives: item.initiatives.length,
+            comment: item.body,
+            author: "someone",
+            initiative: item.initiative,
           },
         ];
         return true;
       });
-      setDatat([...users]);
+      setDatat([...temp]);
     }
-  }, [all_users]);
+  }, [all_comments]);
 
   // filtration
   const getColumnSearchProps = (dataIndex) => ({
@@ -143,11 +141,9 @@ const Users = () => {
     clearFilters();
     setSearchTerm({ ...setSearchTerm, searchText: "" });
   };
-
   // edit user modal props
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isAddOpen, setIsAddOpen] = useState(false);
   const [userId, setUserId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
@@ -163,16 +159,7 @@ const Users = () => {
   const handleDeleteClose = () => {
     setIsDeleteOpen(false);
   };
-
-  const handleOnClickAdd = () => {
-    setIsAddOpen(true);
-  };
-  const handleCancelAdd = () => {
-    setIsAddOpen(false);
-  };
-
   // columns
-
   const columns = [
     {
       title: "Creation Date",
@@ -181,30 +168,25 @@ const Users = () => {
       width: "15%",
     },
     {
-      title: "First Name",
-      dataIndex: "firstName",
-      key: "firstName",
+      title: "Comment",
+      dataIndex: "comment",
+      key: "comment",
       width: "12%",
-      ...getColumnSearchProps("firstName"),
+      ...getColumnSearchProps("comment"),
     },
     {
-      title: "Family Name",
-      dataIndex: "familyName",
-      key: "familyName",
+      title: "Author",
+      dataIndex: "author",
+      key: "author",
       width: "12%",
-      ...getColumnSearchProps("familyName"),
+      ...getColumnSearchProps("author"),
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Initiative",
+      dataIndex: "initiative",
+      key: "initiative",
       width: "20%",
-      ...getColumnSearchProps("email"),
-    },
-    {
-      title: "Initiatives",
-      dataIndex: "initiatives",
-      key: "initiatives",
+      ...getColumnSearchProps("initiative"),
     },
     {
       title: "Action",
@@ -232,41 +214,24 @@ const Users = () => {
       ),
     },
   ];
-
   return (
-    <Wrapper>
-      <div className="my-3">
-        <Button
-          className="d-flex justify-content-center align-items-center"
-          type="primary"
-          icon={<PlusOutlined />}
-          size="large"
-          onClick={handleOnClickAdd}
-        >
-          Add New User
-        </Button>
-      </div>
+    <div>
       <Table columns={columns} dataSource={data} />
-      <Adduser
-        showModal={handleOnClickAdd}
-        handleCancel={handleCancelAdd}
-        isOpen={isAddOpen}
-      />
-      <Edituser
+
+      <Editcomment
         userId={userId}
         showModal={handleOnClick}
         handleCancel={handleCancel}
         isOpen={isOpen}
       />
-      <Deleteuser
+      <Deletecomment
         userId={userId}
         showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}
       />
-    </Wrapper>
+    </div>
   );
 };
 
-export default Users;
-const Wrapper = styled.div``;
+export default Dassboardcomment;

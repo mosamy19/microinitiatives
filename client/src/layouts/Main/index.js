@@ -6,7 +6,7 @@ import Mainnavigation from "../../components/partials/Mainnavigation";
 const MainLayout = (props) => {
   return (
     <>
-      <div style={{ minHeight: "90vh" }}>
+      <div style={{ minHeight: "90vh", direction: "rtl" }}>
         <Mainnavigation />
         <div className="container">{props.children}</div>
       </div>
