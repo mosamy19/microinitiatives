@@ -93,5 +93,53 @@ module.exports = {
       serverError(res, error);
     }
   },
+  editComment: async (req, res) => {
+    const { commentId } = req.params;
+    const { body } = req.body;
 
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let comment = await Comment.findOne({ _id: commentId });
+      if (!comment) {
+        return resourceError(res, "Comment not found");
+      }
+
+      let updatedComment = await Comment.findOneAndUpdate(
+        { _id: commentId },
+        { $set: { body } },
+        { new: true }
+      );
+      res.status(200).json({ message: "Edited successfully", updatedComment });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getSingleComment: async (req, res) => {
+    let { commentId } = req.params;
+    try {
+      let comment = await Comment.findOne({ _id: commentId });
+      if (!comment) {
+        return resourceError(res, "No Comment Found");
+      }
+      res.status(200).json(comment);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  deleteComment: async (req, res) => {
+    let { commentId } = req.params;
+    try {
+      let comment = await Comment.findOneAndDelete({ _id: commentId });
+      if (!comment) {
+        return resourceError(res, "No Comment Found");
+      }
+      res.status(200).json({ message: "Deleted successfully", comment });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };

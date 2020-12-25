@@ -1,43 +1,69 @@
-import React from 'react';
+import React from "react";
+import { Modal, Button } from "antd";
+import { useDispatch } from "react-redux";
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from "@material-ui/core";
+  deleteComment,
+  getAllComments,
+} from "../../../../../store/actions/comment-actions";
 // import { Button } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const Deletecomment = ({ userId, isOpen, handleCancel }) => {
+const Deletecomment = ({ commentId, isOpen, handleCancel }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteComment(commentId));
+    handleCancel();
+    setTimeout(() => {
+      dispatch(getAllComments());
+    }, 300);
+  };
   return (
     <div>
-      <Dialog
-        maxWidth="sm"
-        fullWidth={true}
-        open={isOpen}
-        onClose={handleCancel}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Delete Comment</DialogTitle>
-        <DialogContent>
-          <div className="d-flex align-items-center">
-            <ExclamationCircleOutlined className="text-warning" />{" "}
-            <Typography className="mx-2">
-              Are you sure you want to delete this comment
-            </Typography>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel} color="danger">
-            No
-          </Button>
-          <Button onClick={handleCancel} color="primary">
+      <Modal
+        title="Delete Comment"
+        visible={isOpen}
+        onCancel={handleCancel}
+        footer={[
+          <Button onClick={handleCancel}>No</Button>,
+          <Button
+            type="primary"
+            danger
+            // loading={loading}
+            onClick={handleDelete}
+          >
             Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </Button>,
+        ]}
+      >
+        <div className="d-flex align-items-center">
+          <ExclamationCircleOutlined
+            className="text-warning"
+            style={{ fontSize: "16px", marginRight: "6px" }}
+          />
+          <h5
+            style={{
+              marginBottom: "0",
+              fontSize: "16px",
+              color: "rgba(0, 0, 0, 0.85)",
+            }}
+          >
+            Are you sure, you want to delete this comment?
+          </h5>
+        </div>
+        <p
+          style={{
+            marginBottom: "0",
+            marginTop: "8px",
+            paddingLeft: "22px",
+            fontSize: "14px",
+            color: "rgba(0, 0, 0, 0.85)",
+          }}
+        >
+          When you clicked the OK button, this comment will be deleted
+          permanently from database.
+        </p>
+      </Modal>
     </div>
   );
 };

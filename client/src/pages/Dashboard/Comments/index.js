@@ -144,14 +144,14 @@ const Dassboardcomment = () => {
   // edit user modal props
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [commentId, setCommentId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
-    setUserId(id);
+    setCommentId(id);
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setUserId(id);
+    setCommentId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -219,14 +219,14 @@ const Dassboardcomment = () => {
       <Table columns={columns} dataSource={data} />
 
       <Editcomment
-        userId={userId}
-        showModal={handleOnClick}
-        handleCancel={handleCancel}
+        commentId={commentId}
+        // showModal={handleOnClick}
+        handleEditCancel={handleCancel}
         isOpen={isOpen}
       />
       <Deletecomment
-        userId={userId}
-        showModal={handleOnDelete}
+        commentId={commentId}
+        // showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}
       />
