@@ -19,7 +19,7 @@ const Newinitiative = () => {
 
   const [initiative, setInitiative] = useState({
     title: "",
-    category: [],
+    category: "",
     description: "",
     thumbnail: [],
   });

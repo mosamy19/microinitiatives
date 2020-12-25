@@ -1,3 +1,6 @@
+// Roboto google font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 
 * {
     padding: 0;
@@ -9,7 +12,7 @@
 }
 
 body {
-    font-family: Samim-FD-WOL!important;
+    font-family: Samim-FD-WOL;
     background-color: #fafbfb;
 }
 @font-face {
@@ -50,9 +53,7 @@ ul li{
     display: flex;
     align-items: center;
 }
-input, label {
-    font-family: Samim-FD-WOL !important;
-}
+
 
 textarea:hover,
 input:hover,
@@ -104,14 +105,8 @@ input[type=password],
     
 }
 
-.my-modal {
-    input[type=text],
-    input[type=email],
-    input[type=password],
-    input[type=submit],
-    textarea,
-    label {
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-    }
+.dashboard,
+.ant-form-item-label>label,
+.ant-btn>span {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
 }
-

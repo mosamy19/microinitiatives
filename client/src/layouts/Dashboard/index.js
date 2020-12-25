@@ -15,7 +15,7 @@ const DashboardLayout = (props) => {
   };
 
   return (
-    <Wrapper style={{ direction: "ltr" }}>
+    <div className="dashboard" style={{ direction: "ltr" }}>
       <Layout style={{ minHeight: "100vh" }}>
         <DashboardSidebar collapsed={collapsed} />
         <Layout className="site-layout">
@@ -33,11 +33,9 @@ const DashboardLayout = (props) => {
           <DashboardFooter />
         </Layout>
       </Layout>
-    </Wrapper>
+    </div>
   );
 };
 
 export default DashboardLayout;
-const Wrapper = styled.div`
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-`;
+

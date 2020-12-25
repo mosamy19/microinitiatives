@@ -15,7 +15,7 @@ const Newinitiative = () => {
   const history = useHistory();
   const [initiative, setInitiative] = useState({
     title: "",
-    category: [],
+    category: "",
     description: "",
   });
   const [errors, setErrors] = useState({

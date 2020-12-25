@@ -8,7 +8,7 @@ const initiativeSchema = new Schema(
       maxlength: 100,
     },
     category: {
-      type: [String],
+      type: String,
       required: true,
       trim: true,
     },

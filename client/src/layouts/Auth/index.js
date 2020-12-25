@@ -1,12 +1,13 @@
 import React from "react";
 import logo from "../../assets/images/Project-Logo.png";
+import samimFont from "../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import PublicFooter from "../../components/partials/PublicFooter";
 
 const AuthLayout = (props) => {
   return (
-    <Wrapper style={{direction: "rtl"}}>
+    <Wrapper style={{ direction: "rtl" }}>
       <div style={{ minHeight: "92vh" }}>
         <div className="d-flex justify-content-center align-items-center mb-hide">
           <Link style={{ textDecoration: "none", cursor: "pointer" }} to="/">
@@ -27,6 +28,11 @@ const AuthLayout = (props) => {
 
 export default AuthLayout;
 const Wrapper = styled.div`
+  font-family: Samim-FD-WOL !important;
+  @font-face {
+    font-family: Samim-FD-WOL;
+    src: url(${samimFont});
+  }
   .mb-hide {
     margin-top: 64px;
   }

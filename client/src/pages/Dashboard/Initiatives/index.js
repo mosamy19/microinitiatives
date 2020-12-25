@@ -267,7 +267,7 @@ const Dashboardinitiatives = () => {
       <Table columns={columns} dataSource={data} />
       <Addinitiative
         showModal={handleOnClickAdd}
-        handleCancel={handleCancelAdd}
+        handleCancelAdd={handleCancelAdd}
         isOpen={isAddOpen}
       />
       <Editinitiatives

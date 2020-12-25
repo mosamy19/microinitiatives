@@ -54,7 +54,6 @@ const MyAllinitiatives = () => {
     }
   }, [myInitiatives]);
 
-
   useEffect(() => {
     if (value === 0) {
       setIsCurrent(true);
