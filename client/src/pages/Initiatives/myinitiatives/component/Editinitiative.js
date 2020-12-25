@@ -19,7 +19,7 @@ const Editinitiative = () => {
 
   const [initiative, setInitiative] = useState({
     title: "",
-    category: [],
+    category: "",
     description: "",
     thumbnail: [],
     // draft: type === "draft" ? false : true,

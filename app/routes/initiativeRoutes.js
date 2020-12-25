@@ -15,10 +15,13 @@ const {
   getPublicProfileInitiatives,
   getLandingPageSingleInitiative,
   getLandingPageClonedtInitiatives,
+  editInitiativeByAdmin,
+  get_admin_panel_initiatives,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
 const isAuthenticated = require("../middlewares/authenticate");
+const isAdmin = require("../middlewares/admin");
 
 router.get("/get-initiatives/:sortBy", isAuthenticated, getAllInitiatives);
 router.get("/get-landing-page-initiatives/:sortBy", getLandingPageInitiatives);
@@ -34,6 +37,16 @@ router.get(
   "/get-public-profile-initiatives/:userId",
   getPublicProfileInitiatives
 );
+
+// admin routes
+router.get(
+  "/get-admin-panel-initiatives",
+  isAuthenticated,
+  isAdmin,
+  get_admin_panel_initiatives
+);
+
+
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
 router.get(
   "/cloned-initiatives/:clonedInitiativeId",
@@ -41,6 +54,8 @@ router.get(
   getClonedtInitiatives
 );
 router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
+
+
 router.get("/:initiativeId", isAuthenticated, getSingleInitiative);
 router.post(
   "/create-initiatives",
@@ -58,6 +73,19 @@ router.put(
   initiativeValidator,
   editInitiative
 );
-router.delete("/:initiativeId", isAuthenticated, deleteInitiative);
+
+// Admin routes
+
+
+router.put(
+  "/edit-initiative-by-admin/:initiativeId",
+  isAuthenticated,
+  isAdmin,
+  upload.array("thumbnail"),
+  imageUploadValidator,
+  initiativeValidator,
+  editInitiativeByAdmin
+);
+router.delete("/delete/:initiativeId", isAuthenticated, isAdmin, deleteInitiative);
 
 module.exports = router;

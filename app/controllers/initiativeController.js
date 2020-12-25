@@ -288,7 +288,6 @@ module.exports = {
   editInitiative: async (req, res) => {
     const { initiativeId } = req.params;
     const { title, category, description, thumbnailUri, draft } = req.body;
-    console.log(req.body);
 
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
@@ -296,7 +295,69 @@ module.exports = {
     }
 
     try {
-      let initiative = await Initiative.findOne({ _id: initiativeId });
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+        author: req.user._id,
+      });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+
+      let thumbnail = initiative.thumbnail;
+      thumbnail = [];
+      if (thumbnailUri) {
+        thumbnail = thumbnailUri;
+      }
+      if (req.files) {
+        for (let file of req.files) {
+          thumbnail = [...thumbnail, `/uploads/${file.filename}`];
+        }
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
+        { _id: initiativeId },
+        { $set: { title, category, description, thumbnail, draft } },
+        { new: true }
+      );
+      res
+        .status(200)
+        .json({ message: "Edited successfully", updatedInitiative });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  // admin controllers
+  get_admin_panel_initiatives: async (req, res) => {
+    try {
+      let initiatives = await Initiative.find().populate(
+        "author",
+        "firstName familyName avatar"
+      );
+      if (initiatives.length === 0) {
+        return res.status(200).json({
+          message: "No Initiative Found",
+        });
+      }
+      res.status(200).json(initiatives);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  editInitiativeByAdmin: async (req, res) => {
+    const { initiativeId } = req.params;
+    const { title, category, description, thumbnailUri, draft } = req.body;
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+      });
       if (!initiative) {
         return resourceError(res, "Initiative not found");
       }

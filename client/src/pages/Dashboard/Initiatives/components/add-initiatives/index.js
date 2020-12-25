@@ -1,26 +1,24 @@
 import React from "react";
-import styled from "styled-components";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@material-ui/core";
 import { Form, Input, Button, Select } from "antd";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { createInitiative } from "../../../../../store/actions/initiative-actions";
+
 const { Option } = Select;
 
 const Addinitiative = ({ isOpen, handleCancelAdd }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [initiative, setInitiative] = useState({
     title: "",
     category: "",
     description: "",
   });
-  const handleOnSelectChange = (value) => {
-    console.log(value);
-  };
+
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -66,24 +64,48 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+
+  // form submition
+  const submitHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of state.fileList) {
+      fd.append("thumbnail", file.originFileObj);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    dispatch(createInitiative(fd, history));
+  };
+
+  const draftHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of state.fileList) {
+      fd.append("thumbnail", file.originFileObj);
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("draft", true);
+
+    dispatch(createInitiative(fd, history));
+  };
+
   return (
-    <div className="">
+    <div>
       <Modal
         title="Add New Initiative"
         visible={isOpen}
         onCancel={handleCancelAdd}
         footer={[
-          <Button key="back" onClick={handleCancelAdd}>
-            Cancel
-          </Button>,
-          <Button key="back" onClick={handleCancelAdd}>
-            Save as draft
-          </Button>,
+          <Button onClick={handleCancelAdd}>Cancel</Button>,
+          <Button onClick={draftHandler}>Save as draft</Button>,
           <Button
             key="submit"
             type="primary"
             // loading={loading}
-            // onClick={this.handleOk}
+            onClick={submitHandler}
           >
             Publish
           </Button>,
@@ -99,16 +121,26 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
               }}
             />
           </Form.Item>
-          <Form.Item>
-            <div>
-              <Select>
-                <Option value="newest">الأحدث</Option>
-                <Option value="cloned">أكثر المبادرات تنفيذاً</Option>
-                <Option value="liked">أكثر المبادرات إعجابًا</Option>
-              </Select>
-            </div>
+          <Form.Item label="Category">
+            <Select
+              onChange={(value) => {
+                setInitiative({ ...initiative, category: value });
+                console.log(value);
+              }}
+            >
+              <Option value="one">ترفيهي</Option>
+              <Option value="two"> تعليمي</Option>
+              <Option value="three"> رياضي</Option>
+              <Option value="four"> اجتماعي</Option>
+            </Select>
           </Form.Item>
-          <Form.Item label="Description">
+          <Form.Item
+            label="Description"
+            onChange={(e) => {
+              setInitiative({ ...initiative, description: e.target.value });
+              console.log(e.target.value);
+            }}
+          >
             <Input.TextArea />
           </Form.Item>
           <Form.Item label="Images">
@@ -136,27 +168,6 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
           </Form.Item>
         </Form>
       </Modal>
-      {/* <Dialog
-        maxWidth="sm"
-        fullWidth={true}
-        open={isOpen}
-        onClose={handleCancelAdd}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Add New Initiative</DialogTitle>
-        <DialogContent>
-         
-        </DialogContent>
-        <DialogActions style={{ marginBottom: "15px", marginRight: "15px" }}>
-          <Button onClick={handleCancel} type="primary" danger>
-            Cancel
-          </Button>
-          <Button onClick={handleCancel}>Save as draft</Button>
-          <Button onClick={handleCancel} type="primary">
-            Publish
-          </Button>
-        </DialogActions>
-      </Dialog> */}
     </div>
   );
 };

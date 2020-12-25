@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Table, Space, Button, Input } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllInitiatives } from "../../../store/actions/initiative-actions";
+import { getAllInitiativesByAdmin } from "../../../store/actions/initiative-actions";
 import moment from "moment";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
@@ -25,7 +25,7 @@ const Dashboardinitiatives = () => {
 
   // setting the data source
   useEffect(() => {
-    dispatch(getAllInitiatives("newest"));
+    dispatch(getAllInitiativesByAdmin());
   }, [dispatch]);
 
   const { isLoading } = useSelector((state) => state.loader);
@@ -35,7 +35,7 @@ const Dashboardinitiatives = () => {
       set_all_initiatives(initiatives);
     }
   }, [initiatives]);
-  console.log(all_initiatives);
+  console.log(initiatives);
 
   useEffect(() => {
     if (all_initiatives.length > 0) {
@@ -273,7 +273,7 @@ const Dashboardinitiatives = () => {
       <Editinitiatives
         initiativeId={initiativeId}
         showModal={handleOnClick}
-        handleCancel={handleCancel}
+        handleEditCancel={handleCancel}
         isOpen={isOpen}
       />
       <Deleteinitiative
