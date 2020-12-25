@@ -21,13 +21,14 @@ const Deleteinitiative = ({ initiativeId, isOpen, handleCancel }) => {
   return (
     <div>
       <Modal
-        title="Add New Initiative"
+        title="Delete Initiative"
         visible={isOpen}
         onCancel={handleCancel}
         footer={[
           <Button onClick={handleCancel}>No</Button>,
           <Button
             type="primary"
+            danger
             // loading={loading}
             onClick={handleDelete}
           >
