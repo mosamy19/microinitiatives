@@ -4,6 +4,7 @@ const initialState = {
   isAdmin: false,
   user: {},
   logedinUser: {},
+  singleUser: {},
   allUsers: {},
   error: {},
 };
@@ -22,6 +23,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         logedinUser: action.payload.logedinUser,
+        error: {},
+      };
+    case types.SET_SINGLE_USER:
+      return {
+        ...state,
+        singleUser: action.payload.singleUser,
         error: {},
       };
     case types.SET_ALL_USERS:

@@ -15,6 +15,10 @@ const {
   getLoggedinUser,
   getPublicProfileUser,
   getAllUsers,
+  addNewUser,
+  deleteUser,
+  getSingleUser,
+  editUserByAdmin,
 } = require("../controllers/authController");
 
 const isAuthenticated = require("../middlewares/authenticate");
@@ -22,7 +26,6 @@ const isAdmin = require("../middlewares/admin");
 const upload = require("../middlewares/uploadMiddleware");
 const edituserValidator = require("../validator/auth/edituserValidator");
 const editProfilePicValidator = require("../validator/auth/editProfilePicValidator");
-
 
 // public routes
 router.post("/signup", signupValidator, signupController);
@@ -58,6 +61,26 @@ router.get(
 );
 
 // admin routes
+router.post(
+  "/add-new-user",
+  isAuthenticated,
+  isAdmin,
+  upload.single("avatar"),
+  editProfilePicValidator,
+  signupValidator,
+  addNewUser
+);
+router.put(
+  "/edit-user-by-admin/:userId",
+  isAuthenticated,
+  isAdmin,
+  upload.single("avatar"),
+  editProfilePicValidator,
+  editUserByAdmin
+);
+
+router.delete("/delete-user/:userId", isAuthenticated, isAdmin, deleteUser);
 router.get("/get-all-users", isAuthenticated, isAdmin, getAllUsers);
+router.get("/get-single-user/:userId", isAuthenticated, isAdmin, getSingleUser);
 
 module.exports = router;

@@ -248,14 +248,14 @@ const Users = () => {
       </div>
       <Table columns={columns} dataSource={data} />
       <Adduser
-        showModal={handleOnClickAdd}
-        handleCancel={handleCancelAdd}
+        // showModal={handleOnClickAdd}
+        handleCancelAdd={handleCancelAdd}
         isOpen={isAddOpen}
       />
       <Edituser
         userId={userId}
         showModal={handleOnClick}
-        handleCancel={handleCancel}
+        handleEditCancel={handleCancel}
         isOpen={isOpen}
       />
       <Deleteuser

@@ -131,7 +131,7 @@ export const updateUser = (user) => async (dispatch) => {
 
 export const getLoggedinUser = () => async (dispatch) => {
   try {
-     dispatch(showLoading());
+    dispatch(showLoading());
     let response = await axios.get("/api/v1/auth/get-loggedin-user");
     dispatch({
       type: types.SET_LOGEDIN_USER,
@@ -139,7 +139,7 @@ export const getLoggedinUser = () => async (dispatch) => {
         logedinUser: response.data,
       },
     });
-    dispatch(hideLoading())
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.USERS_ERROR,
@@ -151,9 +151,56 @@ export const getLoggedinUser = () => async (dispatch) => {
 };
 
 // admin routes actions
+export const addNewUser = (user) => async (dispatch) => {
+  try {
+    let response = await axios.post("/api/v1/auth/add-new-user", user);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+
+export const editUserByAdmin = (user, userId) => async (dispatch) => {
+  try {
+    let response = await axios.put(
+      `/api/v1/auth/edit-user-by-admin/${userId}`,
+      user
+    );
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const deleteUserByAdmin = (userId) => async (dispatch) => {
+  try {
+    let response = await axios.delete(`/api/v1/auth/delete-user/${userId}`);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+
 export const getAllUsers = () => async (dispatch) => {
   try {
-     dispatch(showLoading());
+    dispatch(showLoading());
     let response = await axios.get("/api/v1/auth/get-all-users");
     dispatch({
       type: types.SET_ALL_USERS,
@@ -161,7 +208,7 @@ export const getAllUsers = () => async (dispatch) => {
         allUsers: response.data,
       },
     });
-    dispatch(hideLoading())
+    dispatch(hideLoading());
   } catch (error) {
     dispatch({
       type: types.USERS_ERROR,
@@ -171,6 +218,28 @@ export const getAllUsers = () => async (dispatch) => {
     });
   }
 };
+export const getSingleUser = (userId) => async (dispatch) => {
+  try {
+    dispatch(showLoading());
+    let response = await axios.get(`/api/v1/auth/get-single-user/${userId}`);
+    dispatch({
+      type: types.SET_SINGLE_USER,
+      payload: {
+        singleUser: response.data,
+      },
+    });
+    dispatch(hideLoading());
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
+
+//
 export const getPublicProfileUser = (userId) => async (dispatch) => {
   try {
     let response = await axios.get(

@@ -46,14 +46,20 @@ module.exports = {
       // );
 
       let hashedPassword = await bcrypt.hash(pickedProperty.password, 11);
+      let avatar = "";
+      if (req.file) {
+        avatar = `/uploads/${req.file.filename}`;
+      }
       let newUser = new User({
         firstName,
         familyName,
         email,
         password: hashedPassword,
+        avatar: avatar,
       });
 
       let user = await newUser.save();
+
       res.status(status.created).json({
         message: "You have soigned up successfully, Now you can login ",
         user,
@@ -308,6 +314,91 @@ module.exports = {
     }
   },
 
+  // admin routes
+
+  addNewUser: async (req, res, next) => {
+    let { firstName, familyName, email, password } = req.body;
+    const pickedProperty = _.pick(req.body, [
+      "firstName",
+      "familyName",
+      "email",
+      "password",
+    ]);
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let hashedPassword = await bcrypt.hash(pickedProperty.password, 11);
+      let avatar = "";
+      if (req.file) {
+        avatar = `/uploads/${req.file.filename}`;
+      }
+      let newUser = new User({
+        firstName,
+        familyName,
+        email,
+        password: hashedPassword,
+        avatar: avatar,
+      });
+
+      let user = await newUser.save();
+      res.status(status.created).json({
+        message: "User has been created successfully ",
+        user,
+      });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  editUserByAdmin: async (req, res) => {
+    const { firstName, familyName, email } = req.body;
+    const { userId } = req.params;
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let user = await User.findOne({ _id: userId });
+      if (!user) {
+        return resourceError(res, "User not found");
+      }
+
+      let avatar = user.avatar;
+      if (req.file) {
+        avatar = `/uploads/${req.file.filename}`;
+      }
+
+      let updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        { $set: { firstName, familyName, email, avatar } },
+        { new: true }
+      );
+
+      res.status(200).json({ message: "Edited successfully", updatedUser });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  deleteUser: async (req, res) => {
+    let { userId } = req.params;
+    try {
+      let user = await User.findOneAndDelete({ _id: userId });
+      if (!user) {
+        return resourceError(res, "No user Found");
+      }
+      res.status(200).json({ message: "Deleted successfully", user });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
   getAllUsers: async (req, res) => {
     try {
       let users = await User.find();
@@ -315,6 +406,18 @@ module.exports = {
         return resourceError(res, "No user found");
       }
       res.status(200).json(users);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getSingleUser: async (req, res) => {
+    let { userId } = req.params;
+    try {
+      let user = await User.findOne({ _id: userId });
+      if (!user) {
+        return resourceError(res, "User not found");
+      }
+      res.status(200).json(user);
     } catch (error) {
       serverError(res, error);
     }
