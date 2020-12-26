@@ -99,7 +99,11 @@ const DashboardSidebar = ({ collapsed }) => {
           >
             Comments
           </Menu.Item>
-          <Menu.Item key="9" icon={<MdViewList />}>
+          <Menu.Item
+            key="9"
+            icon={<MdViewList />}
+            onClick={() => history.push("/dashboard/categories")}
+          >
             Categories
           </Menu.Item>
           <Menu.Item key="10" icon={<MailOutlined />}>

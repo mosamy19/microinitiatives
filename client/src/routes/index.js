@@ -33,6 +33,7 @@ import Signup from "../pages/Users/Signup";
 import AdminRouteWithLayout from "./AdminRouteWithLayout";
 import PrivateRouteWithLayout from "./PrivateRouteWithLayout";
 import RouteWithLayout from "./RouteWithLayout";
+import Categories from "../pages/Dashboard/Categories";
 
 const AppRoutes = () => {
   return (
@@ -62,6 +63,12 @@ const AppRoutes = () => {
           path="/dashboard/comments"
           exact
           component={Dashboardcomment}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/categories"
+          exact
+          component={Categories}
         />
 
         {/* all public routes */}

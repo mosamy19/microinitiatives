@@ -175,7 +175,7 @@ const Users = () => {
 
   const columns = [
     {
-      title: "Creation Date",
+      title: "Created",
       dataIndex: "date",
       key: "date",
       width: "15%",

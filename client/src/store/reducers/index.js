@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth-reducer";
+import categoryReducer from "./category-reducer";
 import commentReducer from "./comment-reducer";
 import favoriteReducer from "./favorite-reducer";
 import initiativeReducer from "./initiative-reducer";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   shares: shareReducer,
   comments: commentReducer,
   notifications: notificationReducer,
+  category: categoryReducer,
 });
 
 export default rootReducer;
