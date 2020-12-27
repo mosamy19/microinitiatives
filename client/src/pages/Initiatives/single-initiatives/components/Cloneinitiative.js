@@ -29,7 +29,9 @@ const Cloneinitiative = ({ initiativeId, initiativeAuthor, cloneCount }) => {
         initiativeAuthor.map((item, index) => (
           <Wrapper
             onClick={() =>
-              history.push(`/clone-initiative/${initiativeId}/${item._id}`)
+              history.push(
+                `/clone-initiative/${initiativeId}/${item._id}/clone`
+              )
             }
             className="text-center"
             style={{

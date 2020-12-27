@@ -272,10 +272,9 @@ module.exports = {
   getSingleInitiative: async (req, res) => {
     let { initiativeId } = req.params;
     try {
-      let initiative = await Initiative.findOne({ _id: initiativeId }).populate(
-        "author",
-        "_id firstName familyName avatar"
-      );
+      let initiative = await Initiative.findOne({ _id: initiativeId })
+        .populate("author", "_id firstName familyName avatar")
+        .populate("category", "title icon");
       if (!initiative) {
         return resourceError(res, "No Initiative Found");
       }

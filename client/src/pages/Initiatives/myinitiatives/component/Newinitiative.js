@@ -1,14 +1,20 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import { Upload, Modal } from "antd";
+import { Select } from "antd";
+import { RiArrowDownSLine } from "react-icons/ri";
 
 import { useDispatch, useSelector } from "react-redux";
 import { createInitiative } from "../../../../store/actions/initiative-actions";
-import { useEffect } from "react";
+import { getAllCategories } from "../../../../store/actions/category-action";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { Option } = Select;
 
 const Newinitiative = () => {
   const dispatch = useDispatch();
@@ -18,6 +24,7 @@ const Newinitiative = () => {
     category: "",
     description: "",
   });
+
   const [errors, setErrors] = useState({
     title: "",
     category: "",
@@ -25,6 +32,20 @@ const Newinitiative = () => {
     thumbnail: "",
   });
 
+  // fetching data for category list
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const { categories } = useSelector((state) => state.category);
+  useEffect(() => {
+    if (categories) {
+      setCategoryList(categories);
+    }
+  }, [categories]);
+
+  // Images uploads
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -167,19 +188,49 @@ const Newinitiative = () => {
                 <Label>
                   تصنيف المبادرة <span className="filed">(حقل إلزامي)</span>
                 </Label>
-                <Input
-                  onChange={(e) => {
-                    setInitiative({ ...initiative, category: e.target.value });
-                    setErrors({ ...errors, category: "" });
-                  }}
-                  type="text"
-                  name="category"
-                  value={initiative.category}
-                  invalid={errors.category ? true : false}
-                />
-                {errors.category && (
-                  <FormFeedback> {errors.category} </FormFeedback>
-                )}
+                <div className="category">
+                  <span className="arrow">
+                    {errors.category ? (
+                      <ExclamationCircleOutlined style={{ color: "#dc3545" }} />
+                    ) : (
+                      <RiArrowDownSLine />
+                    )}
+                  </span>
+                  <Select
+                    bordered={false}
+                    style={{
+                      width: "100%",
+                      textAlign: "right",
+                      background: "#fff",
+                      borderRadius: "4px",
+                    }}
+                    onChange={(value) => {
+                      setInitiative({
+                        ...initiative,
+                        category: value,
+                      });
+                      setErrors({ ...errors, category: "" });
+                    }}
+                    dropdownStyle={{
+                      textAlign: "right",
+                      fontFamily: "inherit",
+                      fontSize: "10px",
+                      color: "rgba(16,24,32,0.65)",
+                    }}
+                  >
+                    {categoryList.length > 0 &&
+                      categoryList.map((item, index) => (
+                        <Option value={item._id} key={index}>
+                          {item.title}
+                        </Option>
+                      ))}
+                  </Select>
+                  {errors.category && (
+                    <div style={{ color: "#dc3545", fontSize: "10px" }}>
+                      {errors.category}
+                    </div>
+                  )}
+                </div>
               </FormGroup>
               <FormGroup>
                 <Label>
@@ -283,7 +334,7 @@ const Wrapper = styled.div`
       color: rgba(0, 0, 0, 0.25);
     }
     .is-invalid {
-      border: 1px solid #dc3545;
+      // border: 1px solid #dc3545;
       padding-left: calc(1.5em + 0.75rem);
       background-position: left calc(0.375em + 0.1875rem) center;
     }
@@ -296,6 +347,33 @@ const Wrapper = styled.div`
       width: 80px;
       height: 80px;
       margin: 0 0 8px 0;
+    }
+    .category {
+      position: relative;
+      .ant-select-arrow {
+        display: none;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        padding: 4px 12px;
+        border: none;
+        border-radius: 4px;
+        color: rgba(16, 24, 32, 0.65);
+      }
+      .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+        height: auto;
+      }
+      .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+      .ant-select-single.ant-select-show-arrow
+        .ant-select-selection-placeholder {
+        padding-right: 0;
+      }
+      .arrow {
+        position: absolute;
+        color: rgba(16, 24, 32, 0.65);
+        top: 7px;
+        left: 12px;
+        z-index: 1;
+      }
     }
   }
   @media screen and (max-width: 760px) {

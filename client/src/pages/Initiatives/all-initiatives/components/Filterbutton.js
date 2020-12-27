@@ -7,7 +7,6 @@ const { Option } = Select;
 const Filterbutton = ({ getTheValue }) => {
   const handleChange = (value) => {
     getTheValue(value);
-    console.log("in filter", value);
   };
 
   return (
@@ -58,7 +57,5 @@ const Wrapper = styled.div`
     left: 12px;
     z-index: 1;
   }
-  .opt {
-    width: 96px;
-  }
+  
 `;

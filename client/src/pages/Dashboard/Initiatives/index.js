@@ -150,13 +150,14 @@ const Dashboardinitiatives = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [initiativeId, setInitiativeId] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
     setInitiativeId(id);
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setInitiativeId(id);
+    setDeleteId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -277,7 +278,7 @@ const Dashboardinitiatives = () => {
         isOpen={isOpen}
       />
       <Deleteinitiative
-        initiativeId={initiativeId}
+        initiativeId={deleteId}
         showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}

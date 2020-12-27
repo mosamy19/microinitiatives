@@ -2,11 +2,11 @@ import React from "react";
 import PublicFooter from "../../components/partials/PublicFooter";
 import Publicnavigation from "../../components/partials/Publicnavigation";
 import samimFont from "../../assets/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const PublicLayout = (props) => {
   return (
-    <Wrapper style={{direction: "rtl"}}>
+    <Wrapper style={{ direction: "rtl" }}>
       <div style={{ minHeight: "92vh" }}>
         <Publicnavigation />
         <div>{props.children}</div>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Spin, Space } from "antd";
-import { CircularProgress } from "@material-ui/core";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import styled from "styled-components";
@@ -32,6 +31,7 @@ const Singleinitiative = () => {
 
   const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -40,7 +40,6 @@ const Singleinitiative = () => {
 
   return isLoading ? (
     <div style={{ maxWidth: "80px", margin: "0 auto" }}>
-      {/* <CircularProgress /> */}
       <Space size="middle">
         <Spin size="large" />
       </Space>

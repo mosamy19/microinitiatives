@@ -149,13 +149,14 @@ const Users = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [userId, setUserId] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
     setUserId(id);
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setUserId(id);
+    setDeleteId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -172,7 +173,6 @@ const Users = () => {
   };
 
   // columns
-
   const columns = [
     {
       title: "Created",
@@ -259,7 +259,7 @@ const Users = () => {
         isOpen={isOpen}
       />
       <Deleteuser
-        userId={userId}
+        userId={deleteId}
         showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}

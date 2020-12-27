@@ -10,6 +10,7 @@ import {
   getSingleInitiatives,
   getAllInitiativesByAdmin,
 } from "../../../../../store/actions/initiative-actions";
+import { getAllCategories } from "../../../../../store/actions/category-action";
 import { useEffect } from "react";
 
 const { Option } = Select;
@@ -24,6 +25,20 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
     thumbnail: [],
   });
 
+  // fetching data for category list
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const { categories } = useSelector((state) => state.category);
+  useEffect(() => {
+    if (categories) {
+      setCategoryList(categories);
+    }
+  }, [categories]);
+
+  // image upload
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -77,13 +92,13 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
 
   const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
-
+  let c = singleInitiative.category;
   useEffect(() => {
     if (singleInitiative) {
       setInitiative({
         ...initiative,
         title: singleInitiative.title,
-        category: singleInitiative.category,
+        category: c && c._id,
         description: singleInitiative.description,
         thumbnail: singleInitiative.thumbnail,
       });
@@ -170,10 +185,12 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
                 console.log(value);
               }}
             >
-              <Option value="one">ترفيهي</Option>
-              <Option value="two"> تعليمي</Option>
-              <Option value="three"> رياضي</Option>
-              <Option value="four"> اجتماعي</Option>
+              {categoryList.length > 0 &&
+                categoryList.map((item, index) => (
+                  <Option value={item._id} key={index}>
+                    {item.title}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item

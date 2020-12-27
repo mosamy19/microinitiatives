@@ -75,15 +75,19 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
             </Grid>
           ))}
         {cloneCount === 0 && (
-          <p
-            style={{
-              color: "rgba(16, 24, 32, 0.5)",
-              fontSize: "14px",
-              margin: "0 auto",
-            }}
-          >
-            لا يوجد مبادرات مماثلة منفذة بعد كم أول المبادرين
-          </p>
+          <Grid item xs={12} sm={6} md={4}>
+            <p
+              style={{
+                color: "rgba(16, 24, 32, 0.5)",
+                fontSize: "14px",
+                textAlign: "center",
+                maxWidth: "200px",
+                margin: "0 0 60px",
+              }}
+            >
+              لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين
+            </p>
+          </Grid>
         )}
       </Grid>
       {cloneCount > limit && (

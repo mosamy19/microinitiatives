@@ -4,13 +4,18 @@ import { CircularProgress } from "@material-ui/core";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
-import { Upload, Modal } from "antd";
+import { Upload, Modal, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editMyInitiative,
   getSingleInitiatives,
 } from "../../../../store/actions/initiative-actions";
+import { getAllCategories } from "../../../../store/actions/category-action";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { Option } = Select;
 
 const Editinitiative = () => {
   const { initiativeId, type } = useParams();
@@ -22,7 +27,6 @@ const Editinitiative = () => {
     category: "",
     description: "",
     thumbnail: [],
-    // draft: type === "draft" ? false : true,
   });
   const [errors, setErrors] = useState({
     title: "",
@@ -30,6 +34,19 @@ const Editinitiative = () => {
     description: "",
     thumbnail: "",
   });
+
+  // fetching data for category list
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const { categories } = useSelector((state) => state.category);
+  useEffect(() => {
+    if (categories) {
+      setCategoryList(categories);
+    }
+  }, [categories]);
 
   // image upload handling
   const [state, setState] = useState({
@@ -86,13 +103,13 @@ const Editinitiative = () => {
 
   const { isLoading } = useSelector((state) => state.loader);
   const { singleInitiative } = useSelector((state) => state.initiatives);
-
+  let c = singleInitiative.category;
   useEffect(() => {
     if (singleInitiative) {
       setInitiative({
         ...initiative,
         title: singleInitiative.title,
-        category: singleInitiative.category,
+        category: c && c._id,
         description: singleInitiative.description,
         thumbnail: singleInitiative.thumbnail,
       });
@@ -213,20 +230,52 @@ const Editinitiative = () => {
               </FormGroup>
               <FormGroup>
                 <Label>تصنيف المبادرة</Label>
-                <Input
-                  onChange={(e) => {
-                    setInitiative({ ...initiative, category: e.target.value });
-                    setErrors({ ...errors, category: "" });
-                  }}
-                  type="text"
-                  name="category"
-                  value={initiative.category}
-                  disabled={type === "draft" ? false : true}
-                  invalid={errors.category ? true : false}
-                />
-                {errors.category && (
-                  <FormFeedback> {errors.category} </FormFeedback>
-                )}
+                <div className="category">
+                  <span className="arrow">
+                    {errors.category ? (
+                      <ExclamationCircleOutlined style={{ color: "#dc3545" }} />
+                    ) : (
+                      <RiArrowDownSLine />
+                    )}
+                  </span>
+                  <Select
+                    bordered={false}
+                    style={{
+                      width: "100%",
+                      textAlign: "right",
+                      background: "#fff",
+                      borderRadius: "4px",
+                    }}
+                    onChange={(value) => {
+                      setInitiative({
+                        ...initiative,
+                        category: value,
+                      });
+                      setErrors({ ...errors, category: "" });
+                    }}
+                    dropdownStyle={{
+                      textAlign: "right",
+                      fontFamily: "inherit",
+                      fontSize: "10px",
+                      color: "rgba(16,24,32,0.65)",
+                    }}
+                    value={initiative.category}
+                    disabled={type === "draft" ? false : true}
+                    className={type === "edit" ? "dis" : null}
+                  >
+                    {categoryList.length > 0 &&
+                      categoryList.map((item, index) => (
+                        <Option value={item._id} key={index}>
+                          {item.title}
+                        </Option>
+                      ))}
+                  </Select>
+                  {errors.category && (
+                    <div style={{ color: "#dc3545", fontSize: "10px" }}>
+                      {errors.category}
+                    </div>
+                  )}
+                </div>
               </FormGroup>
               <FormGroup>
                 <Label>وصف المبادرة </Label>
@@ -315,7 +364,7 @@ const Wrapper = styled.div`
       color: rgba(0, 0, 0, 0.25);
     }
     .is-invalid {
-      border: 1px solid #dc3545;
+      // border: 1px solid #dc3545;
       padding-left: calc(1.5em + 0.75rem);
       background-position: left calc(0.375em + 0.1875rem) center;
     }
@@ -328,6 +377,37 @@ const Wrapper = styled.div`
       width: 80px;
       height: 80px;
       margin: 0 0 8px 0;
+    }
+    .category {
+      position: relative;
+      .ant-select-arrow {
+        display: none;
+      }
+      .dis {
+        background: #e9ecef !important;
+        opacity: 1;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        padding: 4px 12px;
+        border: none;
+        border-radius: 4px;
+        color: rgba(16, 24, 32, 0.65);
+      }
+      .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+        height: auto;
+      }
+      .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+      .ant-select-single.ant-select-show-arrow
+        .ant-select-selection-placeholder {
+        padding-right: 0;
+      }
+      .arrow {
+        position: absolute;
+        color: rgba(16, 24, 32, 0.65);
+        top: 7px;
+        left: 12px;
+        z-index: 1;
+      }
     }
   }
   @media screen and (max-width: 760px) {

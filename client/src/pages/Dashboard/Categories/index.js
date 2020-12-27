@@ -147,8 +147,7 @@ const Categories = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [categoryId, setCategoryId] = useState("");
-
- 
+  const [categoryDeleteId, setCategoryDeleteId] = useState("");
 
   const handleOnClick = (id) => {
     setIsOpen(true);
@@ -156,7 +155,7 @@ const Categories = () => {
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setCategoryId(id);
+    setCategoryDeleteId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -251,7 +250,7 @@ const Categories = () => {
         isOpen={isOpen}
       />
       <Deletecategory
-        categoryId={categoryId}
+        categoryId={categoryDeleteId}
         showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}

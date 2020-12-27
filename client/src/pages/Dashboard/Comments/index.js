@@ -145,13 +145,14 @@ const Dassboardcomment = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [commentId, setCommentId] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const handleOnClick = (id) => {
     setIsOpen(true);
     setCommentId(id);
   };
   const handleOnDelete = (id) => {
     setIsDeleteOpen(true);
-    setCommentId(id);
+    setDeleteId(id);
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -225,7 +226,7 @@ const Dassboardcomment = () => {
         isOpen={isOpen}
       />
       <Deletecomment
-        commentId={commentId}
+        commentId={deleteId}
         // showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}

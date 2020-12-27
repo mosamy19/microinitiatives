@@ -3,9 +3,11 @@ import { Form, Input, Button, Select } from "antd";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createInitiative } from "../../../../../store/actions/initiative-actions";
+import { getAllCategories } from "../../../../../store/actions/category-action";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
@@ -19,6 +21,20 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
     description: "",
   });
 
+  // fetching data for category list
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const { categories } = useSelector((state) => state.category);
+  useEffect(() => {
+    if (categories) {
+      setCategoryList(categories);
+    }
+  }, [categories]);
+
+  // image upload
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: "",
@@ -128,10 +144,12 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
                 console.log(value);
               }}
             >
-              <Option value="one">ترفيهي</Option>
-              <Option value="two"> تعليمي</Option>
-              <Option value="three"> رياضي</Option>
-              <Option value="four"> اجتماعي</Option>
+              {categoryList.length > 0 &&
+                categoryList.map((item, index) => (
+                  <Option value={item._id} key={index}>
+                    {item.title}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
