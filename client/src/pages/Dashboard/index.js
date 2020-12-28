@@ -1,70 +1,83 @@
-import React from "react";
-import Chart2 from "../../components/Charts/2";
-import Chart9 from "../../components/Charts/9";
-import Chart5 from "../../components/Charts/5";
-import Chart10 from "../../components/Charts/10";
-import Chart1 from "../../components/Charts/1";
 import { Grid } from "@material-ui/core";
+import React from "react";
+import Customcard from "./components/Card";
+import Userchart from "./components/Charts/Userchart";
+import blue_bookmark from "../../assets/images/bookmark.svg";
+import love from "../../assets/icons/love.svg";
+import blue_share from "../../assets/icons/blue_share.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllLikes } from "../../store/actions/likes.actions";
+import { getAllFavorites } from "../../store/actions/favorite-actions";
+import { getAllShares } from "../../store/actions/share-actions";
+
+import FourbaseInfo from "./components/Four-baseinfo";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Dashboard = () => {
+  // const classes = useStyles();
+  const dispatch = useDispatch();
+  const [likeCount, setLikeCount] = useState(0);
+  const [saveCount, setSaveCount] = useState(0);
+  const [shareCount, setShareCount] = useState(0);
+
+  useEffect(() => {
+    dispatch(getAllLikes());
+    dispatch(getAllFavorites());
+    dispatch(getAllShares());
+  }, [dispatch]);
+
+  const { likes } = useSelector((state) => state.likes);
+  const { favorites } = useSelector((state) => state.favorites);
+  const { shares } = useSelector((state) => state.shares);
+
+  useEffect(() => {
+    if (likes) {
+      setLikeCount(likes.length);
+    }
+    if (favorites) {
+      setSaveCount(favorites.length);
+    }
+    if (shares) {
+      setShareCount(shares.length);
+    }
+  }, [likes, favorites, shares]);
+
   return (
     <div>
+      <FourbaseInfo />
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
-          
+        <Grid item xs={12} sm={6} md={9}>
+          <Userchart />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Customcard
+            count={likeCount}
+            cBorder="6px solid #e9446b"
+            cColor="#e9446b"
+          >
+            <img src={love} alt="" width="10px" height="14px" />
+            <span style={{ margin: "0 3px" }}>Likes</span>
+          </Customcard>
+          <Customcard
+            count={saveCount}
+            cMargin="15px 0"
+            cBorder="6px solid #32c5ff"
+            cColor="#32c5ff"
+          >
+            <img src={blue_bookmark} alt="" width="8px" height="11px" />
+            <span style={{ margin: "0 3px" }}>Saves</span>
+          </Customcard>
+          <Customcard
+            count={shareCount}
+            cBorder="6px solid #3b86fb"
+            cColor="#3b86fb"
+          >
+            <img src={blue_share} alt="" width="12px" height="11px" />
+            <span style={{ margin: "0 3px" }}>Shares</span>
+          </Customcard>
         </Grid>
       </Grid>
-      <div className="air__utils__heading">
-        <h5>Dashboard: Analytics</h5>
-      </div>
-      <div className="row">
-        <div className="col-xl-8 col-lg-6">
-          <h5 className="text-dark mb-4">Google Analytics Home</h5>
-          <div className="card">
-            <Chart2 />
-          </div>
-          <div className="row">
-            <div className="col-xl-6 col-lg-12">
-              <div className="card">
-                <div className="card-body">
-                  <Chart9 />
-                </div>
-              </div>
-              <h5 className="text-dark mb-4">How do you acquire users?</h5>
-              <div className="card">
-                <div className="card-body">
-                  <Chart5 />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-6 col-lg-12">
-              <div className="card">
-                <div className="card-body">
-                  <Chart10 />
-                </div>
-              </div>
-              <h5 className="text-dark mb-4">
-                How are your active users trending over time?
-              </h5>
-              <div className="card">
-                <div className="card-body">
-                  <Chart1 />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-4 col-lg-6">
-          <h5 className="text-dark mb-4">Ask analytics Intelligence</h5>
-          <div className="card">
-            <div className="card-body">{/* <List15 /> */}</div>
-          </div>
-          <h5 className="text-dark mb-4">What are your top devices?</h5>
-          <div className="card">
-            <div className="card-body">{/* <List12 /> */}</div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

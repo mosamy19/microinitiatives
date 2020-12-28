@@ -17,8 +17,6 @@ const Users = () => {
   const dispatch = useDispatch();
   let searchInput = useRef();
 
-  console.log(searchInput);
-
   const [data, setDatat] = useState([]);
   const [all_users, set_all_users] = useState([]);
 
@@ -205,6 +203,10 @@ const Users = () => {
       title: "Initiatives",
       dataIndex: "initiatives",
       key: "initiatives",
+      // filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.initiatives - b.initiatives,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Action",

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createInitiative } from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import Lottiepopup from "./Lottiepopup";
 
 const { Option } = Select;
 
@@ -31,6 +32,15 @@ const Newinitiative = () => {
     description: "",
     thumbnail: "",
   });
+
+  // Lottie animation
+  const [open, setOpen] = React.useState(false);
+  const handleOnClick = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // fetching data for category list
   const [categoryList, setCategoryList] = useState([]);
@@ -119,6 +129,11 @@ const Newinitiative = () => {
     fd.append("category", initiative.category);
     fd.append("description", initiative.description);
     dispatch(createInitiative(fd, history));
+    handleOnClick();
+
+    setTimeout(() => {
+      handleClose();
+    }, 2800);
   };
 
   const draftHandler = (e) => {
@@ -305,6 +320,7 @@ const Newinitiative = () => {
                 />
               </FormGroup>
             </div>
+            <Lottiepopup isOpen={open} handleClose={handleClose} />
           </div>
         </Grid>
       </Grid>

@@ -61,4 +61,12 @@ module.exports = {
       serverError(res, error);
     }
   },
+  getAllShares: async (req, res) => {
+    try {
+      let shares = await Share.find();
+      res.status(200).json(shares);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };

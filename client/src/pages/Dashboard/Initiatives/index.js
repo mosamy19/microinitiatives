@@ -199,26 +199,47 @@ const Dashboardinitiatives = () => {
       title: "Clones",
       dataIndex: "clones",
       key: "clones",
+      filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.clones - b.clones,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Likes",
       dataIndex: "likes",
       key: "likes",
+      width: "20%",
+      filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.likes - b.likes,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Share",
       dataIndex: "shares",
       key: "shares",
+      filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.shares - b.shares,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Saves",
       dataIndex: "saves",
       key: "saves",
+      filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.saves - b.saves,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Comments",
       dataIndex: "comments",
       key: "comments",
+      filterMultiple: false,
+      // onFilter: (value, record) => record.likes.indexOf(value) === 0,
+      sorter: (a, b) => a.comments - b.comments,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Type",
@@ -252,6 +273,10 @@ const Dashboardinitiatives = () => {
     },
   ];
 
+  const handleOnnChange = (filters, sorter, extra) => {
+    console.log("params", filters, sorter, extra);
+  };
+
   return (
     <div>
       <div className="my-3">
@@ -265,7 +290,7 @@ const Dashboardinitiatives = () => {
           Add New Initiative
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} onChange={handleOnnChange} />
       <Addinitiative
         showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}

@@ -317,7 +317,9 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
     if (response.data.draft === true) {
       history.push("/my-initiatives");
     } else {
-      history.push(`/single-initiative/${response.data._id}`);
+      setTimeout(() => {
+        history.push(`/single-initiative/${response.data._id}`);
+      }, 2800);
     }
     dispatch(setSuccess(response.data.message));
   } catch (error) {

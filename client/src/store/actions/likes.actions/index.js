@@ -19,6 +19,24 @@ export const getLikes = (initiativeId) => async (dispatch) => {
     });
   }
 };
+export const getAllLikes = () => async (dispatch) => {
+  try {
+    let response = await axios.get(`/api/v1/likes/get-all-likes`);
+    dispatch({
+      type: types.SET_LIKES,
+      payload: {
+        likes: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.LIKES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 
 export const createLike = (initiativeId) => async (dispatch) => {
   try {

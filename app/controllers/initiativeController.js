@@ -97,10 +97,9 @@ module.exports = {
   getLandingPageInitiatives: async (req, res) => {
     const { sortBy } = req.params;
     try {
-      let initiatives = await Initiative.find({ draft: false }).populate(
-        "author",
-        "firstName familyName  avatar"
-      );
+      let initiatives = await Initiative.find({ draft: false })
+        .populate("author", "firstName familyName  avatar")
+        .populate("category", "title icon");
       if (initiatives.length === 0) {
         return res.status(200).json({
           message: "No Initiative Found",
@@ -170,10 +169,9 @@ module.exports = {
   getAllInitiatives: async (req, res) => {
     const { sortBy } = req.params;
     try {
-      let initiatives = await Initiative.find({ draft: false }).populate(
-        "author",
-        "firstName familyName avatar"
-      );
+      let initiatives = await Initiative.find({ draft: false })
+        .populate("author", "firstName familyName avatar")
+        .populate("category", "title icon");
       if (initiatives.length === 0) {
         return res.status(200).json({
           message: "No Initiative Found",
@@ -244,7 +242,7 @@ module.exports = {
     try {
       let initiatives = await Initiative.find({
         author: req.user._id,
-      });
+      }).populate("category", "title icon");
       if (initiatives.length === 0) {
         return res.status(200).json({
           message: "No Initiative Found",

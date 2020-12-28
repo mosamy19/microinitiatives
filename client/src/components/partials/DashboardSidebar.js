@@ -10,8 +10,11 @@ import {
   MailOutlined,
   AppstoreOutlined,
 } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../../assets/images/Project-Logo.png";
-import avatar from "../../assets/images/avatar.png";
+import defaultAvatar from "../../assets/images/avatar.png";
+import { useEffect } from "react";
+import { getLoggedinUser } from "../../store/actions/auth-actions";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -19,6 +22,7 @@ const rootSubmenuKeys = ["sub1", "sub2"];
 
 const DashboardSidebar = ({ collapsed }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
 
   const onOpenChange = (keys) => {
@@ -29,6 +33,13 @@ const DashboardSidebar = ({ collapsed }) => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
+
+  useEffect(() => {
+    dispatch(getLoggedinUser());
+  }, dispatch);
+
+  const { logedinUser } = useSelector((state) => state.auth);
+  const { firstName, familyName, avatar } = logedinUser;
 
   return (
     <Sider
@@ -41,15 +52,26 @@ const DashboardSidebar = ({ collapsed }) => {
       <Wrapper>
         <div className="d-flex justify-content-start align-items-center logo">
           <img src={logo} width="50px" height="50px" alt="" />
-          <div className="d-flex flex-column">
+          <div className={`d-flex flex-column ${collapsed ? "hide" : ""}`}>
             <span className="title">Noi</span>
             <span className="sub-title">Micro Initiatives</span>
           </div>
         </div>
         <div className="d-flex justify-content-start align-items-center logo">
-          <img src={avatar} width="36px" height="36px" alt="" />
-          <div className="d-flex flex-column" style={{ marginLeft: "12px" }}>
-            <span style={{ color: "#fff" }}>Simon Chowdery</span>
+          <img
+            src={avatar ? avatar : defaultAvatar}
+            width="32px"
+            height="32px"
+            alt=""
+            className={` ${collapsed ? "collepse" : ""}`}
+          />
+          <div
+            className={`d-flex flex-column ${collapsed ? "hide" : ""}`}
+            style={{ marginLeft: "12px" }}
+          >
+            <span style={{ color: "#fff", textTransform: "capitalize" }}>
+              {firstName + " " + familyName}
+            </span>
             <span style={{ color: "#786fa4", fontSize: "12px" }}>
               Administrator
             </span>
@@ -63,6 +85,7 @@ const DashboardSidebar = ({ collapsed }) => {
             fontWeight: "300",
             letterSpacing: "2px",
           }}
+          className={`${collapsed ? "hide" : ""}`}
         >
           <span>DASHBOARDS</span>
         </div>
@@ -164,5 +187,11 @@ const Wrapper = styled.div`
   .ant-menu-inline,
   .ant-menu-item::after {
     border-color: #aca6cc !important;
+  }
+  .hide {
+    display: none !important;
+  }
+  .collepse {
+    margin-left: 8px;
   }
 `;

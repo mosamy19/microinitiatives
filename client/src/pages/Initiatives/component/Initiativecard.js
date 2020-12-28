@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Initiativecard = ({ initiative }) => {
   const classes = useStyles();
+  const icon = initiative.category;
   return (
     <Card className={classes.root}>
       <div
@@ -70,7 +71,12 @@ const Initiativecard = ({ initiative }) => {
         style={{ padding: "12px" }}
       >
         <IconButton className={classes.iconBtn}>
-          <AiOutlineVideoCamera />
+          <img
+            src={icon ? icon.icon : null}
+            alt=""
+            width="18px"
+            height="18px"
+          />
         </IconButton>
 
         <IconButton className={classes.iconBtn}>

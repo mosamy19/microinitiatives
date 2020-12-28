@@ -99,4 +99,13 @@ module.exports = {
       serverError(res, error);
     }
   },
+
+  getAllLikes: async (req, res) => {
+    try {
+      let likes = await Like.find();
+      res.status(200).json(likes);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };

@@ -103,8 +103,16 @@ module.exports = {
     try {
       let favorites = await Favorite.find({ author: req.user._id }).populate(
         "initiative",
-        "title likes clones favorites"
+        "title likes clones favorites category"
       );
+      res.status(200).json(favorites);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getAllFavorites: async (req, res) => {
+    try {
+      let favorites = await Favorite.find();
       res.status(200).json(favorites);
     } catch (error) {
       serverError(res, error);
