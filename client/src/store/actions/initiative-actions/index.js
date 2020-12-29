@@ -319,7 +319,9 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
       history.push("/my-initiatives");
     } else {
       history.push(`/single-initiative/${response.data._id}`);
-      dispatch(setLottieOpen());
+      setTimeout(() => {
+        dispatch(setLottieOpen());
+      }, 100);
       setTimeout(() => {
         dispatch(setLottieClose());
       }, 3000);
