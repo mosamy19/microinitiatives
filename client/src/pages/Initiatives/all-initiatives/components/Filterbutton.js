@@ -16,11 +16,12 @@ const Filterbutton = ({ getTheValue }) => {
       </span>
       <Select
         defaultValue="newest"
-        style={{ width: 142, textAlign: "right" }}
+        style={{ width: 148, textAlign: "right" }}
         onChange={handleChange}
         dropdownStyle={{
           textAlign: "right",
-          fontSize: "10px",
+          fontSize: "8px",
+          fontFamily: "inherit",
         }}
       >
         <Option value="newest">الأحدث</Option>
@@ -57,5 +58,4 @@ const Wrapper = styled.div`
     left: 12px;
     z-index: 1;
   }
-  
 `;

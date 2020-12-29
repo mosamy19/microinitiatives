@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import users_black from "../../../../assets/icons/users_black.svg";
 import pic from "../../../../assets/images/pic.svg";
+import charco_launch from "../../../../assets/images/charco_launch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getClonedtInitiatives } from "../../../../store/actions/initiative-actions";
 
@@ -63,16 +64,21 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
           ))}
         {cloneCount === 0 && (
           <Grid item xs={12} sm={6} md={4}>
-            <p
-              style={{
-                color: "rgba(16, 24, 32, 0.5)",
-                fontSize: "14px",
-                textAlign: "center",
-                maxWidth: "200px",
-              }}
-            >
-              لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين
-            </p>
+            <div className="d-flex flex-column align-items-center">
+              <p
+                style={{
+                  color: "rgba(16, 24, 32, 0.5)",
+                  fontSize: "14px",
+                  maxWidth: "200px",
+                  textAlign: "center",
+                }}
+              >
+                لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين
+              </p>
+              <div style={{ margin: "15px 0" }}>
+                <img src={charco_launch} alt="" width="90" height="108px" />
+              </div>
+            </div>
           </Grid>
         )}
       </Grid>

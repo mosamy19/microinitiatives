@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
-import { AiOutlineVideoCamera } from "react-icons/ai";
 import { GrPin } from "react-icons/gr";
 
 import pic from "../../../assets/images/pic.svg";
+import userIcon from "../../../assets/images/user.svg";
 import people from "../../../assets/images/people.svg";
 import bookmark from "../../../assets/images/bookmark.svg";
 import { Button } from "@material-ui/core";
@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "0px",
   },
   iconBtn: {
-    fontSize: "16px",
+    fontSize: "18px",
+    padding: "8px",
     border: "solid 1px rgba(0, 0, 0, 0.1)",
     "&:focus": {
       outline: "none",
@@ -64,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
 const Initiativecard = ({ initiative }) => {
   const classes = useStyles();
   const icon = initiative.category;
+
+  // let a = initiative.author.map(item => console.log(item.avatar))
+
   return (
     <Card className={classes.root}>
       <div
@@ -78,10 +82,24 @@ const Initiativecard = ({ initiative }) => {
             height="18px"
           />
         </IconButton>
-
-        <IconButton className={classes.iconBtn}>
-          <GrPin />
-        </IconButton>
+        <div>
+          <Button className={classes.btn2}>
+            <div className="d-flex justify-content-between align-items-center">
+              <img src={people} alt="" />
+              <p style={{ margin: "0", paddingRight: "3px", color: "#b620e0" }}>
+                {initiative.clones}
+              </p>
+            </div>
+          </Button>
+          <Button className={classes.btn3}>
+            <div className="d-flex justify-content-between align-items-center">
+              <img src={bookmark} alt="" />
+              <p style={{ margin: "0", paddingRight: "3px", color: "#32c5ff" }}>
+                {initiative.favorites}
+              </p>
+            </div>
+          </Button>
+        </div>
       </div>
       <CardContent style={{ padding: "12px" }}>
         <p
@@ -101,29 +119,36 @@ const Initiativecard = ({ initiative }) => {
         style={{ padding: "12px" }}
       >
         <div>
-          {/* <Button className={classes.btn1}>
-            <div>
-              <img src={pic} alt="" width="26px" height="100%" />
-            </div>
-          </Button> */}
+          {initiative.author &&
+            initiative.author.map((item) => (
+              <div className="d-flex align-items-center">
+                <img
+                  src={item.avatar ? item.avatar : userIcon}
+                  alt=""
+                  width="34px"
+                  height="34px"
+                  style={{
+                    borderRadius: "50%",
+                    background: "rgba(0, 0, 0, 0.1)",
+                    marginLeft: "5px",
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    color: "rgba(16, 24, 32, 0.65)",
+                  }}
+                >
+                  {item.firstName + " " + item.familyName}
+                </span>
+              </div>
+            ))}
         </div>
         <div>
-          <Button className={classes.btn2}>
-            <div className="d-flex justify-content-between align-items-center">
-              <img src={people} alt="" />
-              <p style={{ margin: "0", paddingRight: "3px", color: "#b620e0" }}>
-                {initiative.clones}
-              </p>
-            </div>
-          </Button>
-          <Button className={classes.btn3}>
-            <div className="d-flex justify-content-between align-items-center">
-              <img src={bookmark} alt="" />
-              <p style={{ margin: "0", paddingRight: "3px", color: "#32c5ff" }}>
-                {initiative.favorites}
-              </p>
-            </div>
-          </Button>
+          <IconButton className={classes.iconBtn}>
+            <GrPin />
+          </IconButton>
         </div>
       </div>
     </Card>

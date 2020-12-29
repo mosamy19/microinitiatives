@@ -17,7 +17,7 @@ const Filterbutton = ({ getTheValue }) => {
       </span>
       <Select
         defaultValue="newest"
-        style={{ width: 142, textAlign: "right" }}
+        style={{ width: 148, textAlign: "right" }}
         onChange={handleChange}
         dropdownStyle={{ textAlign: "right", fontSize: "10px" }}
       >

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@material-ui/core";
 import { Spin, Space } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
@@ -47,7 +46,10 @@ const Browsesingleinitiative = () => {
   ) : (
     <Wrapper className="container">
       <div style={{ maxWidth: "783px", margin: "auto" }}>
-        <h2 className="mb-show"> {singleInitiative.title}</h2>
+        <h2 className="mb-show" style={{ maxWidth: "500px" }}>
+          {" "}
+          {singleInitiative.title}
+        </h2>
         <div className="mb-hide">
           <Link
             to="/browse-all-initiatives"
@@ -62,7 +64,9 @@ const Browsesingleinitiative = () => {
           </Link>
         </div>
         <div className="d-flex justify-content-between align-items-center my-3">
-          <h2 className="mb-hide">{singleInitiative.title} </h2>
+          <h2 className="mb-hide" style={{ maxWidth: "500px" }}>
+            {singleInitiative.title}{" "}
+          </h2>
           <div className="mb-show">
             <Authorinfo
               author={singleInitiative.author}

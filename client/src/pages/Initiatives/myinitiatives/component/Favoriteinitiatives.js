@@ -24,12 +24,14 @@ const Favoriteinitiatives = ({ user }) => {
     }
   }, [favorites, user._id]);
 
+  console.log(favorites);
+
   return (
     <Wrapper>
       <Grid container spacing={3}>
         {myFavInitiatives.length > 0 &&
-          myFavInitiatives.map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+          myFavInitiatives.map((item, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <div
                 onClick={() => history.push(`/single-initiative/${item._id}`)}
               >

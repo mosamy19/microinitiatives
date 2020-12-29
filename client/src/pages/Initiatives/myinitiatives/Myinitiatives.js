@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Spin, Space } from "antd";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -17,7 +18,7 @@ import { getMyInitiatives } from "../../../store/actions/initiative-actions";
 import Currentinitiatives from "./component/Currentinitiatives";
 import Favoriteinitiatives from "./component/Favoriteinitiatives";
 import Completedinitiatives from "./component/Completedinitiatives";
-import { CircularProgress, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Noinitiativeyet from "./Noinitiativeyet";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,8 +74,10 @@ const MyAllinitiatives = () => {
   }, [value]);
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "80px", margin: "0 auto" }}>
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper>

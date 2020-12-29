@@ -6,6 +6,7 @@ const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
+const Category = require("../models/Category");
 
 module.exports = {
   setFavorite: async (req, res) => {

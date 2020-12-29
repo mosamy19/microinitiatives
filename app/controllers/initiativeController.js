@@ -104,7 +104,7 @@ module.exports = {
       return res.status(status.bad).json(errors.mapped());
     }
 
-    if(req.files){
+    if (req.files) {
       for (let file of req.files) {
         images = [...images, `/uploads/${file.filename}`];
       }
@@ -313,7 +313,9 @@ module.exports = {
     try {
       let initiatives = await Initiative.find({
         author: req.user._id,
-      }).populate("category", "title icon");
+      })
+        .populate("author", "firstName familyName email avatar")
+        .populate("category", "title icon");
       if (initiatives.length === 0) {
         return res.status(200).json({
           message: "No Initiative Found",

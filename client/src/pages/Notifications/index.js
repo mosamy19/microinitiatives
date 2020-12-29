@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import moment from "moment";
-
+import { Spin, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotifications } from "../../store/actions/notification-actions";
 import { getLoggedinUser } from "../../store/actions/auth-actions";
 import Todaynotifications from "./component/Todaynotifications";
 import Yesterdaysnotifications from "./component/Yesterdaysnotifications";
 import Oldernotifications from "./component/Oldernotifications";
-import { CircularProgress } from "@material-ui/core";
+import message_notification from "../../assets/images/message_notification.png";
 
 const Notifications = () => {
   const dispatch = useDispatch();
@@ -51,8 +50,10 @@ const Notifications = () => {
   );
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "80px", margin: "0 auto" }}>
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper>
@@ -75,8 +76,20 @@ const Notifications = () => {
         </div>
       )}
       {all_notification.length === 0 && (
-        <div>
-          <h3>No New Notifications</h3>
+        <div className="d-flex flex-column align-items-center my-5">
+          <div style={{ margin: "15px 0" }}>
+            <img src={message_notification} alt="" />
+          </div>
+          <p
+            style={{
+              color: "rgba(16, 24, 32, 0.5)",
+              fontSize: "14px",
+              maxWidth: "200px",
+              textAlign: "center",
+            }}
+          >
+            لا يوجد لديك تنبيهات بعد
+          </p>
         </div>
       )}
     </Wrapper>
