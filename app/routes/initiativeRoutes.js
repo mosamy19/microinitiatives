@@ -17,11 +17,14 @@ const {
   getLandingPageClonedtInitiatives,
   editInitiativeByAdmin,
   get_admin_panel_initiatives,
+  createDraftInitiative,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
 const isAuthenticated = require("../middlewares/authenticate");
 const isAdmin = require("../middlewares/admin");
+const draftImageUploadValidator = require("../validator/initiatives/draftImageUploadValidator");
+const draftInitiativeValidator = require("../validator/initiatives/draftInitiativeValidator");
 
 router.get("/get-initiatives/:sortBy", isAuthenticated, getAllInitiatives);
 router.get("/get-landing-page-initiatives/:sortBy", getLandingPageInitiatives);
@@ -46,7 +49,6 @@ router.get(
   get_admin_panel_initiatives
 );
 
-
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
 router.get(
   "/cloned-initiatives/:clonedInitiativeId",
@@ -55,8 +57,8 @@ router.get(
 );
 router.get("/my-initiatives", isAuthenticated, getMyInitiatives);
 
-
 router.get("/:initiativeId", isAuthenticated, getSingleInitiative);
+
 router.post(
   "/create-initiatives",
   isAuthenticated,
@@ -65,6 +67,16 @@ router.post(
   initiativeValidator,
   createInitiative
 );
+
+router.post(
+  "/create-draft-initiative",
+  isAuthenticated,
+  upload.array("thumbnail"),
+  draftImageUploadValidator,
+  draftInitiativeValidator,
+  createDraftInitiative
+);
+
 router.put(
   "/edit-initiative/:initiativeId",
   isAuthenticated,
@@ -75,8 +87,6 @@ router.put(
 );
 
 // Admin routes
-
-
 router.put(
   "/edit-initiative-by-admin/:initiativeId",
   isAuthenticated,
@@ -86,6 +96,11 @@ router.put(
   initiativeValidator,
   editInitiativeByAdmin
 );
-router.delete("/delete/:initiativeId", isAuthenticated, isAdmin, deleteInitiative);
+router.delete(
+  "/delete/:initiativeId",
+  isAuthenticated,
+  isAdmin,
+  deleteInitiative
+);
 
 module.exports = router;

@@ -15,7 +15,6 @@ const initiativeSchema = new Schema(
     description: {
       type: String,
       maxlength: 5000,
-      required: true,
       trim: true,
     },
     thumbnail: {

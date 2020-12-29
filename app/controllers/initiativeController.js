@@ -94,6 +94,77 @@ module.exports = {
       serverError(res, error);
     }
   },
+
+  createDraftInitiative: async (req, res) => {
+    let { title, category, description, draft } = req.body;
+    let images = [];
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    if(req.files){
+      for (let file of req.files) {
+        images = [...images, `/uploads/${file.filename}`];
+      }
+    }
+
+    let newInitiative = new Initiative({
+      title,
+      category,
+      description,
+      draft,
+      thumbnail: images,
+      author: req.user._id,
+    });
+
+    try {
+      let initiative = await newInitiative.save();
+
+      // if (initiative.cloned === true) {
+      //   let user = await User.findOne({ _id: clonedInitiativeOwner });
+      //   user.notifications++;
+      //   user.save();
+
+      //   let baseInitiative = await Initiative.findOne({
+      //     _id: clonedInitiativeId,
+      //   });
+      //   baseInitiative.clones++;
+      //   baseInitiative.save();
+
+      //   let all_initiative = await Initiative.find({ clonedInitiativeId });
+      //   all_initiative.map((item) => {
+      //     item.clones = baseInitiative.clones;
+      //     item.save();
+      //   });
+
+      //   await new Notification({
+      //     body: `You have a new clone on post ${initiative.title} by ${
+      //       req.user.firstName + " " + req.user.familyName
+      //     }`,
+      //     author: clonedInitiativeOwner,
+      //     initiative: initiative._id,
+      //     type: "clone",
+      //   }).save();
+      // }
+      let updatedUser = await { ...req.user._doc };
+      updatedUser.initiatives.unshift(initiative._id);
+      let updatedInitiative = await User.findOneAndUpdate(
+        { _id: updatedUser._id },
+        { $set: updatedUser },
+        { new: true }
+      );
+
+      res.status(status.success).json({
+        message: "Initiative created as a draft successfully",
+        ...initiative._doc,
+      });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
   getLandingPageInitiatives: async (req, res) => {
     const { sortBy } = req.params;
     try {

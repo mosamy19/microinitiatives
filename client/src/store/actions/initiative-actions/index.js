@@ -315,17 +315,34 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
       "/api/v1/initiatives/create-initiatives",
       initiative
     );
-    if (response.data.draft === true) {
-      history.push("/my-initiatives");
-    } else {
-      history.push(`/single-initiative/${response.data._id}`);
-      setTimeout(() => {
-        dispatch(setLottieOpen());
-      }, 100);
-      setTimeout(() => {
-        dispatch(setLottieClose());
-      }, 3000);
-    }
+
+    history.push(`/single-initiative/${response.data._id}`);
+    setTimeout(() => {
+      dispatch(setLottieOpen());
+    }, 100);
+    setTimeout(() => {
+      dispatch(setLottieClose());
+    }, 3000);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const createDraftInitiative = (initiative, history) => async (
+  dispatch
+) => {
+  try {
+    let response = await axios.post(
+      "/api/v1/initiatives/create-draft-initiative",
+      initiative
+    );
+    history.push("/my-initiatives");
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({

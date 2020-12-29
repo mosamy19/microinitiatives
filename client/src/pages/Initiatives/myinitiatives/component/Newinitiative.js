@@ -10,7 +10,10 @@ import { Select } from "antd";
 import { RiArrowDownSLine } from "react-icons/ri";
 
 import { useDispatch, useSelector } from "react-redux";
-import { createInitiative } from "../../../../store/actions/initiative-actions";
+import {
+  createInitiative,
+  createDraftInitiative,
+} from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
@@ -132,7 +135,7 @@ const Newinitiative = () => {
     fd.append("description", initiative.description);
     fd.append("draft", true);
 
-    dispatch(createInitiative(fd, history));
+    dispatch(createDraftInitiative(fd, history));
   };
 
   return (
