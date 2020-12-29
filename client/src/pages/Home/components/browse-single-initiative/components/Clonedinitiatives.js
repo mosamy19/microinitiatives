@@ -82,7 +82,6 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
                 fontSize: "14px",
                 textAlign: "center",
                 maxWidth: "200px",
-                margin: "0 0 60px",
               }}
             >
               لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين

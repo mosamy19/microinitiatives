@@ -137,7 +137,8 @@ const Singleinitiative = () => {
 
 export default React.memo(Singleinitiative);
 const Wrapper = styled.div`
-  margin: 96px 0;
+  margin: 64px 0;
+  padding-bottom: 10px;
   text-align: right;
   overflow: hidden;
   p {

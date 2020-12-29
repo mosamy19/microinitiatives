@@ -138,7 +138,8 @@ const Browsesingleinitiative = () => {
 
 export default Browsesingleinitiative;
 const Wrapper = styled.div`
-  margin: 96px auto;
+  margin: 64px auto;
+  padding-bottom: 10px;
   text-align: right;
   overflow: hidden;
   p {

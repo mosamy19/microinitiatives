@@ -109,8 +109,8 @@ const Newinitiative = () => {
         ...initiative,
         title: singleInitiative.title,
         category: c && c._id,
-        description: singleInitiative.description,
-        thumbnail: singleInitiative.thumbnail,
+        // description: singleInitiative.description,
+        // thumbnail: singleInitiative.thumbnail,
       });
     }
   }, [singleInitiative]);

@@ -69,7 +69,6 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
                 fontSize: "14px",
                 textAlign: "center",
                 maxWidth: "200px",
-                margin: "0 0 60px",
               }}
             >
               لا يوجد مبادرات مماثلة منفذة بعد كن أول المبادرين
@@ -87,7 +86,7 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
               style={{
                 color: "#3b86fb",
                 background: "rgba(59, 134, 251, 0.08)",
-                margin: "24px 0 50px",
+                margin: "24px 0",
                 border: "none",
               }}
               variant="outlined"

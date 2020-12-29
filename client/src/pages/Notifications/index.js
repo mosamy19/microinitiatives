@@ -86,6 +86,7 @@ const Notifications = () => {
 export default Notifications;
 const Wrapper = styled.div`
   margin-top: 64px;
+  margin-bottom: 50px;
   text-align: right;
   max-width: 460px;
   .list-group {

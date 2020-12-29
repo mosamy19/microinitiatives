@@ -7,9 +7,11 @@ import styled from "styled-components";
 const MainLayout = (props) => {
   return (
     <Wrapper>
-      <div style={{ minHeight: "90vh", direction: "rtl" }}>
+      <div style={{ minHeight: "90vh" }}>
         <Mainnavigation />
-        <div className="container">{props.children}</div>
+        <div className="container" style={{ paddingBottom: "40px" }}>
+          {props.children}
+        </div>
       </div>
       <MainFooter />
     </Wrapper>
@@ -18,6 +20,7 @@ const MainLayout = (props) => {
 
 export default MainLayout;
 const Wrapper = styled.div`
+  direction: rtl;
   font-family: Samim-FD-WOL !important;
   @font-face {
     font-family: Samim-FD-WOL;
