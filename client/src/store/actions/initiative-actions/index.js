@@ -2,6 +2,7 @@ import axios from "axios";
 import * as types from "../types";
 import { setSuccess, setError } from "../snackbar-actions";
 import { hideLoading, showLoading } from "../loading-actions";
+import { setLottieClose, setLottieOpen } from "../lottie-actions";
 
 // Admin routes
 export const getAllInitiativesByAdmin = () => async (dispatch) => {
@@ -317,9 +318,11 @@ export const createInitiative = (initiative, history) => async (dispatch) => {
     if (response.data.draft === true) {
       history.push("/my-initiatives");
     } else {
+      history.push(`/single-initiative/${response.data._id}`);
+      dispatch(setLottieOpen());
       setTimeout(() => {
-        history.push(`/single-initiative/${response.data._id}`);
-      }, 2800);
+        dispatch(setLottieClose());
+      }, 3000);
     }
     dispatch(setSuccess(response.data.message));
   } catch (error) {

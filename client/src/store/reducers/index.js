@@ -6,6 +6,7 @@ import favoriteReducer from "./favorite-reducer";
 import initiativeReducer from "./initiative-reducer";
 import likeReducer from "./likes-reducer";
 import loaderReducer from "./loading-reducer";
+import lottieReducer from "./lottie-reducer";
 import notificationReducer from "./notification-reducer";
 import shareReducer from "./share-reducer";
 import snackbarReducer from "./snackbar-reducer";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   comments: commentReducer,
   notifications: notificationReducer,
   category: categoryReducer,
+  lottie: lottieReducer,
 });
 
 export default rootReducer;

@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import CustomSnackbar from "./components/custom-snackbar/CustomSnackbar";
+import Lottieforcelebration from "./components/lottie-animation";
 
 let token = localStorage.getItem("auth_token");
 if (token) {
@@ -29,6 +30,7 @@ ReactDOM.render(
       <React.Fragment>
         <App />
         <CustomSnackbar />
+        <Lottieforcelebration />
       </React.Fragment>
     </Provider>
   </React.StrictMode>,

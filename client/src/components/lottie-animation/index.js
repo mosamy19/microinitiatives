@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import Lottie from "react-lottie";
-import animationData from "../../../../assets/lotties/congrate.json";
+import animationData from "../../assets/lotties/congrate.json";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setLottieClose } from "../../store/actions/lottie-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,8 +70,29 @@ Fade.propTypes = {
   onExited: PropTypes.func,
 };
 
-const Lottiepopup = ({ isOpen, handleClose }) => {
+const Lottieforcelebration = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  //   const [open, setOpen] = useState(false);
+
+  const { isOpen } = useSelector((state) => state.lottie);
+  //   console.log(isOpen);
+  //   useEffect(() => {
+  //     if (isOpen) {
+  //       setOpen(isOpen);
+  //     }
+  //   }, [isOpen]);
+
+  //   useEffect(() => {
+  //     setTimeout(() => {
+  //       handleClose();
+  //     }, 3000);
+  //   }, []);
+
+  const handleClose = () => {
+    dispatch(setLottieClose());
+  };
+
   const options = {
     loop: true,
     autoplay: true,
@@ -90,6 +114,7 @@ const Lottiepopup = ({ isOpen, handleClose }) => {
         BackdropProps={{
           timeout: 500,
           className: classes.root,
+          transitionDuration: 3000,
         }}
       >
         <Fade in={isOpen}>
@@ -105,4 +130,4 @@ const Lottiepopup = ({ isOpen, handleClose }) => {
   );
 };
 
-export default Lottiepopup;
+export default Lottieforcelebration;
