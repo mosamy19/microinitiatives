@@ -35,9 +35,9 @@ module.exports = {
       user.save();
 
       await new Notification({
-        body: `You have a new share on post ${initiative.title} by ${
+        body: `"${
           req.user.firstName + " " + req.user.familyName
-        }`,
+        } " قام بمشاركة مبادرتك "  ${initiative.title}"`,
         author: initiative.author,
         initiative: initiative._id,
         type: "share",

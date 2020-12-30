@@ -7,6 +7,10 @@ const favoriteSchema = new Schema(
       required: true,
     },
     initiative: {
+      type: Object,
+      required: true,
+    },
+    initiativeId: {
       type: Schema.Types.ObjectId,
       ref: "Initiative",
       required: true,

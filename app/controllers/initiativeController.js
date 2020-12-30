@@ -69,9 +69,9 @@ module.exports = {
         });
 
         await new Notification({
-          body: `You have a new clone on post ${initiative.title} by ${
+          body: `"${
             req.user.firstName + " " + req.user.familyName
-          }`,
+          } " اسم الشخص"  قام بتنفيذ مبادرتك"  ${initiative.title}"`,
           author: clonedInitiativeOwner,
           initiative: initiative._id,
           type: "clone",

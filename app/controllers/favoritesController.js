@@ -25,37 +25,55 @@ module.exports = {
       initiative.favorites++;
       initiative.save();
 
+      let authUser = await User.findOne({ _id: initiative.author });
+      let category = await Category.findOne({ _id: initiative.category });
+
+      let temp = {
+        id: initiative._id,
+        title: initiative.title,
+        clones: initiative.clones,
+        favorites: initiative.favorites,
+        likes: initiative.likes,
+        author: [
+          {
+            firstName: authUser.firstName,
+            familyName: authUser.familyName,
+            avatar: authUser.avatar,
+          },
+        ],
+        category: {
+          title: category.title,
+          icon: category.icon,
+        },
+      };
+
       let newFavorite = new Favorite({
-        initiative: initiativeId,
+        initiative: temp,
+        initiativeId: initiative._id,
         author: req.user._id,
       });
 
       let createdFavorite = await newFavorite.save();
+      console.log(createdFavorite);
       let user = await User.findOne({ _id: initiative.author });
       user.notifications++;
       user.save();
 
       await new Notification({
-        body: `You have a new save on post ${initiative.title} by ${
+        body: `"${
           req.user.firstName + " " + req.user.familyName
-        }`,
+        } "  قام بحفظ مبادرتك "  ${initiative.title}"`,
         author: initiative.author,
         initiative: initiative._id,
         type: "save",
       }).save();
-
-      //   initiative.likes.unshift(createdLike._id);
-      //   let updatedInitiative = await Initiative.findOneAndUpdate(
-      //     { _id: initiativeId },
-      //     { $set: initiative },
-      //     { new: true }
-      //   );
 
       res.status(status.success).json({
         favorite: true,
         favorites: createdFavorite,
       });
     } catch (error) {
+      console.log(error);
       serverError(res, error);
     }
   },
@@ -77,7 +95,7 @@ module.exports = {
       initiative.save();
 
       let deletedFavorite = await Favorite.findOneAndDelete({
-        initiative: initiativeId,
+        initiativeId,
         author: req.user._id,
       });
 
@@ -93,7 +111,7 @@ module.exports = {
   getFavorites: async (req, res) => {
     let { initiativeId } = req.params;
     try {
-      let favorites = await Favorite.find({ initiative: initiativeId });
+      let favorites = await Favorite.find({ initiativeId });
       res.status(200).json({ favorite: false, favorites });
     } catch (error) {
       serverError(res, error);
@@ -102,10 +120,7 @@ module.exports = {
 
   getMyFavorites: async (req, res) => {
     try {
-      let favorites = await Favorite.find({ author: req.user._id }).populate(
-        "initiative",
-        "title likes clones favorites category"
-      );
+      let favorites = await Favorite.find({ author: req.user._id });
       res.status(200).json(favorites);
     } catch (error) {
       serverError(res, error);

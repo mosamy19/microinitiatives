@@ -24,7 +24,7 @@ const Favoriteinitiatives = ({ user }) => {
     }
   }, [favorites, user._id]);
 
-  console.log(favorites);
+  console.log(myFavInitiatives);
 
   return (
     <Wrapper>

@@ -38,6 +38,8 @@ const Allinitiatives = () => {
     }
   }, [initiatives]);
 
+  console.log(all_initiatives);
+
   return (
     <Wrapper>
       <div>
