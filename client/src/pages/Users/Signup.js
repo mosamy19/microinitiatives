@@ -1,32 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../store/actions/auth-actions";
 
 import styled from "styled-components";
 
-const Signup = (props) => {
-  const [user, setUser] = useState({});
-  const [error, setError] = useState({});
-  const changeHanlder = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
-    setError({});
-  };
+const Signup = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    firstName: "",
+    familyName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    firstName: "",
+    familyName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const tempError = useSelector((state) => state.auth.error);
 
   useEffect(() => {
-    setError(props.auth.error);
-  }, [props.auth.error]);
+    if (tempError) {
+      setError(tempError);
+    }
+  }, [tempError]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.register(user, props.history);
+    dispatch(register(user, history));
   };
 
-   useEffect(() => {
-     window.scrollTo(0, 0);
-   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Wrapper>
@@ -44,7 +58,10 @@ const Signup = (props) => {
           <FormGroup>
             <Label>الاسم الأول</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, firstName: e.target.value });
+                setError({ ...error, firstName: "" });
+              }}
               type="text"
               name="firstName"
               invalid={error.firstName ? true : false}
@@ -56,7 +73,10 @@ const Signup = (props) => {
           <FormGroup>
             <Label>اسم العائلة</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, familyName: e.target.value });
+                setError({ ...error, familyName: "" });
+              }}
               type="text"
               name="familyName"
               invalid={error.familyName ? true : false}
@@ -68,7 +88,10 @@ const Signup = (props) => {
           <FormGroup>
             <Label>البريد الالكتروني</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, email: e.target.value });
+                setError({ ...error, email: "" });
+              }}
               type="email"
               name="email"
               invalid={error.email ? true : false}
@@ -78,7 +101,10 @@ const Signup = (props) => {
           <FormGroup>
             <Label>حدد كلمة السرّ لحسابك</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, password: e.target.value });
+                setError({ ...error, password: "" });
+              }}
               type="password"
               name="password"
               invalid={error.password ? true : false}
@@ -88,7 +114,10 @@ const Signup = (props) => {
           <FormGroup>
             <Label>تأكد من كلمة السرّ </Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, confirmPassword: e.target.value });
+                setError({ ...error, confirmPassword: "" });
+              }}
               type="password"
               name="confirmPassword"
               invalid={error.confirmPassword ? true : false}
@@ -119,10 +148,7 @@ const Signup = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { register })(Signup);
+export default Signup;
 
 const Wrapper = styled.div`
   .myform {

@@ -14,7 +14,7 @@ import { Grid } from "@material-ui/core";
 const Browseallinitiatives = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [value, setValue] = useState("newest");
+  const [value, setValue] = useState("pined");
 
   const getTheValue = (val) => {
     setValue(val);

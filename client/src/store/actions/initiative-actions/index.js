@@ -375,3 +375,59 @@ export const editMyInitiative = (id, initiative, history) => async (
     dispatch(setError(error.response.data));
   }
 };
+export const pinInitiative = (data) => async (dispatch) => {
+  try {
+    let response = await axios.put(`/api/v1/initiatives/pin-initiative`, data);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const unpinInitiative = (data) => async (dispatch) => {
+  try {
+    let response = await axios.put(`/api/v1/initiatives/unpin-initiative`, data);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const loveInitiative = (data) => async (dispatch) => {
+  try {
+    let response = await axios.put(`/api/v1/initiatives/loved-initiative`, data);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const unloveInitiative = (data) => async (dispatch) => {
+  try {
+    let response = await axios.put(`/api/v1/initiatives/unloved-initiative`, data);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};

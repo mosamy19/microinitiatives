@@ -32,6 +32,14 @@ const initiativeSchema = new Schema(
     },
     clonedInitiativeOwner: String,
     clonedInitiativeId: String,
+    pined: {
+      type: Boolean,
+      default: false,
+    },
+    loved: {
+      type: Boolean,
+      default: false,
+    },
     author: [
       {
         type: Schema.Types.ObjectId,

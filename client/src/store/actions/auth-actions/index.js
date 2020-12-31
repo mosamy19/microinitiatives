@@ -5,11 +5,22 @@ import setAuthToken from "../../../utils/setAuthToken";
 import { setSuccess, setError } from "../snackbar-actions";
 import { hideLoading, showLoading } from "../loading-actions";
 
-export const register = (user, history) => async (dispatch) => {
+export const register = (obj, history) => async (dispatch) => {
   try {
-    let response = await axios.post("/api/v1/auth/signup", user);
+    let response = await axios.post("/api/v1/auth/signup", obj);
+    let { token } = response.data;
+    localStorage.setItem("auth_token", token);
+    setAuthToken(token);
+    // let decode = jwtDecode(token);
+    let { user } = response.data;
+    dispatch({
+      type: types.SET_USER,
+      payload: {
+        user,
+      },
+    });
     dispatch(setSuccess(response.data.message));
-    history.push("/login");
+    history.push("/confirm-email");
   } catch (error) {
     dispatch({
       type: types.USERS_ERROR,
@@ -78,9 +89,9 @@ export const forgetPassword = (email, history) => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
-export const resetPassword = (newPassword, history) => async (dispatch) => {
+export const resetPassword = (payload, history) => async (dispatch) => {
   try {
-    let response = await axios.post("/api/v1/auth/reset-password", newPassword);
+    let response = await axios.post("/api/v1/auth/reset-password", payload);
     dispatch(setSuccess(response.data.message));
     history.push("/login");
   } catch (error) {
@@ -90,7 +101,7 @@ export const resetPassword = (newPassword, history) => async (dispatch) => {
         error: error.response.data,
       },
     });
-    dispatch(error.response.data);
+    dispatch(setError(error.response.data));
   }
 };
 

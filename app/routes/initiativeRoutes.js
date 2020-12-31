@@ -18,6 +18,10 @@ const {
   editInitiativeByAdmin,
   get_admin_panel_initiatives,
   createDraftInitiative,
+  pinInitiative,
+  unpinInitiative,
+  lovedInitiative,
+  unlovedInitiative,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
@@ -48,6 +52,10 @@ router.get(
   isAdmin,
   get_admin_panel_initiatives
 );
+router.put("/pin-initiative", isAuthenticated, isAdmin, pinInitiative);
+router.put("/unpin-initiative", isAuthenticated, isAdmin, unpinInitiative);
+router.put("/loved-initiative", isAuthenticated, isAdmin, lovedInitiative);
+router.put("/unloved-initiative", isAuthenticated, isAdmin, unlovedInitiative);
 
 router.get("/drafts", isAuthenticated, getDraftInitiatives);
 router.get(

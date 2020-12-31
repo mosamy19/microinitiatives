@@ -66,7 +66,7 @@ const Home = () => {
     .slice(0, 3);
 
   const mostLikedInitiatives = landingPageInitiatives
-    .sort((a, b) => b.likes - a.likes)
+    .sort((a, b) => b.loved - a.loved)
     .slice(0, 3);
 
   return (

@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import styled from "styled-components";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../store/actions/auth-actions";
 
 const Resetpassword = (props) => {
-  const [newPassword, setNewPassword] = useState("");
-  const { token } = props.match.params;
-  const [error, setError] = useState({});
-  const changeHanlder = (event) => {
-    setNewPassword(event.target.value);
-    setError({});
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { token } = useParams();
+  const [data, setData] = useState({ newPassword: "", confirmPassword: "" });
+  const [error, setError] = useState({ newPassword: "", confirmPassword: "" });
+
+  const payload = {
+    token,
+    newPassword: data.newPassword,
+    confirmPassword: data.confirmPassword,
   };
 
+  const tempError = useSelector((state) => state.auth.error);
+
   useEffect(() => {
-    setError(props.auth.error);
-  }, [props.auth.error]);
+    if (tempError) {
+      setError(tempError);
+    }
+  }, [tempError]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.resetPassword({ token, newPassword }, props.history);
+    dispatch(resetPassword(payload, history));
   };
   return (
     <Wrapper>
@@ -40,7 +48,10 @@ const Resetpassword = (props) => {
           <FormGroup>
             <Label> كلمة السرّ الجديدة</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setData({ ...data, newPassword: e.target.value });
+                setError({ ...error, newPassword: "" });
+              }}
               type="password"
               name="newPassword"
               invalid={error.newPassword ? true : false}
@@ -52,7 +63,10 @@ const Resetpassword = (props) => {
           <FormGroup>
             <Label>تأكيد كلمة السرّ الجديدة </Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setData({ ...data, confirmPassword: e.target.value });
+                setError({ ...error, confirmPassword: "" });
+              }}
               type="password"
               name="confirmPassword"
               invalid={error.confirmPassword ? true : false}
@@ -83,10 +97,7 @@ const Resetpassword = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { resetPassword })(Resetpassword);
+export default Resetpassword;
 
 const Wrapper = styled.div`
   .myform {

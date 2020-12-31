@@ -33,7 +33,7 @@ const Favoriteinitiatives = ({ user }) => {
           myFavInitiatives.map((item, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <div
-                onClick={() => history.push(`/single-initiative/${item._id}`)}
+                onClick={() => history.push(`/single-initiative/${item.id}`)}
               >
                 <Initiativecard initiative={item} />
               </div>

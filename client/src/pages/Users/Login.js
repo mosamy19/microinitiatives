@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/auth-actions";
 import styled from "styled-components";
 
 const Login = (props) => {
-  const [user, setUser] = useState({});
-  const [error, setError] = useState({});
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [error, setError] = useState({ email: "", password: "" });
 
-  const changeHanlder = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
-    setError({});
-  };
-
+  const tempError = useSelector((state) => state.auth.error);
   useEffect(() => {
-    setError(props.auth.error);
-  }, [props.auth.error]);
+    if (tempError) {
+      setError(tempError);
+    }
+  }, [tempError]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.login(user, props.history);
+    dispatch(login(user, history));
   };
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,7 +43,10 @@ const Login = (props) => {
           <FormGroup>
             <Label>البريد الالكتروني</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, email: e.target.value });
+                setError({ ...error, email: "" });
+              }}
               type="email"
               name="email"
               invalid={error.email ? true : false}
@@ -53,7 +56,10 @@ const Login = (props) => {
           <FormGroup>
             <Label> كلمة السرّ </Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setUser({ ...user, password: e.target.value });
+                setError({ ...error, password: "" });
+              }}
               type="password"
               name="password"
               invalid={error.password ? true : false}
@@ -92,10 +98,8 @@ const Login = (props) => {
     </Wrapper>
   );
 };
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { login })(Login);
+
+export default Login;
 const Wrapper = styled.div`
   .myform {
     margin: 64px auto;

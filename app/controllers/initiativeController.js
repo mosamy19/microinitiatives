@@ -178,7 +178,9 @@ module.exports = {
       }
 
       let sortedInitiatives;
-      if (sortBy === "newest" || sortBy === "") {
+      if (sortBy === "pined" || sortBy === "") {
+        sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
+      } else if (sortBy === "newest" || sortBy === "") {
         sortedInitiatives = initiatives.reverse();
       } else if (sortBy === "cloned") {
         sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);
@@ -249,7 +251,9 @@ module.exports = {
         });
       }
       let sortedInitiatives;
-      if (sortBy === "newest" || sortBy === "") {
+      if (sortBy === "pined" || sortBy === "") {
+        sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
+      } else if (sortBy === "newest" || sortBy === "") {
         sortedInitiatives = initiatives.reverse();
       } else if (sortBy === "cloned") {
         sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);
@@ -332,7 +336,9 @@ module.exports = {
     try {
       let initiatives = await Initiative.find({
         author: userId,
-      }).populate("author", "firstName familyName avatar");
+      })
+        .populate("author", "firstName familyName avatar")
+        .populate("category", "title icon");
 
       res.status(200).json(initiatives);
     } catch (error) {
@@ -453,6 +459,122 @@ module.exports = {
         .json({ message: "Edited successfully", updatedInitiative });
     } catch (error) {
       console.log(error);
+      serverError(res, error);
+    }
+  },
+
+  pinInitiative: async (req, res) => {
+    const { initiativeId } = req.body;
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+      });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
+        { _id: initiativeId },
+        { $set: { pined: true } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "Initiative has been pined successfully",
+        updatedInitiative,
+      });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  unpinInitiative: async (req, res) => {
+    const { initiativeId } = req.body;
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+      });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
+        { _id: initiativeId },
+        { $set: { pined: false } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "Initiative has been unpined successfully",
+        updatedInitiative,
+      });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  lovedInitiative: async (req, res) => {
+    const { initiativeId } = req.body;
+
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+      });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
+        { _id: initiativeId },
+        { $set: { loved: true } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "Initiative has been made loved successfully",
+        updatedInitiative,
+      });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  unlovedInitiative: async (req, res) => {
+    const { initiativeId } = req.body;
+    let errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      return res.status(status.bad).json(errors.mapped());
+    }
+
+    try {
+      let initiative = await Initiative.findOne({
+        _id: initiativeId,
+      });
+      if (!initiative) {
+        return resourceError(res, "Initiative not found");
+      }
+
+      let updatedInitiative = await Initiative.findOneAndUpdate(
+        { _id: initiativeId },
+        { $set: { loved: false } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "Initiative has been made unloved successfully",
+        updatedInitiative,
+      });
+    } catch (error) {
       serverError(res, error);
     }
   },

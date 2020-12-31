@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../../../store/actions/auth-actions";
 
 import styled from "styled-components";
 
-const ChangePassword = (props) => {
-  const [user, setUser] = useState({});
-  const [error, setError] = useState({});
+const ChangePassword = () => {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
-  const changeHanlder = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
-    setError({});
-  };
-
+  const tempError = useSelector((state) => state.auth.error);
   useEffect(() => {
-    setError(props.auth.error);
-  }, [props.auth.error]);
+    if (tempError) {
+      setError(tempError);
+    }
+  }, [tempError]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.changePassword(user);
+    dispatch(changePassword(user));
+    setUser({ oldPassword: "", newPassword: "", confirmPassword: "" });
   };
   return (
     <Wrapper>
@@ -28,9 +36,13 @@ const ChangePassword = (props) => {
         <FormGroup>
           <Label> كلمة السرّ الحالية</Label>
           <Input
-            onChange={changeHanlder}
+            onChange={(e) => {
+              setUser({ ...user, oldPassword: e.target.value });
+              setError({ ...error, oldPassword: "" });
+            }}
             type="password"
             name="oldPassword"
+            value={user.oldPassword}
             invalid={error.oldPassword ? true : false}
           />
           {error.oldPassword && (
@@ -40,7 +52,11 @@ const ChangePassword = (props) => {
         <FormGroup>
           <Label> كلمة السرّ الجديدة</Label>
           <Input
-            onChange={changeHanlder}
+            onChange={(e) => {
+              setUser({ ...user, newPassword: e.target.value });
+              setError({ ...error, newPassword: "" });
+            }}
+            value={user.newPassword}
             type="password"
             name="newPassword"
             invalid={error.newPassword ? true : false}
@@ -52,7 +68,11 @@ const ChangePassword = (props) => {
         <FormGroup>
           <Label>تأكيد كلمة السرّ الجديدة </Label>
           <Input
-            onChange={changeHanlder}
+            onChange={(e) => {
+              setUser({ ...user, confirmPassword: e.target.value });
+              setError({ ...error, confirmPassword: "" });
+            }}
+            value={user.confirmPassword}
             type="password"
             name="confirmPassword"
             invalid={error.confirmPassword ? true : false}
@@ -73,10 +93,7 @@ const ChangePassword = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { changePassword })(ChangePassword);
+export default ChangePassword;
 
 const Wrapper = styled.div`
   input {

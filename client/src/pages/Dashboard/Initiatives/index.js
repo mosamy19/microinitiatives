@@ -2,7 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { Table, Space, Button, Input } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllInitiativesByAdmin } from "../../../store/actions/initiative-actions";
+import {
+  getAllInitiativesByAdmin,
+  pinInitiative,
+  unpinInitiative,
+  loveInitiative,
+  unloveInitiative,
+} from "../../../store/actions/initiative-actions";
 import moment from "moment";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
@@ -35,6 +41,7 @@ const Dashboardinitiatives = () => {
       set_all_initiatives(initiatives);
     }
   }, [initiatives]);
+
   console.log(initiatives);
 
   useEffect(() => {
@@ -54,6 +61,8 @@ const Dashboardinitiatives = () => {
             saves: item.favorites,
             comments: item.comments,
             type: item.draft === true ? "Draft" : "Published",
+            pin: item.pined === true ? "Pined" : "Unpined",
+            love: item.loved === true ? "Loved" : "Unloved",
           },
         ];
         return true;
@@ -247,10 +256,50 @@ const Dashboardinitiatives = () => {
       key: "type",
     },
     {
+      title: "Pin/Unpin",
+      dataIndex: "pin",
+      key: "pin",
+    },
+    {
+      title: "Loved/Unloved",
+      dataIndex: "love",
+      key: "love",
+    },
+    {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
+          <Button
+            className="d-flex justify-content-center align-items-center"
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => {
+              if (record.pin === "Unpined") {
+                dispatch(pinInitiative({ initiativeId: record.key }));
+              } else {
+                dispatch(unpinInitiative({ initiativeId: record.key }));
+              }
+              dispatch(getAllInitiativesByAdmin());
+            }}
+          >
+            {record.pin === "Unpined" ? "Pin" : "Unpin"}
+          </Button>
+          <Button
+            className="d-flex justify-content-center align-items-center"
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => {
+              if (record.love === "Unloved") {
+                dispatch(loveInitiative({ initiativeId: record.key }));
+              } else {
+                dispatch(unloveInitiative({ initiativeId: record.key }));
+              }
+              dispatch(getAllInitiativesByAdmin());
+            }}
+          >
+            {record.love === "Unloved" ? "Love" : "Unlove"}
+          </Button>
           <Button
             className="d-flex justify-content-center align-items-center"
             type="primary"

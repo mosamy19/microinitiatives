@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { forgetPassword } from "../../store/actions/auth-actions";
 
 import styled from "styled-components";
 
 const Forgetpassword = (props) => {
-  const [email, setEmail] = useState({});
-  const [error, setError] = useState({});
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [data, setData] = useState({ email: "" });
+  const [error, setError] = useState({ email: "" });
 
-  const changeHanlder = (event) => {
-    setEmail({ ...email, [event.target.name]: event.target.value });
-    setError({});
-  };
-
+  const tempError = useSelector((state) => state.auth.error);
   useEffect(() => {
-    setError(props.auth.error);
-  }, [props.auth.error]);
+    if (tempError) {
+      setError(tempError);
+    }
+  }, [tempError]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.forgetPassword(email, props.history);
+    dispatch(forgetPassword(data, history));
   };
 
   return (
@@ -41,7 +41,10 @@ const Forgetpassword = (props) => {
           <FormGroup>
             <Label>من فضلك أدخل بريدك الالكتروني المسجّل معنا</Label>
             <Input
-              onChange={changeHanlder}
+              onChange={(e) => {
+                setData({ ...data, email: e.target.value });
+                setError({ ...error, email: "" });
+              }}
               type="email"
               name="email"
               invalid={error.email ? true : false}
@@ -70,10 +73,7 @@ const Forgetpassword = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { forgetPassword })(Forgetpassword);
+export default Forgetpassword;
 const Wrapper = styled.div`
   .myform {
     margin: 50px auto;

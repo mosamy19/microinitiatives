@@ -66,7 +66,7 @@ const Initiativecard = ({ initiative }) => {
   const classes = useStyles();
   const icon = initiative.category;
 
-  // let a = initiative.author.map(item => console.log(item.avatar))
+  console.log(initiative);
 
   return (
     <Card className={classes.root}>
@@ -146,9 +146,11 @@ const Initiativecard = ({ initiative }) => {
             ))}
         </div>
         <div>
-          <IconButton className={classes.iconBtn}>
-            <GrPin />
-          </IconButton>
+          {initiative.pined === true && (
+            <IconButton className={classes.iconBtn}>
+              <GrPin />
+            </IconButton>
+          )}
         </div>
       </div>
     </Card>

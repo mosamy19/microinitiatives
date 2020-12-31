@@ -2,7 +2,7 @@ const { status } = require("./status");
 module.exports = {
   serverError(res, err) {
     res.status(status.serverError).json({
-      message: err
+      message: err,
     });
   },
   resourceError(res, message) {

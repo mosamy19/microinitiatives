@@ -59,65 +59,76 @@ module.exports = {
       });
 
       let user = await newUser.save();
+      let token = await jwt.sign(
+        {
+          _id: user._id,
+          firstName: user.firstName,
+          familyName: user.familyName,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        },
+        config.jwtSecret,
+        { expiresIn: "72h" }
+      );
 
       res.status(status.created).json({
-        message: "You have soigned up successfully, Now you can login ",
+        token: `Bearer ${token}`,
         user,
       });
 
-      // const mailOptions = {
-      //   from: "noreply@microinitiatives.com",
-      //   to: email,
-      //   subject: "Account Activation Link",
-      //   html: `<h2>Please click on bellow link to activate your account...!</h2>
-      //     <a href="${config.clientUri}/account-activation/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none;">Click Here</a>
-      //   `,
-      // };
+      const mailOptions = {
+        from: "noreply@noii.io",
+        to: user.email,
+        subject: "Email Confirmation",
+        html: `<div style="margin: 30px; padding: 20px">
+          <h2 stye="text-align: center; margin: 0px 30px">أهلاوسهلا ايها السيد/السيدة ${user.firstName} ${user.familyName}</h2>
+          <h5  stye="text-align: center; padding: 15px">من فضلك أضغط على الرابط التالي لتفعيل حسابك</h5>
+          <a href="${config.clientUri}/all-initiatives" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;">أضغط هنا</a>
+        </div>
+        `,
+      };
 
-      // transporter.sendMail(mailOptions, (err, data) => {
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      //   res.status(status.success).json({
-      //     message: "Email has been sent, Activate your account",
-      //   });
-      // });
+      transporter.sendMail(mailOptions, (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+      });
     } catch (error) {
       serverError(res, error);
     }
   },
 
-  activateAccountController: async (req, res) => {
-    const token = req.body.token;
-    let decodedToken;
-    try {
-      if (token) {
-        decodedToken = jwt.verify(token, config.jwtSecret);
-      }
+  // activateAccountController: async (req, res) => {
+  //   const token = req.body.token;
+  //   let decodedToken;
+  //   try {
+  //     if (token) {
+  //       decodedToken = jwt.verify(token, config.jwtSecret);
+  //     }
 
-      const { firstName, familyName, email, password } = decodedToken;
+  //     const { firstName, familyName, email, password } = decodedToken;
 
-      let isExistUser = await User.findOne({ email });
-      if (isExistUser) {
-        return resourceError(res, "User with this email already exists.");
-      }
+  //     let isExistUser = await User.findOne({ email });
+  //     if (isExistUser) {
+  //       return resourceError(res, "User with this email already exists.");
+  //     }
 
-      let hashedPassword = await bcrypt.hash(password, 11);
-      let newUser = new User({
-        firstName,
-        familyName,
-        email,
-        password: hashedPassword,
-      });
-      let user = await newUser.save();
-      res.status(status.created).json({
-        message: "You have soigned up successfully",
-        user,
-      });
-    } catch (error) {
-      serverError(res, error);
-    }
-  },
+  //     let hashedPassword = await bcrypt.hash(password, 11);
+  //     let newUser = new User({
+  //       firstName,
+  //       familyName,
+  //       email,
+  //       password: hashedPassword,
+  //     });
+  //     let user = await newUser.save();
+  //     res.status(status.created).json({
+  //       message: "You have soigned up successfully",
+  //       user,
+  //     });
+  //   } catch (error) {
+  //     serverError(res, error);
+  //   }
+  // },
 
   loginController: async (req, res, next) => {
     let { email, password } = req.body;
@@ -147,11 +158,11 @@ module.exports = {
           isAdmin: user.isAdmin,
         },
         config.jwtSecret,
-        { expiresIn: "24h" }
+        { expiresIn: "72h" }
       );
 
       res.status(status.success).json({
-        message: "You have loggedin successfully",
+        message: "قمت بالتسجيل بنجاح",
         token: `Bearer ${token}`,
         user,
       });
@@ -177,11 +188,11 @@ module.exports = {
         expiresIn: "20m",
       });
       const mailOptions = {
-        from: "noreply@microinitiatives.com",
+        from: "noreply@noii.io",
         to: email,
         subject: "Reset Password Link",
         html: `<h2>Please click on bellow link to reset your password...!</h2>
-          <a href="${config.clientUri}/reset-password/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none;">Click Here</a>
+          <a href="${config.clientUri}/reset-password/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;"> اضغط هنا</a>
         `,
       };
 
@@ -194,7 +205,7 @@ module.exports = {
           { $set: { resetToken: token } }
         );
         res.status(status.success).json({
-          message: "Email has been sent, reset your password",
+          message: "Email sent",
           newUser,
         });
       });
@@ -214,7 +225,7 @@ module.exports = {
 
     try {
       if (token) {
-        decode = jwt.verify(token, config.jwtSecret);
+        decode = await jwt.verify(token, config.jwtSecret);
       }
       const { _id } = decode;
       let user = await User.findOne({ _id });
@@ -231,7 +242,7 @@ module.exports = {
         updatedUser,
       });
     } catch (error) {
-      serverError(res, error);
+      serverError(res, error.message);
     }
   },
 

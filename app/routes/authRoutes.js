@@ -29,7 +29,7 @@ const editProfilePicValidator = require("../validator/auth/editProfilePicValidat
 
 // public routes
 router.post("/signup", signupValidator, signupController);
-router.post("/activate-account", activateAccountController);
+// router.post("/activate-account", activateAccountController);
 router.post("/login", loginValidator, loginController);
 router.post(
   "/forget-password",

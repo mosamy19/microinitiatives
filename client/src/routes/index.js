@@ -24,7 +24,6 @@ import NotFound from "../pages/NotFound";
 import Notifications from "../pages/Notifications";
 import Publicprofile from "../pages/Publicprofile";
 import Settings from "../pages/Settings";
-import Activateaccount from "../pages/Users/Activateaccount";
 import Forgetpassword from "../pages/Users/Forgetpassword";
 import Login from "../pages/Users/Login";
 import Resetmessage from "../pages/Users/Resetmessage";
@@ -34,6 +33,7 @@ import AdminRouteWithLayout from "./AdminRouteWithLayout";
 import PrivateRouteWithLayout from "./PrivateRouteWithLayout";
 import RouteWithLayout from "./RouteWithLayout";
 import Categories from "../pages/Dashboard/Categories";
+import Emailconfirmation from "../pages/Users/Emailconfirmation";
 
 const AppRoutes = () => {
   return (
@@ -113,8 +113,8 @@ const AppRoutes = () => {
         />
         <RouteWithLayout
           layout={AuthLayout}
-          path="/account-activation/:token"
-          component={Activateaccount}
+          path="/confirm-email"
+          component={Emailconfirmation}
         />
         <RouteWithLayout
           layout={AuthLayout}
