@@ -20,12 +20,12 @@ setMiddlewares(app);
 passport.initialize();
 require("./app/middlewares/passport")(passport);
 
-if (config.get("mode") === "production") {
-  app.use(express.static("client/build"));
-  app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+// if (config.get("mode") === "production") {
+app.use(express.static("client/build"));
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+// }
 
 // Using routes from route directory
 setRoutes(app);
