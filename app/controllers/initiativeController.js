@@ -71,7 +71,7 @@ module.exports = {
         await new Notification({
           body: `"${
             req.user.firstName + " " + req.user.familyName
-          } " اسم الشخص"  قام بتنفيذ مبادرتك"  ${initiative.title}"`,
+          } " قام بتنفيذ مبادرتك  ${initiative.title}"`,
           author: clonedInitiativeOwner,
           initiative: initiative._id,
           type: "clone",

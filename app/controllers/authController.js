@@ -77,7 +77,7 @@ module.exports = {
       });
 
       const mailOptions = {
-        from: "noreply@noii.io",
+        from: "Noii micorinitiatives noreply@mg.noii.io",
         to: user.email,
         subject: "Email Confirmation",
         html: `<div style="margin: 30px; padding: 20px">
@@ -188,7 +188,7 @@ module.exports = {
         expiresIn: "20m",
       });
       const mailOptions = {
-        from: "noreply@noii.io",
+        from: "Noii micorinitiatives noreply@mg.noii.io",
         to: email,
         subject: "Reset Password Link",
         html: `<h2>Please click on bellow link to reset your password...!</h2>
