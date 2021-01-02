@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Samim-FD-WOL !important;
+}
+
+@font-face {
+    font-family: Samim-FD-WOL;
+    src: url('/public/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf')
+}
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 64px;
+}

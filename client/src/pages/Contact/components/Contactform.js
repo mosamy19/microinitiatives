@@ -3,50 +3,43 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { receiveEmail } from "../../../store/actions/contactus-action";
 
 const Contactform = () => {
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const [data, setData] = useState({ name: "", email: "", message: "" });
-  const [error, setError] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState({ name: "", email: "", message: "" });
 
   const fomrValidation = () => {
     const checkEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (data.name === "") {
-      setError({ ...error, name: "هذه الخانة مطلوبة" });
+      setErrors({ ...errors, name: "هذه الخانة مطلوبة" });
       return false;
     }
     if (data.email === "") {
-      setError({ ...error, email: "هذه الخانة مطلوبة" });
+      setErrors({ ...errors, email: "هذه الخانة مطلوبة" });
       return false;
     } else if (!checkEmail.test(String(data.email).toLowerCase())) {
-      setError({ ...error, email: " البريد الإلكتروني الذي أدخلته غير صحيح " });
+      setErrors({
+        ...errors,
+        email: " البريد الإلكتروني الذي أدخلته غير صحيح ",
+      });
       return false;
     }
     if (data.message === "") {
-      setError({ ...error, message: "هذه الخانة مطلوبة" });
+      setErrors({ ...errors, message: "هذه الخانة مطلوبة" });
       return false;
     }
     return true;
   };
 
-  const url = "https://hooks.zapier.com/hooks/catch/8429408/oc0uzr4/";
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = fomrValidation();
     if (isValid) {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        mode: "cors",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((params) => console.log(params))
-        .catch((err) => console.log(err));
-      history.push("/contact/message");
+      dispatch(receiveEmail(data, history));
     }
   };
   return (
@@ -68,40 +61,42 @@ const Contactform = () => {
               <Input
                 onChange={(e) => {
                   setData({ ...data, name: e.target.value });
-                  setError({ ...error, name: "" });
+                  setErrors({ ...errors, name: "" });
                 }}
                 type="text"
                 name="name"
-                invalid={error.name ? true : false}
+                invalid={errors.name ? true : false}
               />
-              {error.name && <FormFeedback> {error.name} </FormFeedback>}
+              {errors.name && <FormFeedback> {errors.name} </FormFeedback>}
             </FormGroup>
             <FormGroup>
               <Label>البريد الالكتروني</Label>
               <Input
                 onChange={(e) => {
                   setData({ ...data, email: e.target.value });
-                  setError({ ...error, email: "" });
+                  setErrors({ ...errors, email: "" });
                 }}
                 type="email"
                 name="email"
-                invalid={error.email ? true : false}
+                invalid={errors.email ? true : false}
               />
-              {error.email && <FormFeedback> {error.email} </FormFeedback>}
+              {errors.email && <FormFeedback> {errors.email} </FormFeedback>}
             </FormGroup>
             <FormGroup>
               <Label>الرسالة </Label>
               <Input
                 onChange={(e) => {
                   setData({ ...data, message: e.target.value });
-                  setError({ ...error, message: "" });
+                  setErrors({ ...errors, message: "" });
                 }}
                 type="textarea"
                 name="description"
                 style={{ minHeight: "130px" }}
-                invalid={error.message ? true : false}
+                invalid={errors.message ? true : false}
               />
-              {error.message && <FormFeedback> {error.message} </FormFeedback>}
+              {errors.message && (
+                <FormFeedback> {errors.message} </FormFeedback>
+              )}
             </FormGroup>
 
             <FormGroup>

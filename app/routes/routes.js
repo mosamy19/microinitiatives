@@ -7,6 +7,7 @@ const shareRoutes = require("./shareRoutes");
 const notificationRoutes = require("./notificationRoutes");
 const fileuploadRoutes = require("./fileuploadRoutes");
 const categoryRoutes = require("./categoryRoutes");
+const contactusRoutes = require("./contactusRoutes");
 
 const baseAPIPath = "/api/v1";
 
@@ -46,6 +47,10 @@ const routes = [
   {
     path: `${baseAPIPath}/upload`,
     handler: fileuploadRoutes,
+  },
+  {
+    path: `${baseAPIPath}/email`,
+    handler: contactusRoutes,
   },
   {
     path: "/",

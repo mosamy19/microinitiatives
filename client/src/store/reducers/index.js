@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import authReducer from "./auth-reducer";
 import categoryReducer from "./category-reducer";
 import commentReducer from "./comment-reducer";
+import contactReducer from "./contactus-reducer";
 import favoriteReducer from "./favorite-reducer";
 import initiativeReducer from "./initiative-reducer";
 import likeReducer from "./likes-reducer";
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   notifications: notificationReducer,
   category: categoryReducer,
   lottie: lottieReducer,
+  contact: contactReducer,
 });
 
 export default rootReducer;

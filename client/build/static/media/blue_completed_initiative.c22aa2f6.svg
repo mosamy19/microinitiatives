@@ -1,0 +1,16 @@
+<svg id="blue-completed-initiative" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+  <g id="My-initiatives-_-Saved" data-name="My-initiatives-/-Saved" transform="translate(-1213 -188)">
+    <g id="Group-6" transform="translate(1048 182)">
+      <g id="Group-5">
+        <g id="Group-3" transform="translate(110 1)">
+          <g id="completed" transform="translate(55 5)">
+            <g id="Group">
+              <circle id="Oval" cx="6" cy="6" r="6" fill="rgba(98,54,255,0.65)"/>
+              <path id="Path" d="M5.109,9a.359.359,0,0,1-.274-.133L3.084,6.793a.447.447,0,0,1,.036-.565.349.349,0,0,1,.512,0L5.109,7.975,8.334,4.154A.356.356,0,0,1,8.7,4.009a.393.393,0,0,1,.285.294.445.445,0,0,1-.1.415l-3.5,4.149A.359.359,0,0,1,5.109,9Z" fill="#fff"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

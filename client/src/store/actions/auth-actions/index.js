@@ -35,7 +35,6 @@ export const activateMyAccount = (token, history) => async (dispatch) => {
   try {
     let response = await axios.post("/api/v1/auth/activate-account", token);
     history.push("/login");
-    console.log(response);
   } catch (error) {
     dispatch({
       type: types.USERS_ERROR,

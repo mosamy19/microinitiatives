@@ -80,9 +80,9 @@ module.exports = {
         from: "Noii micorinitiatives noreply@mg.noii.io",
         to: user.email,
         subject: "Email Confirmation",
-        html: `<div style="margin: 30px; padding: 20px">
-          <h2 stye="text-align: center; margin: 0px 30px">أهلاوسهلا ايها السيد/السيدة ${user.firstName} ${user.familyName}</h2>
-          <h5  stye="text-align: center; padding: 15px">من فضلك أضغط على الرابط التالي لتفعيل حسابك</h5>
+        html: `<div style="margin: 30px; padding: 20px";>
+          <h2 stye="text-align: center; margin: 0px 30px";>أهلاوسهلا ايها السيد/السيدة ${user.firstName} ${user.familyName}</h2>
+          <h5  stye="text-align: center; padding: 15px";>من فضلك أضغط على الرابط التالي لتفعيل حسابك</h5>
           <a href="${config.clientUri}/all-initiatives" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;">أضغط هنا</a>
         </div>
         `,
