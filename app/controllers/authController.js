@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const path = require("path");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const config = require("../../config/config");
@@ -9,6 +10,7 @@ const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
 const nodemailer = require("nodemailer");
 const nodemailerMailgunTransport = require("nodemailer-mailgun-transport");
+const Email = require("email-templates");
 
 const transporter = nodemailer.createTransport(
   nodemailerMailgunTransport({
@@ -35,16 +37,6 @@ module.exports = {
     }
 
     try {
-      // let user = await User.findOne({ email });
-      // if (user) {
-      //   return resourceError(res, "User with this email already exists.");
-      // }
-      // let token = jwt.sign(
-      //   { firstName, familyName, email, password },
-      //   config.jwtSecret,
-      //   { expiresIn: "20m" }
-      // );
-
       let hashedPassword = await bcrypt.hash(pickedProperty.password, 11);
       let avatar = "";
       if (req.file) {
@@ -76,23 +68,49 @@ module.exports = {
         user,
       });
 
-      const mailOptions = {
-        from: "Noii micorinitiatives noreply@mg.noii.io",
-        to: user.email,
-        subject: "Email Confirmation",
-        html: `<div style="margin: 30px; padding: 20px";>
-          <h2 stye="text-align: center; margin: 0px 30px";>أهلاوسهلا ايها السيد/السيدة ${user.firstName} ${user.familyName}</h2>
-          <h5  stye="text-align: center; padding: 15px";>من فضلك أضغط على الرابط التالي لتفعيل حسابك</h5>
-          <a href="${config.clientUri}/all-initiatives" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;">أضغط هنا</a>
-        </div>
-        `,
-      };
+      const emailTemp = new Email({
+        views: { root: "./template", options: { extension: "ejs" } },
+        message: {
+          from: "Noii|نوي noreply@mg.noii.io",
+        },
+        // juice: true,
+        // juiceSettings: {
+        //   tableElements: ["TABLE"],
+        // },
+        // juiceResources: {
+        //   preserveImportant: true,
+        //   webResources: {
+        //     relativeTo: path.resolve("template"),
+        //   },
+        // },
 
-      transporter.sendMail(mailOptions, (err, data) => {
-        if (err) {
-          console.log(err);
-        }
+        preview: false,
+        send: true,
+        transport: transporter,
       });
+
+      let info = await emailTemp.send({
+        template: "test",
+        message: {
+          to: user.email,
+        },
+        locals: {
+          title: "تفعيل حسابك في نوي",
+          subject: "تفعيل حسابك في نوي",
+          content: "من فضلك اضغط على الرابط التالي لتفعيل حسابك",
+          name: `مرحبا(${user.firstName} ${user.familyName})`,
+          source: `https://noii.io/all-initiatives`,
+        },
+      });
+      res.status(status.success).json({
+        message: "Email sent",
+      });
+
+      // transporter.sendMail(mailOptions, (err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      // });
     } catch (error) {
       serverError(res, error);
     }
@@ -187,28 +205,71 @@ module.exports = {
       const token = jwt.sign({ _id: user._id }, config.jwtSecret, {
         expiresIn: "20m",
       });
-      const mailOptions = {
-        from: "Noii micorinitiatives noreply@mg.noii.io",
-        to: email,
-        subject: "Reset Password Link",
-        html: `<h2>Please click on bellow link to reset your password...!</h2>
-          <a href="${config.clientUri}/reset-password/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;"> اضغط هنا</a>
-        `,
-      };
 
-      transporter.sendMail(mailOptions, async (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        let newUser = await User.findOneAndUpdate(
-          { _id: user._id },
-          { $set: { resetToken: token } }
-        );
-        res.status(status.success).json({
-          message: "Email sent",
-          newUser,
-        });
+      const emailTemp = new Email({
+        views: { root: "./template", options: { extension: "ejs" } },
+        message: {
+          from: "Noii|نوي noreply@mg.noii.io",
+        },
+        // juice: true,
+        // juiceSettings: {
+        //   tableElements: ["TABLE"],
+        // },
+        // juiceResources: {
+        //   preserveImportant: true,
+        //   webResources: {
+        //     relativeTo: path.resolve("template"),
+        //   },
+        // },
+
+        preview: false,
+        send: true,
+        transport: transporter,
       });
+
+      let info = await emailTemp.send({
+        template: "test",
+        message: {
+          to: email,
+        },
+        locals: {
+          title: "تغيير الكلمة السرية",
+          subject: "تغيير الكلمة السرية",
+          content: "من فضلك اضغط على الرابط التالي لتغيير الكلمة السرية لحسابك",
+          name: `مرحبا(${user.firstName} ${user.familyName})`,
+          source: `https://noii.io/reset-password/${token}`,
+        },
+      });
+      let newUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $set: { resetToken: token } }
+      );
+      res.status(status.success).json({
+        message: "Email sent",
+        newUser,
+      });
+      // const mailOptions = {
+      //   from: "Noii micorinitiatives noreply@mg.noii.io",
+      //   to: email,
+      //   subject: "Reset Password Link",
+      //   html: `<h2>Please click on bellow link to reset your password...!</h2>
+      //     <a href="${config.clientUri}/reset-password/${token}" style="padding: 10px 20px; background-color: yellow; color: #ffffff; text-decoration: none; font-size: 18px;"> اضغط هنا</a>
+      //   `,
+      // };
+
+      // transporter.sendMail(mailOptions, async (err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      //   let newUser = await User.findOneAndUpdate(
+      //     { _id: user._id },
+      //     { $set: { resetToken: token } }
+      //   );
+      //   res.status(status.success).json({
+      //     message: "Email sent",
+      //     newUser,
+      //   });
+      // });
     } catch (error) {
       serverError(res, error);
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import oval_1 from "../../../../assets/icons/oval_1.svg";
 import step_1 from "../../../../assets/icons/step_1.svg";
 import oval_2 from "../../../../assets/icons/oval_2.svg";
@@ -8,30 +8,30 @@ import step_2 from "../../../../assets/icons/step_2.svg";
 import oval_3 from "../../../../assets/icons/oval_3.svg";
 import step_3 from "../../../../assets/icons/step_3.svg";
 import bond from "../../../../assets/icons/bonds/bond.png";
-import { makeStyles } from "@material-ui/core";
+// import { makeStyles } from "@material-ui/core";
 import Nicewords from "../../../../components/Nicewords";
 import Noistory from "./components/Noistory";
 import { useEffect } from "react";
 
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    background: "#f7b500",
-    color: "#fff",
-    fontFamily: "inherit",
-    fontSize: "16px",
-    padding: "6px 40px",
-    "&:hover": {
-      background: "#f7b500",
-      color: "#fff",
-    },
-    "&:focus": {
-      outline: "none",
-    },
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   btn: {
+//     background: "#f7b500",
+//     color: "#fff",
+//     fontFamily: "inherit",
+//     fontSize: "16px",
+//     padding: "6px 40px",
+//     "&:hover": {
+//       background: "#f7b500",
+//       color: "#fff",
+//     },
+//     "&:focus": {
+//       outline: "none",
+//     },
+//   },
+// }));
 
 const Details = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -51,7 +51,7 @@ const Details = () => {
           >
             كيف تعمل نوي؟
           </h2>
-          <div>
+          <div style={{ margin: "" }}>
             <div className="steps">
               <img className="oval" src={oval_1} alt="" />
               <span className="count cloneCount">1</span>
@@ -77,13 +77,29 @@ const Details = () => {
                     borderRadius: "4px",
                   }}
                 >
-                  <p>حدد الهدف</p>
+                  <p>
+                    جوهر المبادرة المتناهية الصغر في أن تكون ٣ أو أقل، القراءة
+                    لثلاثة أطفال، توزيع ثلاث وجبات ترجمة مقالة في ثلاثة أيام
+                    وهكذا. يمكنك تصميم مبادرتك لتكون في أي مجال تحبه أو تهتم به
+                    أو تحسنه. كما يمكنك تقديم مبادرتك لمن تشاء، عائلتك أو
+                    أصدقاءك أو معارفك أو جيرانك أو لأي أحد تعرفه أو لا تعرفه.
+                  </p>
+                </div>
+                {/* <div className="line"></div>
+                <div
+                  style={{
+                    background: "#fff",
+                    padding: "16px 13px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <p> حدد الفئة المستهدفة</p>
                   <p>
                     هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
                     توليد هذا النص من مولد النص العربى، التى.
                   </p>
-                </div>
-                <div className="line"></div>
+                </div> */}
+                {/* <div className="line"></div>
                 <div
                   style={{
                     background: "#fff",
@@ -97,22 +113,8 @@ const Details = () => {
                     توليد هذا النص من مولد النص العربى، التى.
                   </p>
                 </div>
-                <div className="line"></div>
-                <div
-                  style={{
-                    background: "#fff",
-                    padding: "16px 13px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <p> حدد الفئة المستهدفة</p>
-                  <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، التى.
-                  </p>
-                </div>
-                <div className="line"></div>
-                <div
+                <div className="line"></div> */}
+                {/* <div
                   style={{
                     background: "#fff",
                     marginBottom: "18px",
@@ -125,7 +127,7 @@ const Details = () => {
                     هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
                     توليد هذا النص من مولد النص العربى، التى.
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -155,10 +157,10 @@ const Details = () => {
                     borderRadius: "4px",
                   }}
                 >
-                  <p> حدد الفئة المستهدفة</p>
+                  {/* <p> حدد الفئة المستهدفة</p> */}
                   <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، التى.
+                    بعد تصميم المبادرة، انطلق وطبقها على أرض الواقع، تأكد أنك
+                    توثق تجربتك لتقوم بمشاركتها على نوي
                   </p>
                 </div>
               </div>
@@ -190,10 +192,9 @@ const Details = () => {
                     borderRadius: "4px",
                   }}
                 >
-                  <p> حدد الفئة المستهدفة</p>
+                  {/* <p> حدد الفئة المستهدفة</p> */}
                   <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، التى.
+                    بعد أن أكملت تنفيذ مبادرتك، حان الآن وقت مشاركتها على نوي :)
                   </p>
                 </div>
               </div>

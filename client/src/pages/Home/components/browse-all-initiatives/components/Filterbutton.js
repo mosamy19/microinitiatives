@@ -21,7 +21,7 @@ const Filterbutton = ({ getTheValue }) => {
         onChange={handleChange}
         dropdownStyle={{ textAlign: "right", fontSize: "10px" }}
       >
-        <Option value="newest">الاحداث</Option>
+        <Option value="newest">الأحدث</Option>
         <Option value="cloned">أكثر المبادرات تنفيذاً</Option>
         <Option value="liked">أكثر المبادرات إعجابا</Option>
         <Option value="saved">أكثر المبادرات مفضلة</Option>

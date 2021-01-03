@@ -14,12 +14,13 @@ module.exports = {
 
     try {
       let transporter = nodemailer.createTransport({
-        host: "noii.io",
-        port: 587,
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
         secure: false,
         auth: {
-          user: "info@noii.io",
-          pass: "sara2020,sA",
+          user: "simon.chowdery@gmail.com",
+          pass: "123$$$sss",
         },
         tls: {
           rejectUnauthorized: false,
@@ -27,16 +28,14 @@ module.exports = {
       });
 
       let info = await transporter.sendMail({
-        from: '"Noii contact" <info@noii.io>', // sender address
+        from: '"Noii contact" <simon.chowdery@gmail.com>', // sender address
         to: "simon.chowdery@gmail.com", // list of receivers
         subject: "Noii Contact Requiest", // Subject line
-        html: `<div stye="margin: 50px 30px";>
-                  <ul style="margin: 5px; padding: 20px; font-size: 16px; list-style: none; >
-                    <li>Name: ${name}</li>
-                    <li>Email: ${email}</li>
-                    <li>Message: ${message}</li>
-                  </ul>
-                </div>`, // html body
+        html: `<ul>
+                  <li>Name: ${name}</li>
+                  <li>Email: ${email}</li>
+                  <li>Message: ${message}</li>
+                </ul>`, // html body
       });
       res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {

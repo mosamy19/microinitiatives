@@ -15,9 +15,7 @@ import Addcategory from "./components/add-category";
 
 const Categories = () => {
   const dispatch = useDispatch();
-  let searchInput = useRef();
-
-  console.log(searchInput);
+  // let searchInput = useRef();
 
   const [data, setDatat] = useState([]);
   const [all_categories, set_all_categories] = useState([]);

@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Samim-FD-WOL !important;
+}
+
+@font-face {
+    font-family: Samim-FD-WOL;
+    src: url('/public/samim-fonts/ArbFONTS-Samim-FD-WOL.ttf')
+}
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 64px;
+}
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn {
+    width: 280px;
+    padding: 9.2px 0;
+    background: #f7b500;
+    border-radius: 4px;
+    color: #fff;
+    font-family: Samim-FD-WOL;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
