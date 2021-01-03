@@ -51,7 +51,7 @@ const Details = () => {
           >
             كيف تعمل نوي؟
           </h2>
-          <div style={{ margin: "" }}>
+          <div style={{ margin: "20px" }}>
             <div className="steps">
               <img className="oval" src={oval_1} alt="" />
               <span className="count cloneCount">1</span>
