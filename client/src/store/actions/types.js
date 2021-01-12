@@ -32,3 +32,6 @@ export const SET_LOTTIE_OPEN = "SET_LOTTIE_OPEN";
 export const SET_LOTTIE_CLOSE = "SET_LOTTIE_CLOSE";
 export const SET_CONTACT_INFO = "SET_CONTACT_INFO";
 export const CONTACT_ERROR = "CONTACT_ERROR";
+export const SET_RULE = "SET_RULE";
+export const SET_SINGLE_RULE = "SET_SINGLE_RULE";
+export const RULE_ERROR = "RULE_ERROR";

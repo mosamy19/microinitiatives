@@ -188,13 +188,13 @@ const Dashboardinitiatives = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "15%",
+      width: "10%",
     },
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: "12%",
+      width: "10%",
       ...getColumnSearchProps("title"),
     },
     {
@@ -217,7 +217,7 @@ const Dashboardinitiatives = () => {
       title: "Likes",
       dataIndex: "likes",
       key: "likes",
-      width: "20%",
+      // width: "20%",
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.likes - b.likes,
@@ -254,16 +254,19 @@ const Dashboardinitiatives = () => {
       title: "Type",
       dataIndex: "type",
       key: "type",
+      width: "10%",
     },
     {
       title: "Pin/Unpin",
       dataIndex: "pin",
       key: "pin",
+      width: "10%",
     },
     {
       title: "Loved/Unloved",
       dataIndex: "love",
       key: "love",
+      width: "12%",
     },
     {
       title: "Action",
@@ -339,7 +342,12 @@ const Dashboardinitiatives = () => {
           Add New Initiative
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} onChange={handleOnnChange} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={handleOnnChange}
+        scroll={{ y: "100%", x: "100%" }}
+      />
       <Addinitiative
         showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}

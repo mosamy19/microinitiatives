@@ -8,6 +8,7 @@ const notificationRoutes = require("./notificationRoutes");
 const fileuploadRoutes = require("./fileuploadRoutes");
 const categoryRoutes = require("./categoryRoutes");
 const contactusRoutes = require("./contactusRoutes");
+const emailRuleRoutes = require("./emailRuleRoutes");
 
 const baseAPIPath = "/api/v1";
 
@@ -53,18 +54,22 @@ const routes = [
     handler: contactusRoutes,
   },
   {
-    path: "/",
-    handler: (req, res) => {
-      const help = `
-        <pre>
-        Welcome to the API!
-        Use an x-access-token header to work with your own data:
-        fetch(url, { headers: { 'x-access-token': 'whatever-you-want' }})
-        The following endpoints are available:
-        </pre>`;
-      res.send(help);
-    },
+    path: `${baseAPIPath}/rules`,
+    handler: emailRuleRoutes,
   },
+  // {
+  //   path: "/",
+  //   handler: (req, res) => {
+  //     const help = `
+  //       <pre>
+  //       Welcome to the API!
+  //       Use an x-access-token header to work with your own data:
+  //       fetch(url, { headers: { 'x-access-token': 'whatever-you-want' }})
+  //       The following endpoints are available:
+  //       </pre>`;
+  //     res.send(help);
+  //   },
+  // },
 ];
 
 module.exports = (app) => {

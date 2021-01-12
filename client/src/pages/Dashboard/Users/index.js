@@ -248,7 +248,11 @@ const Users = () => {
           Add New User
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        scroll={{ y: "100%", x: "100%" }}
+      />
       <Adduser
         // showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}

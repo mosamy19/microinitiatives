@@ -3,8 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { forgetPassword } from "../../store/actions/auth-actions";
-
 import styled from "styled-components";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 
 const Forgetpassword = (props) => {
   const history = useHistory();
@@ -12,6 +17,7 @@ const Forgetpassword = (props) => {
   const [data, setData] = useState({ email: "" });
   const [error, setError] = useState({ email: "" });
 
+  const { isLoading } = useSelector((state) => state.loader);
   const tempError = useSelector((state) => state.auth.error);
   useEffect(() => {
     if (tempError) {
@@ -52,11 +58,25 @@ const Forgetpassword = (props) => {
             {error.email && <FormFeedback> {error.email} </FormFeedback>}
           </FormGroup>
           <FormGroup>
-            <Input
-              type="submit"
-              value="  أرسل"
-              style={{ background: "#f7b500", color: "#fff" }}
-            ></Input>
+            <div style={{ position: "relative", width: "100%" }}>
+              <Input
+                type="submit"
+                value="  أرسل"
+                style={{ background: "#f7b500", color: "#fff" }}
+              ></Input>
+              {isLoading ? (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "35%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <Spin indicator={antIcon} />
+                </div>
+              ) : null}
+            </div>
           </FormGroup>
         </Form>
         <div>

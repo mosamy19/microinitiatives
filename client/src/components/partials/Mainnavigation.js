@@ -25,7 +25,7 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const Mainnavigation = (props) => {
+const Mainnavigation = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isMyInitiative, setIsMyInitiative] = useState(false);
@@ -124,9 +124,12 @@ const Mainnavigation = (props) => {
                 >
                   <Menu
                     admin={isAdmin}
-                    name={firstName + " " + familyName}
+                    name={
+                      firstName && familyName
+                        ? firstName + " " + familyName
+                        : null
+                    }
                     avatar={avatar}
-                    loading={isLoading}
                   />
                 </Link>
               </div>

@@ -173,7 +173,6 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
               value={initiative.title}
               onChange={(e) => {
                 setInitiative({ ...initiative, title: e.target.value });
-                console.log(e.target.value);
               }}
             />
           </Form.Item>
@@ -182,7 +181,6 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
               value={initiative.category}
               onChange={(value) => {
                 setInitiative({ ...initiative, category: value });
-                console.log(value);
               }}
             >
               {categoryList.length > 0 &&
@@ -197,7 +195,6 @@ const Editinitiatives = ({ initiativeId, isOpen, handleEditCancel }) => {
             label="Description"
             onChange={(e) => {
               setInitiative({ ...initiative, description: e.target.value });
-              console.log(e.target.value);
             }}
           >
             <Input.TextArea value={initiative.description} />

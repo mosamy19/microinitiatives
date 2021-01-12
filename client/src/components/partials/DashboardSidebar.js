@@ -111,26 +111,31 @@ const DashboardSidebar = ({ collapsed }) => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="5" onClick={() => history.push("/dashboard/users")}>
+            <Menu.Item key="3" onClick={() => history.push("/dashboard/users")}>
               All Users
             </Menu.Item>
           </SubMenu>
+          <SubMenu key="sub3" icon={<MailOutlined />} title="Email">
+            <Menu.Item key="4" onClick={() => history.push("/dashboard/email-inbox")}>
+              Inbox
+            </Menu.Item>
+            <Menu.Item key="5" onClick={() => history.push("/dashboard/set-email-rules")}>
+              Email Rules
+            </Menu.Item>
+          </SubMenu>
           <Menu.Item
-            key="8"
+            key="6"
             icon={<GoCommentDiscussion />}
             onClick={() => history.push("/dashboard/comments")}
           >
             Comments
           </Menu.Item>
           <Menu.Item
-            key="9"
+            key="7"
             icon={<MdViewList />}
             onClick={() => history.push("/dashboard/categories")}
           >
             Categories
-          </Menu.Item>
-          <Menu.Item key="10" icon={<MailOutlined />}>
-            Email
           </Menu.Item>
         </Menu>
       </Wrapper>
@@ -172,7 +177,12 @@ const Wrapper = styled.div`
       color: #fff;
     }
   }
-
+  .ant-menu-submenu-title,
+  .ant-menu-item {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
   .ant-menu-submenu-open {
     background: #100f28;
     color: #aca6cc;

@@ -16,10 +16,7 @@ const PublicFooter = (props) => {
             color: "rgba(16, 24, 32, 0.65)",
             margin: "0 40px",
           }}
-          onClick={() => {
-            history.push("/details");
-            window.scrollTo(0, 0);
-          }}
+          to="/details"
         >
           عن نوي
         </Link>

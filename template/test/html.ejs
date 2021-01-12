@@ -5,30 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>email tenplate</title>
-    <link rel="stylesheet" href="./style.css" data-inline>
+    <link rel="stylesheet" href="./style.css" data-inline="data-inline">
 </head>
 
 <body>
     <div
-        style="min-width: 100wh; min-height: 80vh; font-family: Arial, Helvetica, sans-serif; background: #fafbfb; padding: 64px 0;  direction: rtl; ">
+        style="min-width: 100wh; min-height: 80vh; font-family: 'Tajawal', sans-serif; background: #fafbfb; padding: 64px 0;  direction: rtl; ">
         <div style="margin: 0 20px;">
-            <div style="text-align: center;">
-                <!-- <img src="/public/images/noii.png" width="40px" height="40px" alt=""> -->
-                <p style="font-size: 36px; font-weight: bold; margin: 20px;">نوي</p>
+            <div style="text-align: center; margin: 20px;">
+                <div>
+                    <img src="./noii.png" width="40px" height="40px" alt="">
+                    <p style="font-size: 36px; font-weight: bold;">نوي</p>
+                </div>
             </div>
             <div style="background: #fff; padding: 48px; max-width: 735px; margin: 0 auto; text-align: center;">
-                <h2 style="text-align: center;">
+                <h2 style="text-align: center; font-family: 'Tajawal', sans-serif;">
                     <%= title %>
                 </h2>
-                <h3 style="text-align: center; margin-bottom: 0;">
+                <h3 style="text-align: center; margin-bottom: 0; font-family: 'Tajawal', sans-serif;">
                     <%= name %>
                 </h3>
-                <p style="padding: 15px 0; text-align: center;">
+                <p style="padding: 15px 0; text-align: center; font-family: 'Tajawal', sans-serif;">
                     <%= content %>
                 </p>
                 <!-- <div style="display: flex; justify-content: center; align-items: center;"> -->
                 <a href="<%= source %> "
-                    style=" padding: 9.2px 113px; background: #f7b500; border-radius: 4px; color: #fff; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center;">
+                    style=" font-family: 'Tajawal', sans-serif; padding: 9.2px 113px; background: #f7b500; border-radius: 4px; color: #fff; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center;">
                     اضغط هنا
                 </a>
                 <!-- </div> -->

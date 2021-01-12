@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/auth-actions";
 
 import {
@@ -13,12 +13,11 @@ import userIcon from "../../assets/images/user.svg";
 import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
 
-const Menu = ({ name, avatar, admin }) => {
+const Menu = ({ name, avatar, admin, loading }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-
   const hadnleLogout = () => {
     dispatch(logout(history));
     window.location.reload();
@@ -53,16 +52,7 @@ const Menu = ({ name, avatar, admin }) => {
           </DropdownItem>
           {admin ? (
             <DropdownItem>
-              <Link
-                to="/dashboard"
-                // target="_blank"
-                // onClick={(event) => {
-                //   event.preventDefault();
-                //   // window.open(props.history.makeHref("/dashboard"));
-                // }}
-              >
-                لوحة التحكم
-              </Link>
+              <Link to="/dashboard">لوحة التحكم</Link>
             </DropdownItem>
           ) : null}
           <DropdownItem>

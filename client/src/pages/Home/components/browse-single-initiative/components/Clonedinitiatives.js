@@ -14,8 +14,6 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
   const history = useHistory();
   const [limit, setLimit] = useState(3);
 
-  console.log(initiativeId);
-
   // const [clonedInitiatives, setClonedInitiatives] = useState([]);
 
   useEffect(() => {
@@ -23,7 +21,6 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
   }, [dispatch, initiativeId]);
 
   const { clonedInitiatives } = useSelector((state) => state.initiatives);
-  console.log(clonedInitiatives);
 
   // useEffect(() => {
   //   if (initiatives.length > 0) {
@@ -55,8 +52,8 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
       </div>
       <Grid container spacing={3}>
         {clonedInitiatives.length > 0 &&
-          clonedInitiatives.slice(0, limit).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+          clonedInitiatives.slice(0, limit).map((item, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <div>
                 <Clonedslider images={item.thumbnail} />
               </div>

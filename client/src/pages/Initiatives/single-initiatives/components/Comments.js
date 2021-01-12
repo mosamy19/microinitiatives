@@ -20,14 +20,11 @@ const Comments = ({ initiativeId }) => {
   });
 
   const [limit, setLimit] = useState(2);
-
   const [loadedComments, setLoadedComments] = useState([]);
   const [commentCount, setCommetCount] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getComments(initiativeId));
-    }, 200);
+    dispatch(getComments(initiativeId));
   }, [dispatch, initiativeId]);
 
   const { comments } = useSelector((state) => state.comments);
@@ -37,8 +34,6 @@ const Comments = ({ initiativeId }) => {
       setLoadedComments(comments);
     }
   }, [comments]);
-
-  console.log(loadedComments);
 
   const addCommentHandler = () => {
     dispatch(makeComment(initiativeId, comment));

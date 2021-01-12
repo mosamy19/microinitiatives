@@ -133,7 +133,6 @@ const Addinitiative = ({ isOpen, handleCancelAdd }) => {
               type="text"
               onChange={(e) => {
                 setInitiative({ ...initiative, title: e.target.value });
-                console.log(e.target.value);
               }}
             />
           </Form.Item>

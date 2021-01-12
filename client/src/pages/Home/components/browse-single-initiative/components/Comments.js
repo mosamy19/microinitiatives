@@ -20,9 +20,7 @@ const Comments = ({ initiativeId }) => {
   const [commentCount, setCommetCount] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getLandingPageComments(initiativeId));
-    }, 200);
+    dispatch(getLandingPageComments(initiativeId));
   }, [dispatch, initiativeId]);
 
   const { comments } = useSelector((state) => state.comments);

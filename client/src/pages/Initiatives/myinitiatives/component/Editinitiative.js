@@ -1,19 +1,22 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { CircularProgress } from "@material-ui/core";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { RiArrowDownSLine } from "react-icons/ri";
 import styled from "styled-components";
-import { Upload, Modal, Select } from "antd";
+import { Upload, Modal, Select, Spin, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editMyInitiative,
   getSingleInitiatives,
 } from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 
 const { Option } = Select;
 
@@ -173,8 +176,10 @@ const Editinitiative = () => {
   };
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "20px", margin: "0 auto" }}>
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper>
@@ -327,12 +332,29 @@ const Editinitiative = () => {
                 </Modal>
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
-                <Input
-                  onClick={submitHandler}
-                  type="submit"
-                  value="  نشر"
-                  style={{ background: "#f7b500", color: "#fff" }}
-                />
+                <div style={{ position: "relative", width: "100%" }}>
+                  <Input
+                    onClick={submitHandler}
+                    type="submit"
+                    value="  نشر"
+                    style={{
+                      background: "#f7b500",
+                      color: "#fff",
+                    }}
+                  />
+                  {isLoading ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "35%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Spin indicator={antIcon} />
+                    </div>
+                  ) : null}
+                </div>
               </FormGroup>
             </div>
           </div>

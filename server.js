@@ -14,8 +14,6 @@ const app = express();
 // db connection
 connectDB();
 
-
-
 // Using middleware from middleware directory
 setMiddlewares(app);
 // passport jwt authentication

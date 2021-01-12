@@ -217,7 +217,11 @@ const Dassboardcomment = () => {
   ];
   return (
     <div>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        scroll={{ y: "100%", x: "100%" }}
+      />
 
       <Editcomment
         commentId={commentId}

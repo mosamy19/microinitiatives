@@ -311,11 +311,12 @@ export const getLandingPageClonedInitiative = (baseInitiativeId) => async (
 
 export const createInitiative = (initiative, history) => async (dispatch) => {
   try {
+    dispatch(showLoading());
     let response = await axios.post(
       "/api/v1/initiatives/create-initiatives",
       initiative
     );
-
+    dispatch(hideLoading());
     history.push(`/single-initiative/${response.data._id}`);
     setTimeout(() => {
       dispatch(setLottieOpen());
@@ -338,10 +339,12 @@ export const createDraftInitiative = (initiative, history) => async (
   dispatch
 ) => {
   try {
+    dispatch(showLoading());
     let response = await axios.post(
       "/api/v1/initiatives/create-draft-initiative",
       initiative
     );
+    dispatch(hideLoading());
     history.push("/my-initiatives");
     dispatch(setSuccess(response.data.message));
   } catch (error) {
@@ -359,10 +362,12 @@ export const editMyInitiative = (id, initiative, history) => async (
   dispatch
 ) => {
   try {
+    dispatch(showLoading());
     let response = await axios.put(
       `/api/v1/initiatives/edit-initiative/${id}`,
       initiative
     );
+    dispatch(hideLoading());
     history.push(`/single-initiative/${id}`);
     dispatch(setSuccess(response.data.message));
   } catch (error) {
@@ -391,7 +396,10 @@ export const pinInitiative = (data) => async (dispatch) => {
 };
 export const unpinInitiative = (data) => async (dispatch) => {
   try {
-    let response = await axios.put(`/api/v1/initiatives/unpin-initiative`, data);
+    let response = await axios.put(
+      `/api/v1/initiatives/unpin-initiative`,
+      data
+    );
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
@@ -405,7 +413,10 @@ export const unpinInitiative = (data) => async (dispatch) => {
 };
 export const loveInitiative = (data) => async (dispatch) => {
   try {
-    let response = await axios.put(`/api/v1/initiatives/loved-initiative`, data);
+    let response = await axios.put(
+      `/api/v1/initiatives/loved-initiative`,
+      data
+    );
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({
@@ -419,7 +430,10 @@ export const loveInitiative = (data) => async (dispatch) => {
 };
 export const unloveInitiative = (data) => async (dispatch) => {
   try {
-    let response = await axios.put(`/api/v1/initiatives/unloved-initiative`, data);
+    let response = await axios.put(
+      `/api/v1/initiatives/unloved-initiative`,
+      data
+    );
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({

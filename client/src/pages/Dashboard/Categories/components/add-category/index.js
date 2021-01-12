@@ -106,7 +106,6 @@ const Addcategory = ({ isOpen, handleCancelAdd }) => {
               value={category.title}
               onChange={(e) => {
                 setCategory({ ...category, title: e.target.value });
-                console.log(e.target.value);
               }}
             />
           </Form.Item>

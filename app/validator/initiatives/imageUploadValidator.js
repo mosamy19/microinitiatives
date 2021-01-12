@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const { status } = require("../../utils/status");
+const compress = require("./compress");
 
 module.exports = (req, res, next) => {
   const types = /jpeg|jpg|png|gif/;
@@ -17,15 +18,18 @@ module.exports = (req, res, next) => {
         fs.unlinkSync(file.path);
       }
       return res.status(status.bad).json({
-        thumbnail: "only support images",
+        thumbnail: "الصور فقط هي المسموحة",
       });
     }
-    if (file.size > 1024 * 1024 * 5) {
+    if (file.path) {
+      compress([{ imgPath: file.path }], 783, 410, 99);
+    }
+    if (file.size > 1024 * 1024 * 10) {
       if (file.path) {
         fs.unlinkSync(file.path);
       }
       return res.status(status.bad).json({
-        thumbnail: "File too large, must be within 5MB",
+        thumbnail: "حجم الصور أكبر من المسموح",
       });
     }
   }

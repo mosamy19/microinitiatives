@@ -34,6 +34,8 @@ import PrivateRouteWithLayout from "./PrivateRouteWithLayout";
 import RouteWithLayout from "./RouteWithLayout";
 import Categories from "../pages/Dashboard/Categories";
 import Emailconfirmation from "../pages/Users/Emailconfirmation";
+import Rules from "../pages/Dashboard/Email/email-rules";
+import Inbox from "../pages/Dashboard/Email/inbox";
 
 const AppRoutes = () => {
   return (
@@ -69,6 +71,18 @@ const AppRoutes = () => {
           path="/dashboard/categories"
           exact
           component={Categories}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/email-inbox"
+          exact
+          component={Inbox}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/set-email-rules"
+          exact
+          component={Rules}
         />
 
         {/* all public routes */}

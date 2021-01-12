@@ -18,14 +18,12 @@ body {
     align-items: center;
     margin: 0 0 64px;
 }
-/* .btn-div {
+.btn-div {
     display: flex;
     justify-content: center;
     align-items: center;
-} */
+}
 .btn {
-    /* width: 280px !important;
-    min-height: 40px; */
     padding: 9.2px 113px;
     background: #f7b500;
     text-align: center;

@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
-import { Upload, Modal } from "antd";
+import { Upload, Modal, Spin } from "antd";
 import { Select } from "antd";
 import { RiArrowDownSLine } from "react-icons/ri";
 
@@ -15,8 +15,11 @@ import {
   createDraftInitiative,
 } from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 const { Option } = Select;
 
 const Newinitiative = () => {
@@ -41,6 +44,7 @@ const Newinitiative = () => {
     dispatch(getAllCategories());
   }, [dispatch]);
 
+  const { isLoading } = useSelector((state) => state.loader);
   const { categories } = useSelector((state) => state.category);
   useEffect(() => {
     if (categories) {
@@ -290,25 +294,54 @@ const Newinitiative = () => {
                 </Modal>
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
-                <Input
-                  onClick={draftHandler}
-                  type="submit"
-                  value="حفظ كمسودة"
-                  style={{
-                    background: "rgba(0, 0, 0, 0.1)",
-                    color: "rgba(0, 0, 0, 0.25)",
-                    width: "49%",
-                  }}
-                />
-                <Input
-                  onClick={submitHandler}
-                  type="submit"
-                  value="  نشر"
-                  style={{ background: "#f7b500", color: "#fff", width: "49%" }}
-                />
+                <div style={{ position: "relative", width: "49%" }}>
+                  <Input
+                    onClick={draftHandler}
+                    type="submit"
+                    value="حفظ كمسودة"
+                    style={{
+                      background: "rgba(0, 0, 0, 0.1)",
+                      color: "rgba(0, 0, 0, 0.25)",
+                    }}
+                  />
+                  {isLoading ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "35%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Spin indicator={antIcon} />
+                    </div>
+                  ) : null}
+                </div>
+                <div style={{ position: "relative", width: "49%" }}>
+                  <Input
+                    onClick={submitHandler}
+                    type="submit"
+                    value="  نشر"
+                    style={{
+                      background: "#f7b500",
+                      color: "#fff",
+                    }}
+                  />
+                  {isLoading ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "35%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Spin indicator={antIcon} />
+                    </div>
+                  ) : null}
+                </div>
               </FormGroup>
             </div>
-            {/* <Lottiepopup isOpen={open} handleClose={handleClose} /> */}
           </div>
         </Grid>
       </Grid>

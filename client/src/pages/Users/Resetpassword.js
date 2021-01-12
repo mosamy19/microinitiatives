@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import styled from "styled-components";
-
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../store/actions/auth-actions";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 
 const Resetpassword = (props) => {
   const history = useHistory();
@@ -19,6 +24,7 @@ const Resetpassword = (props) => {
     confirmPassword: data.confirmPassword,
   };
 
+  const { isLoading } = useSelector((state) => state.loader);
   const tempError = useSelector((state) => state.auth.error);
 
   useEffect(() => {
@@ -76,11 +82,25 @@ const Resetpassword = (props) => {
             )}
           </FormGroup>
           <FormGroup>
-            <Input
-              type="submit"
-              value="  أرسل"
-              style={{ background: "#f7b500", color: "#fff" }}
-            ></Input>
+            <div style={{ position: "relative", width: "100%" }}>
+              <Input
+                type="submit"
+                value="حفظ التغييرات"
+                style={{ background: "#f7b500", color: "#fff" }}
+              ></Input>
+              {isLoading ? (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "35%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <Spin indicator={antIcon} />
+                </div>
+              ) : null}
+            </div>
           </FormGroup>
         </Form>
         <div>

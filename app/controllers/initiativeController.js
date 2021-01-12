@@ -122,32 +122,6 @@ module.exports = {
     try {
       let initiative = await newInitiative.save();
 
-      // if (initiative.cloned === true) {
-      //   let user = await User.findOne({ _id: clonedInitiativeOwner });
-      //   user.notifications++;
-      //   user.save();
-
-      //   let baseInitiative = await Initiative.findOne({
-      //     _id: clonedInitiativeId,
-      //   });
-      //   baseInitiative.clones++;
-      //   baseInitiative.save();
-
-      //   let all_initiative = await Initiative.find({ clonedInitiativeId });
-      //   all_initiative.map((item) => {
-      //     item.clones = baseInitiative.clones;
-      //     item.save();
-      //   });
-
-      //   await new Notification({
-      //     body: `You have a new clone on post ${initiative.title} by ${
-      //       req.user.firstName + " " + req.user.familyName
-      //     }`,
-      //     author: clonedInitiativeOwner,
-      //     initiative: initiative._id,
-      //     type: "clone",
-      //   }).save();
-      // }
       let updatedUser = await { ...req.user._doc };
       updatedUser.initiatives.unshift(initiative._id);
       let updatedInitiative = await User.findOneAndUpdate(
@@ -382,7 +356,11 @@ module.exports = {
       let thumbnail = initiative.thumbnail;
       thumbnail = [];
       if (thumbnailUri) {
-        thumbnail = thumbnailUri;
+        if (thumbnailUri instanceof Array === false) {
+          thumbnail = [...thumbnail, thumbnailUri];
+        } else {
+          thumbnail = thumbnailUri;
+        }
       }
       if (req.files) {
         for (let file of req.files) {
@@ -441,7 +419,11 @@ module.exports = {
       let thumbnail = initiative.thumbnail;
       thumbnail = [];
       if (thumbnailUri) {
-        thumbnail = thumbnailUri;
+         if (thumbnailUri instanceof Array === false) {
+           thumbnail = [...thumbnail, thumbnailUri];
+         } else {
+           thumbnail = thumbnailUri;
+         }
       }
       if (req.files) {
         for (let file of req.files) {

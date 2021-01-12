@@ -58,7 +58,6 @@ const Editcomment = ({ commentId, isOpen, handleEditCancel }) => {
             label="Comment content"
             onChange={(e) => {
               setComment({ ...comment, body: e.target.value });
-              console.log(e.target.value);
             }}
           >
             <Input.TextArea value={comment.body} />

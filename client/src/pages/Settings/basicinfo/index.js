@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { Upload, Modal } from "antd";
+import { Upload, Modal, Spin } from "antd";
 import uploadIcon from "../../../assets/icons/Upload_profile_image.svg";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,11 @@ import {
   updateUser,
   getLoggedinUser,
 } from "../../../store/actions/auth-actions";
-import { useEffect } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 
 const Basicinfo = () => {
   const dispatch = useDispatch();
@@ -77,6 +81,7 @@ const Basicinfo = () => {
     dispatch(getLoggedinUser());
   }, [dispatch]);
 
+  const { isLoading } = useSelector((state) => state.loader);
   const { logedinUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -204,11 +209,28 @@ const Basicinfo = () => {
           </Modal>
         </FormGroup>
         <FormGroup>
-          <Input
-            type="submit"
-            value="حفظ التغييرات"
-            style={{ background: "#f7b500", color: "#fff" }}
-          ></Input>
+          <div style={{ position: "relative", width: "100%" }}>
+            <Input
+              type="submit"
+              value="حفظ التغييرات"
+              style={{
+                background: "#f7b500",
+                color: "#fff",
+              }}
+            />
+            {isLoading ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "35%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <Spin indicator={antIcon} />
+              </div>
+            ) : null}
+          </div>
         </FormGroup>
       </Form>
     </Wrapper>

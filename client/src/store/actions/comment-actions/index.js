@@ -80,7 +80,9 @@ export const getAllComments = () => async (dispatch) => {
 };
 export const getSingleComment = (commentId) => async (dispatch) => {
   try {
-    let response = await axios.get(`/api/v1/comments/get-single-comment/${commentId}`);
+    let response = await axios.get(
+      `/api/v1/comments/get-single-comment/${commentId}`
+    );
     dispatch({
       type: types.SET_SINGLE_COMMENT,
       payload: {

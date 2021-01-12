@@ -13,7 +13,12 @@ import {
 } from "../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../store/actions/category-action";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Spin, Space } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
+);
 const { Option } = Select;
 
 const Newinitiative = () => {
@@ -199,8 +204,10 @@ const Newinitiative = () => {
   };
 
   return isLoading ? (
-    <div style={{ maxWidth: "100px", margin: "0 auto" }}>
-      <CircularProgress />
+    <div style={{ maxWidth: "20px", margin: "0 auto" }}>
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
     </div>
   ) : (
     <Wrapper>
@@ -297,21 +304,6 @@ const Newinitiative = () => {
                     </div>
                   )}
                 </div>
-
-                {/* <Input
-                  onChange={(e) => {
-                    setInitiative({ ...initiative, category: e.target.value });
-                    setErrors({ ...errors, category: "" });
-                  }}
-                  type="text"
-                  name="category"
-                  value={initiative.category ? initiative.category : null}
-                  disabled
-                  invalid={errors.category ? true : false}
-                />
-                {errors.category && (
-                  <FormFeedback> {errors.category} </FormFeedback>
-                )} */}
               </FormGroup>
               <FormGroup>
                 <Label>وصف المبادرة </Label>
@@ -363,22 +355,52 @@ const Newinitiative = () => {
                 </Modal>
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
-                <Input
-                  onClick={draftHandler}
-                  type="submit"
-                  value="حفظ كمسودة"
-                  style={{
-                    background: "rgba(0, 0, 0, 0.1)",
-                    color: "rgba(0, 0, 0, 0.25)",
-                    width: "49%",
-                  }}
-                />
-                <Input
-                  onClick={submitHandler}
-                  type="submit"
-                  value="  نشر"
-                  style={{ background: "#f7b500", color: "#fff", width: "49%" }}
-                />
+                <div style={{ position: "relative", width: "49%" }}>
+                  <Input
+                    onClick={draftHandler}
+                    type="submit"
+                    value="حفظ كمسودة"
+                    style={{
+                      background: "rgba(0, 0, 0, 0.1)",
+                      color: "rgba(0, 0, 0, 0.25)",
+                    }}
+                  />
+                  {isLoading ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "35%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Spin indicator={antIcon} />
+                    </div>
+                  ) : null}
+                </div>
+                <div style={{ position: "relative", width: "49%" }}>
+                  <Input
+                    onClick={submitHandler}
+                    type="submit"
+                    value="  نشر"
+                    style={{
+                      background: "#f7b500",
+                      color: "#fff",
+                    }}
+                  />
+                  {isLoading ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "35%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Spin indicator={antIcon} />
+                    </div>
+                  ) : null}
+                </div>
               </FormGroup>
             </div>
           </div>
