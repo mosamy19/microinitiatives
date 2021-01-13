@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import ReactGA from "react-ga";
