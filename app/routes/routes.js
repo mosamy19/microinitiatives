@@ -57,19 +57,19 @@ const routes = [
     path: `${baseAPIPath}/rules`,
     handler: emailRuleRoutes,
   },
-  // {
-  //   path: "/",
-  //   handler: (req, res) => {
-  //     const help = `
-  //       <pre>
-  //       Welcome to the API!
-  //       Use an x-access-token header to work with your own data:
-  //       fetch(url, { headers: { 'x-access-token': 'whatever-you-want' }})
-  //       The following endpoints are available:
-  //       </pre>`;
-  //     res.send(help);
-  //   },
-  // },
+  {
+    path: "/",
+    handler: (req, res) => {
+      const help = `
+        <pre>
+        Welcome to the API!
+        Use an x-access-token header to work with your own data:
+        fetch(url, { headers: { 'x-access-token': 'whatever-you-want' }})
+        The following endpoints are available:
+        </pre>`;
+      res.send(help);
+    },
+  },
 ];
 
 module.exports = (app) => {
