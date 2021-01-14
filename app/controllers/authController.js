@@ -227,27 +227,19 @@ module.exports = {
         transport: transporter,
       });
 
-      let info = await emailTemp.render(
-        {
-          path: "test/html",
-          juiceResources: {
-            preserveImportant: true,
-            webResources: {
-              relativeTo: path.resolve("test"),
-            },
-          },
-          message: {
-            to: email,
-          },
+      let info = await emailTemp.send({
+        template: "test",
+        message: {
+          to: user.email,
         },
-        {
+        locals: {
           title: "تغيير الكلمة السرية",
           subject: "تغيير الكلمة السرية",
           content: "من فضلك اضغط على الرابط التالي لتغيير الكلمة السرية لحسابك",
           name: `مرحبا(${user.firstName} ${user.familyName})`,
           source: `https://noii.io/reset-password/${token}`,
-        }
-      );
+        },
+      });
       let newUser = await User.findOneAndUpdate(
         { _id: user._id },
         { $set: { resetToken: token } }
@@ -279,7 +271,6 @@ module.exports = {
       //   });
       // });
     } catch (error) {
-      console.log(error);
       serverError(res, error);
     }
   },
