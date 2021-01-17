@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -14,13 +14,13 @@ import {
 import { useEffect } from "react";
 
 const Edituser = ({ userId, isOpen, handleEditCancel }) => {
-  console.log(userId);
   const dispatch = useDispatch();
   const history = useHistory();
   const [user, setUser] = useState({
     firstName: "",
     familyName: "",
     email: "",
+    isAdmin: null,
     avatar: "",
   });
 
@@ -84,6 +84,7 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
         firstName: singleUser.firstName,
         familyName: singleUser.familyName,
         email: singleUser.email,
+        isAdmin: singleUser.isAdmin,
         avatar: singleUser.avatar,
       });
     }
@@ -111,15 +112,12 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
       if (file.originFileObj) {
         fd.append("avatar", file.originFileObj);
       }
-      // if (file.url) {
-      //   fd.append("avatarUri", file.url);
-      // }
     }
     fd.append("firstName", user.firstName);
     fd.append("familyName", user.familyName);
     fd.append("email", user.email);
+    fd.append("isAdmin", user.isAdmin);
     dispatch(editUserByAdmin(fd, userId));
-
     handleEditCancel();
     setTimeout(() => {
       dispatch(getAllUsers());
@@ -151,7 +149,6 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
               value={user.firstName}
               onChange={(e) => {
                 setUser({ ...user, firstName: e.target.value });
-                console.log(e.target.value);
               }}
             />
           </Form.Item>
@@ -161,7 +158,6 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
               value={user.familyName}
               onChange={(e) => {
                 setUser({ ...user, familyName: e.target.value });
-                console.log(e.target.value);
               }}
             />
           </Form.Item>
@@ -171,9 +167,18 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
               value={user.email}
               onChange={(e) => {
                 setUser({ ...user, email: e.target.value });
-                console.log(e.target.value);
               }}
             />
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={user.isAdmin}
+              onChange={(e) => {
+                setUser({ ...user, isAdmin: e.target.checked });
+              }}
+            >
+              isAdmin: {user.isAdmin ? "true" : "false"}
+            </Checkbox>
           </Form.Item>
           <Form.Item label="Profile Picture">
             <Upload

@@ -266,6 +266,13 @@ const Newinitiative = () => {
                 <Label>
                   صور المبادرة <span className="filed">(حقل إلزامي)</span>
                 </Label>
+                <br />
+                <Label>
+                  <span style={{ fontSize: "9px", color: "#3b86fb" }}>
+                    * حفاظاً على الخصوصية، الرجاء عدم إضافة أي صور تظهر فيها
+                    وجوه الناس
+                  </span>
+                </Label>
                 <Upload
                   listType="picture-card"
                   fileList={state.fileList}

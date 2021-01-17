@@ -63,11 +63,6 @@ module.exports = {
         { expiresIn: "72h" }
       );
 
-      res.status(status.created).json({
-        token: `Bearer ${token}`,
-        user,
-      });
-
       const emailTemp = new Email({
         views: { root: "./template", options: { extension: "ejs" } },
         message: {
@@ -102,7 +97,9 @@ module.exports = {
           source: `https://noii.io/all-initiatives`,
         },
       });
-      res.status(status.success).json({
+      res.status(status.created).json({
+        token: `Bearer ${token}`,
+        user,
         message: "Email sent",
       });
 
@@ -427,7 +424,7 @@ module.exports = {
   },
 
   editUserByAdmin: async (req, res) => {
-    const { firstName, familyName, email } = req.body;
+    const { firstName, familyName, email, isAdmin } = req.body;
     const { userId } = req.params;
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -448,7 +445,7 @@ module.exports = {
 
       let updatedUser = await User.findOneAndUpdate(
         { _id: userId },
-        { $set: { firstName, familyName, email, avatar } },
+        { $set: { firstName, familyName, email, isAdmin, avatar } },
         { new: true }
       );
 
