@@ -176,33 +176,34 @@ const Users = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "15%",
+      width: 100,
     },
     {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
-      width: "12%",
+      width: 200,
       ...getColumnSearchProps("firstName"),
     },
     {
       title: "Family Name",
       dataIndex: "familyName",
       key: "familyName",
-      width: "12%",
+      width: 200,
       ...getColumnSearchProps("familyName"),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: "20%",
+      width: 250,
       ...getColumnSearchProps("email"),
     },
     {
       title: "Initiatives",
       dataIndex: "initiatives",
       key: "initiatives",
+      width: 100,
       // filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.initiatives - b.initiatives,
@@ -211,6 +212,8 @@ const Users = () => {
     {
       title: "Action",
       key: "action",
+      width: 300,
+      align: "center",
       render: (text, record) => (
         <Space size="middle">
           <Button
@@ -248,11 +251,7 @@ const Users = () => {
           Add New User
         </Button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ y: "100%", x: "100%" }}
-      />
+      <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} sticky />
       <Adduser
         // showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}
@@ -275,4 +274,10 @@ const Users = () => {
 };
 
 export default Users;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .anticon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

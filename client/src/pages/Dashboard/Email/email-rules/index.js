@@ -88,40 +88,45 @@ const Rules = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "10%",
+      width: 100,
     },
     {
       title: "Activity",
       dataIndex: "activity",
       key: "activity",
-      width: "10%",
+      width: 100,
     },
     {
       title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
-      width: "10%",
+      width: 100,
     },
     {
       title: "Type",
       dataIndex: "type",
       key: "type",
-      width: "10%",
+      width: 100,
     },
     {
       title: "Email Subject",
       dataIndex: "subject",
       key: "subject",
-      width: "12%",
+      width: 200,
+      ellipsis: true,
     },
     {
       title: "Email Content",
       dataIndex: "content",
       key: "content",
+      width: 300,
+      ellipsis: true,
     },
     {
       title: "Action",
       key: "action",
+      width: 300,
+      align: "center",
       render: (text, record) => (
         <Space size="middle">
           <Button
@@ -158,11 +163,7 @@ const Rules = () => {
           Add New Rule
         </Button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ y: "100%", x: "100%" }}
-      />
+      <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} sticky />
       <Addrule
         // showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}
@@ -184,4 +185,10 @@ const Rules = () => {
 };
 
 export default Rules;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .anticon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

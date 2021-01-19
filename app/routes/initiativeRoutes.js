@@ -93,6 +93,14 @@ router.put(
   initiativeValidator,
   editInitiative
 );
+router.put(
+  "/edit-darft-initiative/:initiativeId",
+  isAuthenticated,
+  upload.array("thumbnail"),
+  draftImageUploadValidator,
+  draftInitiativeValidator,
+  editInitiative
+);
 
 // Admin routes
 router.put(

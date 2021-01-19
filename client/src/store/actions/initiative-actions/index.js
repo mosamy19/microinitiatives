@@ -1,7 +1,14 @@
 import axios from "axios";
 import * as types from "../types";
 import { setSuccess, setError } from "../snackbar-actions";
-import { hideLoading, showLoading } from "../loading-actions";
+import {
+  hideLoading,
+  showLoading,
+  showDraftLoading,
+  hideDraftLoading,
+  showCreateLoading,
+  hideCreateLoading,
+} from "../loading-actions";
 import { setLottieClose, setLottieOpen } from "../lottie-actions";
 
 // Admin routes
@@ -311,12 +318,12 @@ export const getLandingPageClonedInitiative = (baseInitiativeId) => async (
 
 export const createInitiative = (initiative, history) => async (dispatch) => {
   try {
-    dispatch(showLoading());
+    dispatch(showCreateLoading());
     let response = await axios.post(
       "/api/v1/initiatives/create-initiatives",
       initiative
     );
-    dispatch(hideLoading());
+    dispatch(hideCreateLoading());
     history.push(`/single-initiative/${response.data._id}`);
     setTimeout(() => {
       dispatch(setLottieOpen());
@@ -339,12 +346,12 @@ export const createDraftInitiative = (initiative, history) => async (
   dispatch
 ) => {
   try {
-    dispatch(showLoading());
+    dispatch(showDraftLoading());
     let response = await axios.post(
       "/api/v1/initiatives/create-draft-initiative",
       initiative
     );
-    dispatch(hideLoading());
+    dispatch(hideDraftLoading());
     history.push("/my-initiatives");
     dispatch(setSuccess(response.data.message));
   } catch (error) {
@@ -362,13 +369,59 @@ export const editMyInitiative = (id, initiative, history) => async (
   dispatch
 ) => {
   try {
-    dispatch(showLoading());
+    dispatch(showCreateLoading());
     let response = await axios.put(
       `/api/v1/initiatives/edit-initiative/${id}`,
       initiative
     );
-    dispatch(hideLoading());
+    dispatch(hideCreateLoading());
     history.push(`/single-initiative/${id}`);
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const editDraft = (id, initiative, history) => async (dispatch) => {
+  try {
+    dispatch(showDraftLoading());
+    let response = await axios.put(
+      `/api/v1/initiatives/edit-darft-initiative/${id}`,
+      initiative
+    );
+    dispatch(hideDraftLoading());
+    history.push("/my-initiatives");
+    dispatch(setSuccess(response.data.message));
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const publishDraft = (id, initiative, history) => async (dispatch) => {
+  try {
+    dispatch(showCreateLoading());
+    let response = await axios.put(
+      `/api/v1/initiatives/edit-initiative/${id}`,
+      initiative
+    );
+    dispatch(hideCreateLoading());
+    history.push(`/single-initiative/${id}`);
+    setTimeout(() => {
+      dispatch(setLottieOpen());
+    }, 100);
+    setTimeout(() => {
+      dispatch(setLottieClose());
+    }, 3000);
     dispatch(setSuccess(response.data.message));
   } catch (error) {
     dispatch({

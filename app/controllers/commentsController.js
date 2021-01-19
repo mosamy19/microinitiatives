@@ -86,7 +86,8 @@ module.exports = {
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
     try {
       let comments = await Comment.find()
-        .populate("author", "firstName familyName avatar")
+        .populate("author", "firstName familyName")
+        .populate("initiative", "title")
         .sort([[sortBy, order]]);
       res.status(200).json(comments);
     } catch (error) {

@@ -8,7 +8,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(dbConfig.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
     });
     console.log(
       chalk.greenBright.inverse(`MongoDB Connected to: ${conn.connection.host}`)

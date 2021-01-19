@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Table, Space, Button, Input } from "antd";
+import styled from "styled-components";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -61,8 +62,8 @@ const Dashboardinitiatives = () => {
             saves: item.favorites,
             comments: item.comments,
             type: item.draft === true ? "Draft" : "Published",
-            pin: item.pined === true ? "Pined" : "Unpined",
-            love: item.loved === true ? "Loved" : "Unloved",
+            pin: item.pined === true ? "Yes" : "No",
+            love: item.loved === true ? "Yes" : "No",
           },
         ];
         return true;
@@ -188,26 +189,29 @@ const Dashboardinitiatives = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "10%",
+      width: 100,
     },
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: "10%",
+      width: 200,
+      ellipsis: true,
       ...getColumnSearchProps("title"),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      width: "12%",
+      ellipsis: true,
+      width: 450,
       ...getColumnSearchProps("description"),
     },
     {
       title: "Clones",
       dataIndex: "clones",
       key: "clones",
+      width: 150,
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.clones - b.clones,
@@ -217,7 +221,7 @@ const Dashboardinitiatives = () => {
       title: "Likes",
       dataIndex: "likes",
       key: "likes",
-      // width: "20%",
+      width: 150,
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.likes - b.likes,
@@ -227,6 +231,7 @@ const Dashboardinitiatives = () => {
       title: "Share",
       dataIndex: "shares",
       key: "shares",
+      width: 150,
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.shares - b.shares,
@@ -236,6 +241,7 @@ const Dashboardinitiatives = () => {
       title: "Saves",
       dataIndex: "saves",
       key: "saves",
+      width: 150,
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.saves - b.saves,
@@ -245,6 +251,7 @@ const Dashboardinitiatives = () => {
       title: "Comments",
       dataIndex: "comments",
       key: "comments",
+      width: 150,
       filterMultiple: false,
       // onFilter: (value, record) => record.likes.indexOf(value) === 0,
       sorter: (a, b) => a.comments - b.comments,
@@ -254,23 +261,25 @@ const Dashboardinitiatives = () => {
       title: "Type",
       dataIndex: "type",
       key: "type",
-      width: "10%",
+      width: 150,
     },
     {
-      title: "Pin/Unpin",
+      title: "Pined",
       dataIndex: "pin",
       key: "pin",
-      width: "10%",
+      width: 150,
     },
     {
-      title: "Loved/Unloved",
+      title: "Loved",
       dataIndex: "love",
       key: "love",
-      width: "12%",
+      width: 150,
     },
     {
-      title: "Action",
+      title: "Actions",
       key: "action",
+      align: "center",
+      width: 500,
       render: (text, record) => (
         <Space size="middle">
           <Button
@@ -278,7 +287,7 @@ const Dashboardinitiatives = () => {
             type="primary"
             icon={<EditOutlined />}
             onClick={() => {
-              if (record.pin === "Unpined") {
+              if (record.pin === "No") {
                 dispatch(pinInitiative({ initiativeId: record.key }));
               } else {
                 dispatch(unpinInitiative({ initiativeId: record.key }));
@@ -286,14 +295,14 @@ const Dashboardinitiatives = () => {
               dispatch(getAllInitiativesByAdmin());
             }}
           >
-            {record.pin === "Unpined" ? "Pin" : "Unpin"}
+            {record.pin === "No" ? "Pin" : "Unpin"}
           </Button>
           <Button
             className="d-flex justify-content-center align-items-center"
             type="primary"
             icon={<EditOutlined />}
             onClick={() => {
-              if (record.love === "Unloved") {
+              if (record.love === "No") {
                 dispatch(loveInitiative({ initiativeId: record.key }));
               } else {
                 dispatch(unloveInitiative({ initiativeId: record.key }));
@@ -301,7 +310,7 @@ const Dashboardinitiatives = () => {
               dispatch(getAllInitiativesByAdmin());
             }}
           >
-            {record.love === "Unloved" ? "Love" : "Unlove"}
+            {record.love === "No" ? "Love" : "Unlove"}
           </Button>
           <Button
             className="d-flex justify-content-center align-items-center"
@@ -330,7 +339,7 @@ const Dashboardinitiatives = () => {
   };
 
   return (
-    <div>
+    <Wrapper>
       <div className="my-3">
         <Button
           className="d-flex justify-content-center align-items-center"
@@ -346,7 +355,8 @@ const Dashboardinitiatives = () => {
         columns={columns}
         dataSource={data}
         onChange={handleOnnChange}
-        scroll={{ y: "100%", x: "100%" }}
+        scroll={{ x: 2500 }}
+        sticky
       />
       <Addinitiative
         showModal={handleOnClickAdd}
@@ -365,8 +375,15 @@ const Dashboardinitiatives = () => {
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}
       />
-    </div>
+    </Wrapper>
   );
 };
 
 export default Dashboardinitiatives;
+const Wrapper = styled.div`
+  .anticon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

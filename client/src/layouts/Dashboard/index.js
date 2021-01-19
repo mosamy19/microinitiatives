@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
 import { useState } from "react";
-import styled from "styled-components";
 import DashboardSidebar from "../../components/partials/DashboardSidebar";
 import DashboardHeader from "../../components/partials/DashboardHeader";
 import DashboardFooter from "../../components/partials/DashboardFooter";

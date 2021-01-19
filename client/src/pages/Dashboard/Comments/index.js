@@ -15,9 +15,6 @@ import Deletecomment from "./components/delete-comment";
 const Dassboardcomment = () => {
   const dispatch = useDispatch();
   let searchInput = useRef();
-
-  console.log(searchInput);
-
   const [data, setDatat] = useState([]);
   const [all_comments, set_all_comments] = useState([]);
 
@@ -31,7 +28,6 @@ const Dassboardcomment = () => {
     dispatch(getAllComments());
   }, [dispatch]);
 
-  const { isLoading } = useSelector((state) => state.loader);
   const { comments } = useSelector((state) => state.comments);
   useEffect(() => {
     if (comments) {
@@ -49,8 +45,10 @@ const Dassboardcomment = () => {
             key: item._id,
             date: moment(item.createdAt).format("l"),
             comment: item.body,
-            author: "someone",
-            initiative: item.initiative,
+            author: item.author[0]
+              ? item.author[0].firstName + " " + item.author[0].familyName
+              : null,
+            initiative: item.initiative.title,
           },
         ];
         return true;
@@ -166,32 +164,36 @@ const Dassboardcomment = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "15%",
+      width: 100,
     },
     {
       title: "Comment",
       dataIndex: "comment",
       key: "comment",
-      width: "12%",
+      width: 300,
+      ellipsis: true,
       ...getColumnSearchProps("comment"),
     },
     {
       title: "Author",
       dataIndex: "author",
       key: "author",
-      width: "12%",
+      width: 200,
       ...getColumnSearchProps("author"),
     },
     {
       title: "Initiative",
       dataIndex: "initiative",
       key: "initiative",
-      width: "20%",
+      width: 200,
+      ellipsis: true,
       ...getColumnSearchProps("initiative"),
     },
     {
       title: "Action",
       key: "action",
+      width: 300,
+      align: "center",
       render: (text, record) => (
         <Space size="middle">
           <Button
@@ -216,27 +218,27 @@ const Dassboardcomment = () => {
     },
   ];
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ y: "100%", x: "100%" }}
-      />
-
+    <Wrapper>
+      <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} sticky />
       <Editcomment
         commentId={commentId}
-        // showModal={handleOnClick}
         handleEditCancel={handleCancel}
         isOpen={isOpen}
       />
       <Deletecomment
         commentId={deleteId}
-        // showModal={handleOnDelete}
         handleCancel={handleDeleteClose}
         isOpen={isDeleteOpen}
       />
-    </div>
+    </Wrapper>
   );
 };
 
 export default Dassboardcomment;
+const Wrapper = styled.div`
+  .anticon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

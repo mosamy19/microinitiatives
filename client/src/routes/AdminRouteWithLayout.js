@@ -8,7 +8,6 @@ const AdminRouteWithLayout = ({
   ...rest
 }) => {
   const { isAuthenticated, isAdmin } = useSelector((state) => state.auth);
-  console.log(isAuthenticated, isAdmin);
   return (
     <Route
       render={(props) =>

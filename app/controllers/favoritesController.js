@@ -54,7 +54,6 @@ module.exports = {
       });
 
       let createdFavorite = await newFavorite.save();
-      console.log(createdFavorite);
       let user = await User.findOne({ _id: initiative.author });
       user.notifications++;
       user.save();
@@ -73,7 +72,6 @@ module.exports = {
         favorites: createdFavorite,
       });
     } catch (error) {
-      console.log(error);
       serverError(res, error);
     }
   },

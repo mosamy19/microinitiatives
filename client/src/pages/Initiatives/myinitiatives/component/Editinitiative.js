@@ -9,9 +9,15 @@ import { Upload, Modal, Select, Spin, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editMyInitiative,
+  editDraft,
+  publishDraft,
   getSingleInitiatives,
 } from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
+import {
+  hideCreateLoading,
+  hideDraftLoading,
+} from "../../../../store/actions/loading-actions";
 import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 
 const antIcon = (
@@ -89,6 +95,7 @@ const Editinitiative = () => {
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
     setErrors({ ...errors, thumbnail: "" });
+    dispatch(hideCreateLoading());
   };
 
   const uploadButton = (
@@ -104,7 +111,9 @@ const Editinitiative = () => {
     dispatch(getSingleInitiatives(initiativeId));
   }, [dispatch, initiativeId]);
 
-  const { isLoading } = useSelector((state) => state.loader);
+  const { isLoading, createLoading, draftLoading } = useSelector(
+    (state) => state.loader
+  );
   const { singleInitiative } = useSelector((state) => state.initiatives);
   let c = singleInitiative.category;
   useEffect(() => {
@@ -174,6 +183,44 @@ const Editinitiative = () => {
     dispatch(editMyInitiative(initiativeId, fd, history));
     // setInitiative({ title: "", category: [], description: "", thumbnail: [] });
   };
+  const editDraftHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of state.fileList) {
+      if (file.originFileObj) {
+        fd.append("thumbnail", file.originFileObj);
+      }
+      if (file.url) {
+        fd.append("thumbnailUri", file.url);
+      }
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("draft", true);
+
+    dispatch(editDraft(initiativeId, fd, history));
+    // setInitiative({ title: "", category: [], description: "", thumbnail: [] });
+  };
+  const publishDraftHandler = (e) => {
+    e.preventDefault();
+    let fd = new FormData();
+    for (let file of state.fileList) {
+      if (file.originFileObj) {
+        fd.append("thumbnail", file.originFileObj);
+      }
+      if (file.url) {
+        fd.append("thumbnailUri", file.url);
+      }
+    }
+    fd.append("title", initiative.title);
+    fd.append("category", initiative.category);
+    fd.append("description", initiative.description);
+    fd.append("draft", false);
+
+    dispatch(publishDraft(initiativeId, fd, history));
+    // setInitiative({ title: "", category: [], description: "", thumbnail: [] });
+  };
 
   return isLoading ? (
     <div style={{ maxWidth: "20px", margin: "0 auto" }}>
@@ -224,6 +271,8 @@ const Editinitiative = () => {
                   onChange={(e) => {
                     setInitiative({ ...initiative, title: e.target.value });
                     setErrors({ ...errors, title: "" });
+                    dispatch(hideCreateLoading());
+                    dispatch(hideDraftLoading());
                   }}
                   type="text"
                   name="title"
@@ -257,6 +306,8 @@ const Editinitiative = () => {
                         category: value,
                       });
                       setErrors({ ...errors, category: "" });
+                      dispatch(hideCreateLoading());
+                      dispatch(hideDraftLoading());
                     }}
                     dropdownStyle={{
                       textAlign: "right",
@@ -293,6 +344,7 @@ const Editinitiative = () => {
                       description: e.target.value,
                     });
                     setErrors({ ...errors, description: "" });
+                    dispatch(hideCreateLoading());
                   }}
                   style={{ minHeight: "130px" }}
                   value={initiative.description}
@@ -332,29 +384,83 @@ const Editinitiative = () => {
                 </Modal>
               </FormGroup>
               <FormGroup className="d-flex justify-content-between align-items-center">
-                <div style={{ position: "relative", width: "100%" }}>
-                  <Input
-                    onClick={submitHandler}
-                    type="submit"
-                    value="  نشر"
-                    style={{
-                      background: "#f7b500",
-                      color: "#fff",
-                    }}
-                  />
-                  {isLoading ? (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "35%",
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    >
-                      <Spin indicator={antIcon} />
+                {type === "draft" ? (
+                  <div
+                    className="d-flex justify-content-between align-items-center"
+                    style={{ width: "100%" }}
+                  >
+                    <div style={{ position: "relative", width: "49%" }}>
+                      <Input
+                        onClick={editDraftHandler}
+                        type="submit"
+                        value="حفظ كمسودة"
+                        style={{
+                          background: "rgba(0, 0, 0, 0.1)",
+                          color: "rgba(0, 0, 0, 0.25)",
+                        }}
+                      />
+                      {draftLoading ? (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "30%",
+                            transform: "translate(-50%, -50%)",
+                          }}
+                        >
+                          <Spin indicator={antIcon} />
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </div>
+                    <div style={{ position: "relative", width: "49%" }}>
+                      <Input
+                        onClick={publishDraftHandler}
+                        type="submit"
+                        value="  نشر"
+                        style={{
+                          background: "#f7b500",
+                          color: "#fff",
+                        }}
+                      />
+                      {createLoading ? (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "35%",
+                            transform: "translate(-50%, -50%)",
+                          }}
+                        >
+                          <Spin indicator={antIcon} />
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ position: "relative", width: "100%" }}>
+                    <Input
+                      onClick={submitHandler}
+                      type="submit"
+                      value="  نشر"
+                      style={{
+                        background: "#f7b500",
+                        color: "#fff",
+                      }}
+                    />
+                    {createLoading ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "35%",
+                          transform: "translate(-50%, -50%)",
+                        }}
+                      >
+                        <Spin indicator={antIcon} />
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               </FormGroup>
             </div>
           </div>

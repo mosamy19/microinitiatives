@@ -85,7 +85,7 @@ const Editrule = ({ ruleId, isOpen, handleEditCancel }) => {
                 value={rule.type}
                 onChange={(value) => setRule({ ...rule, type: value })}
               >
-                <Select.Option value="initative">Initiative</Select.Option>
+                <Select.Option value="initiative">Initiative</Select.Option>
                 <Select.Option value="clone">Clone</Select.Option>
                 <Select.Option value="comment">Comment</Select.Option>
                 <Select.Option value="like">Like</Select.Option>

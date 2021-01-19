@@ -22,9 +22,10 @@ const rootSubmenuKeys = ["sub1", "sub2"];
 
 const DashboardSidebar = ({ collapsed }) => {
   const history = useHistory();
+  console.log(global.window.innerWidth);
   const dispatch = useDispatch();
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
-
+  const clpWidth = global.window.innerWidth < 768 ? 0 : 80;
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -48,6 +49,7 @@ const DashboardSidebar = ({ collapsed }) => {
       trigger={null}
       collapsible
       collapsed={collapsed}
+      collapsedWidth={clpWidth}
     >
       <Wrapper>
         <div className="d-flex justify-content-start align-items-center logo">
@@ -116,10 +118,16 @@ const DashboardSidebar = ({ collapsed }) => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub3" icon={<MailOutlined />} title="Email">
-            <Menu.Item key="4" onClick={() => history.push("/dashboard/email-inbox")}>
+            <Menu.Item
+              key="4"
+              onClick={() => history.push("/dashboard/email-inbox")}
+            >
               Inbox
             </Menu.Item>
-            <Menu.Item key="5" onClick={() => history.push("/dashboard/set-email-rules")}>
+            <Menu.Item
+              key="5"
+              onClick={() => history.push("/dashboard/set-email-rules")}
+            >
               Email Rules
             </Menu.Item>
           </SubMenu>

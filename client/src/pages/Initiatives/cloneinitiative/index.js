@@ -9,8 +9,13 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createInitiative,
+  createDraftInitiative,
   getSingleInitiatives,
 } from "../../../store/actions/initiative-actions";
+import {
+  hideCreateLoading,
+  hideCloneLoading,
+} from "../../../store/actions/loading-actions";
 import { getAllCategories } from "../../../store/actions/category-action";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Spin, Space } from "antd";
@@ -90,6 +95,7 @@ const Newinitiative = () => {
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
     setErrors({ ...errors, thumbnail: "" });
+    dispatch(hideCreateLoading());
   };
 
   const uploadButton = (
@@ -105,7 +111,9 @@ const Newinitiative = () => {
     dispatch(getSingleInitiatives(initiativeId));
   }, [dispatch, initiativeId]);
 
-  const { isLoading } = useSelector((state) => state.loader);
+  const { isLoading, draftLoading, createLoading } = useSelector(
+    (state) => state.loader
+  );
   const { singleInitiative } = useSelector((state) => state.initiatives);
   let c = singleInitiative.category;
   useEffect(() => {
@@ -167,9 +175,9 @@ const Newinitiative = () => {
       if (file.originFileObj) {
         fd.append("thumbnail", file.originFileObj);
       }
-      if (file.url) {
-        fd.append("thumbnailUri", file.url);
-      }
+      // if (file.url) {
+      //   fd.append("thumbnailUri", file.url);
+      // }
     }
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
@@ -188,9 +196,9 @@ const Newinitiative = () => {
       if (file.originFileObj) {
         fd.append("thumbnail", file.originFileObj);
       }
-      if (file.url) {
-        fd.append("thumbnailUri", file.url);
-      }
+      // if (file.url) {
+      //   fd.append("thumbnailUri", file.url);
+      // }
     }
     fd.append("title", initiative.title);
     fd.append("category", initiative.category);
@@ -200,7 +208,7 @@ const Newinitiative = () => {
     fd.append("cloned", true);
     fd.append("draft", true);
 
-    dispatch(createInitiative(fd, history));
+    dispatch(createDraftInitiative(fd, history));
   };
 
   return isLoading ? (
@@ -316,6 +324,7 @@ const Newinitiative = () => {
                       description: e.target.value,
                     });
                     setErrors({ ...errors, description: "" });
+                    dispatch(hideCreateLoading());
                   }}
                   style={{ minHeight: "130px" }}
                   value={initiative.description ? initiative.description : null}
@@ -365,7 +374,7 @@ const Newinitiative = () => {
                       color: "rgba(0, 0, 0, 0.25)",
                     }}
                   />
-                  {isLoading ? (
+                  {draftLoading ? (
                     <div
                       style={{
                         position: "absolute",
@@ -388,7 +397,7 @@ const Newinitiative = () => {
                       color: "#fff",
                     }}
                   />
-                  {isLoading ? (
+                  {createLoading ? (
                     <div
                       style={{
                         position: "absolute",

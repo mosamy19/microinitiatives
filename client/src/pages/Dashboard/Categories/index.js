@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Space, Button, Input } from "antd";
+import { Table, Space, Button } from "antd";
 import styled from "styled-components";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,19 +85,19 @@ const Categories = () => {
       title: "Created",
       dataIndex: "date",
       key: "date",
-      width: "15%",
+      width: 100,
     },
     {
       title: "Category Title",
       dataIndex: "title",
       key: "title",
-      //   width: "12%",
-      //   ...getColumnSearchProps("firstName"),
+      width: 200,
     },
     {
       title: "Category Icon",
       dataIndex: "icon",
       key: "icon",
+      width: 200,
       render: (text, record) => (
         <img
           src={record.icon ? record.icon : <FileImageOutlined />}
@@ -110,6 +110,8 @@ const Categories = () => {
     {
       title: "Action",
       key: "action",
+      width: 300,
+      align: "center",
       render: (text, record) => (
         <Space size="middle">
           <Button
@@ -146,11 +148,7 @@ const Categories = () => {
           Add New Category
         </Button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ y: "100%", x: "100%" }}
-      />
+      <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} sticky />
       <Addcategory
         // showModal={handleOnClickAdd}
         handleCancelAdd={handleCancelAdd}
@@ -173,4 +171,10 @@ const Categories = () => {
 };
 
 export default Categories;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .anticon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

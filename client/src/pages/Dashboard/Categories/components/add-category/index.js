@@ -82,7 +82,7 @@ const Addcategory = ({ isOpen, handleCancelAdd }) => {
   };
 
   return (
-    <idv>
+    <div>
       <Modal
         title="Add New Category"
         visible={isOpen}
@@ -134,7 +134,7 @@ const Addcategory = ({ isOpen, handleCancelAdd }) => {
           </Form.Item>
         </Form>
       </Modal>
-    </idv>
+    </div>
   );
 };
 

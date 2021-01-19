@@ -63,7 +63,7 @@ const Addrule = ({ isOpen, handleCancelAdd }) => {
                 style={{ margin: " 0 10px" }}
               />
               <Select onChange={(value) => setRules({ ...rules, type: value })}>
-                <Select.Option value="initative">Initiative</Select.Option>
+                <Select.Option value="initiative">Initiative</Select.Option>
                 <Select.Option value="clone">Clone</Select.Option>
                 <Select.Option value="comment">Comment</Select.Option>
                 <Select.Option value="like">Like</Select.Option>

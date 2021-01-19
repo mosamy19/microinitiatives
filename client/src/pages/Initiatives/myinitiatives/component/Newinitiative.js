@@ -15,6 +15,10 @@ import {
   createDraftInitiative,
 } from "../../../../store/actions/initiative-actions";
 import { getAllCategories } from "../../../../store/actions/category-action";
+import {
+  hideCreateLoading,
+  hideDraftLoading,
+} from "../../../../store/actions/loading-actions";
 import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 
 const antIcon = (
@@ -44,7 +48,9 @@ const Newinitiative = () => {
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  const { isLoading } = useSelector((state) => state.loader);
+  const { isLoading, draftLoading, createLoading } = useSelector(
+    (state) => state.loader
+  );
   const { categories } = useSelector((state) => state.category);
   useEffect(() => {
     if (categories) {
@@ -91,6 +97,7 @@ const Newinitiative = () => {
   const handleChange = async ({ fileList }) => {
     setState({ ...state, fileList: fileList });
     setErrors({ ...errors, thumbnail: "" });
+    dispatch(hideCreateLoading());
   };
 
   const uploadButton = (
@@ -183,6 +190,8 @@ const Newinitiative = () => {
                   onChange={(e) => {
                     setInitiative({ ...initiative, title: e.target.value });
                     setErrors({ ...errors, title: "" });
+                    dispatch(hideCreateLoading());
+                    dispatch(hideDraftLoading());
                   }}
                   type="text"
                   name="title"
@@ -217,6 +226,8 @@ const Newinitiative = () => {
                         category: value,
                       });
                       setErrors({ ...errors, category: "" });
+                      dispatch(hideCreateLoading());
+                      dispatch(hideDraftLoading());
                     }}
                     dropdownStyle={{
                       textAlign: "right",
@@ -252,6 +263,7 @@ const Newinitiative = () => {
                       description: e.target.value,
                     });
                     setErrors({ ...errors, description: "" });
+                    dispatch(hideCreateLoading());
                   }}
                   style={{ minHeight: "130px" }}
                   value={initiative.description}
@@ -311,12 +323,12 @@ const Newinitiative = () => {
                       color: "rgba(0, 0, 0, 0.25)",
                     }}
                   />
-                  {isLoading ? (
+                  {draftLoading ? (
                     <div
                       style={{
                         position: "absolute",
                         top: "50%",
-                        left: "35%",
+                        left: "30%",
                         transform: "translate(-50%, -50%)",
                       }}
                     >
@@ -334,7 +346,7 @@ const Newinitiative = () => {
                       color: "#fff",
                     }}
                   />
-                  {isLoading ? (
+                  {createLoading ? (
                     <div
                       style={{
                         position: "absolute",

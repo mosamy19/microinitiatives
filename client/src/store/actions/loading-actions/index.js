@@ -10,3 +10,23 @@ export const hideLoading = () => {
     type: types.HIDE_LOADING,
   };
 };
+export const showDraftLoading = () => {
+  return {
+    type: types.SHOW_DRAFT_LOADING,
+  };
+};
+export const hideDraftLoading = () => {
+  return {
+    type: types.HIDE_DRAFT_LOADING,
+  };
+};
+export const showCreateLoading = () => {
+  return {
+    type: types.SHOW_CREATE_LOADING,
+  };
+};
+export const hideCreateLoading = () => {
+  return {
+    type: types.HIDE_CREATE_LOADING,
+  };
+};

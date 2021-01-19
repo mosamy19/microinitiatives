@@ -2,12 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const Initiative = require("../models/Initiative");
 const User = require("../models/User");
+const Rule = require("../models/Rule");
 const { validationResult } = require("express-validator");
 const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
 const Notification = require("../models/Notification");
-const { sort } = require("../validator/auth/loginValidator");
+// const { sort } = require("../validator/auth/loginValidator");
+// const { findOne } = require("../models/Initiative");
+const sendEmail = require("../utils/sendEmail");
+const sendNotificationForClone = require("../utils/notifications/sendNotificationForClone");
 
 module.exports = {
   createInitiative: async (req, res) => {
@@ -52,51 +56,59 @@ module.exports = {
       let initiative = await newInitiative.save();
 
       if (initiative.cloned === true) {
-        let user = await User.findOne({ _id: clonedInitiativeOwner });
-        user.notifications++;
-        user.save();
-
-        let baseInitiative = await Initiative.findOne({
-          _id: clonedInitiativeId,
-        });
-        baseInitiative.clones++;
-        baseInitiative.save();
-
-        let all_initiative = await Initiative.find({ clonedInitiativeId });
-        all_initiative.map((item) => {
-          item.clones = baseInitiative.clones;
-          item.save();
-        });
-
-        await new Notification({
-          body: `"${
-            req.user.firstName + " " + req.user.familyName
-          } " قام بتنفيذ مبادرتك  ${initiative.title}"`,
-          author: clonedInitiativeOwner,
-          initiative: initiative._id,
-          type: "clone",
-        }).save();
+        sendNotificationForClone(
+          req,
+          res,
+          clonedInitiativeOwner,
+          clonedInitiativeId,
+          initiative.title,
+          initiative._id
+        );
       }
-      let updatedUser = await { ...req.user._doc };
-      updatedUser.initiatives.unshift(initiative._id);
-      let updatedInitiative = await User.findOneAndUpdate(
-        { _id: updatedUser._id },
-        { $set: updatedUser },
+      let user = await { ...req.user._doc };
+      user.initiatives.unshift(initiative._id);
+      let updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $set: user },
         { new: true }
       );
+
+      let rules = await Rule.find();
+      rules.map(async (rule) => {
+        if (
+          rule.activity === "create" &&
+          rule.type === "initiative" &&
+          rule.quantity === updatedUser.initiatives.length
+        ) {
+          sendEmail(
+            updatedUser.email,
+            rule.subject,
+            rule.content,
+            `${updatedUser.firstName} ${updatedUser.familyName}`,
+            "https://noii.io/all-initiatives"
+          );
+        }
+      });
 
       res.status(status.success).json({
         message: "Initiative created successfully",
         ...initiative._doc,
       });
     } catch (error) {
-      console.log(error);
       serverError(res, error);
     }
   },
 
   createDraftInitiative: async (req, res) => {
-    let { title, category, description, draft } = req.body;
+    let {
+      title,
+      category,
+      description,
+      draft,
+      cloned,
+      clonedInitiativeOwner,
+      clonedInitiativeId,
+    } = req.body;
     let images = [];
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -115,6 +127,9 @@ module.exports = {
       category,
       description,
       draft,
+      cloned,
+      clonedInitiativeOwner,
+      clonedInitiativeId,
       thumbnail: images,
       author: req.user._id,
     });
@@ -122,9 +137,20 @@ module.exports = {
     try {
       let initiative = await newInitiative.save();
 
+      if (initiative.cloned === true) {
+        sendNotificationForClone(
+          req,
+          res,
+          clonedInitiativeOwner,
+          clonedInitiativeId,
+          initiative.title,
+          initiative._id
+        );
+      }
+
       let updatedUser = await { ...req.user._doc };
       updatedUser.initiatives.unshift(initiative._id);
-      let updatedInitiative = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: updatedUser._id },
         { $set: updatedUser },
         { new: true }
@@ -419,11 +445,11 @@ module.exports = {
       let thumbnail = initiative.thumbnail;
       thumbnail = [];
       if (thumbnailUri) {
-         if (thumbnailUri instanceof Array === false) {
-           thumbnail = [...thumbnail, thumbnailUri];
-         } else {
-           thumbnail = thumbnailUri;
-         }
+        if (thumbnailUri instanceof Array === false) {
+          thumbnail = [...thumbnail, thumbnailUri];
+        } else {
+          thumbnail = thumbnailUri;
+        }
       }
       if (req.files) {
         for (let file of req.files) {
@@ -568,6 +594,14 @@ module.exports = {
       if (!initiative) {
         return resourceError(res, "No Initiative Found");
       }
+      let user = await User.findOne({ _id: initiative.author });
+      user.initiatives.splice(user.initiatives.indexOf(initiativeId), 1);
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $set: user },
+        { new: true }
+      );
+
       res.status(200).json({ message: "Deleted successfully", initiative });
     } catch (error) {
       serverError(res, error);
