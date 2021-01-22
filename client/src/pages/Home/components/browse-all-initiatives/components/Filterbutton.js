@@ -16,7 +16,6 @@ const Filterbutton = ({ getTheValue }) => {
         <RiArrowDownSLine />
       </span>
       <Select
-        defaultValue="newest"
         style={{ width: 148, textAlign: "right" }}
         onChange={handleChange}
         dropdownStyle={{ textAlign: "right", fontSize: "10px" }}

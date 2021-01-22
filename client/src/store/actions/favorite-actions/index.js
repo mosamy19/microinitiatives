@@ -49,7 +49,6 @@ export const getMyFavorites = () => async (dispatch) => {
         favorites: response.data,
       },
     });
-    console.log(response);
   } catch (error) {
     dispatch({
       type: types.FAVORITES_ERROR,

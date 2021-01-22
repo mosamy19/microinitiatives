@@ -20,6 +20,7 @@ module.exports = async (
       _id: clonedInitiativeId,
     });
     baseInitiative.clones++;
+    baseInitiative.based = true;
     baseInitiative.save();
 
     let all_initiative = await Initiative.find({ clonedInitiativeId });

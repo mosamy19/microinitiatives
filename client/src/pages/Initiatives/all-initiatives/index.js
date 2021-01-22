@@ -14,7 +14,7 @@ import { Grid } from "@material-ui/core";
 const Allinitiatives = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [value, setValue] = useState("pined");
+  const [value, setValue] = useState("newest");
   const [all_initiatives, set_all_initiative] = useState([]);
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const Allinitiatives = () => {
       set_all_initiative(initiatives);
     }
   }, [initiatives]);
-
-  console.log(all_initiatives);
+  
+  all_initiatives.sort((a, b) => b.pined - a.pined);
 
   return (
     <Wrapper>

@@ -2,14 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const Initiative = require("../models/Initiative");
 const User = require("../models/User");
-const Rule = require("../models/Rule");
 const { validationResult } = require("express-validator");
 const { resourceError, serverError } = require("../utils/error");
 const errorFormatter = require("../utils/errorFormatter");
 const { status } = require("../utils/status");
-const Notification = require("../models/Notification");
-// const { sort } = require("../validator/auth/loginValidator");
-// const { findOne } = require("../models/Initiative");
 const sendEmail = require("../utils/sendEmail");
 const sendNotificationForClone = require("../utils/notifications/sendNotificationForClone");
 
@@ -64,6 +60,20 @@ module.exports = {
           initiative.title,
           initiative._id
         );
+        let clonedInitiatives = await Initiative.find({
+          author: req.user._id,
+          cloned: true,
+        });
+        const obj = {
+          act: "create",
+          type: "clone",
+          quantity: clonedInitiatives.length,
+          email: req.user.email,
+          name: `${req.user.firstName} ${req.user.familyName}`,
+          src: "https://noii.io/all-initiatives",
+          res: res,
+        };
+        sendEmail(obj);
       }
       let user = await { ...req.user._doc };
       user.initiatives.unshift(initiative._id);
@@ -73,22 +83,16 @@ module.exports = {
         { new: true }
       );
 
-      let rules = await Rule.find();
-      rules.map(async (rule) => {
-        if (
-          rule.activity === "create" &&
-          rule.type === "initiative" &&
-          rule.quantity === updatedUser.initiatives.length
-        ) {
-          sendEmail(
-            updatedUser.email,
-            rule.subject,
-            rule.content,
-            `${updatedUser.firstName} ${updatedUser.familyName}`,
-            "https://noii.io/all-initiatives"
-          );
-        }
-      });
+      const obj = {
+        act: "create",
+        type: "initiative",
+        quantity: updatedUser.initiatives.length,
+        email: updatedUser.email,
+        name: `${updatedUser.firstName} ${updatedUser.familyName}`,
+        src: "https://noii.io/all-initiatives",
+        res: res,
+      };
+      sendEmail(obj);
 
       res.status(status.success).json({
         message: "Initiative created successfully",
@@ -178,9 +182,11 @@ module.exports = {
       }
 
       let sortedInitiatives;
-      if (sortBy === "pined" || sortBy === "") {
-        sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
-      } else if (sortBy === "newest" || sortBy === "") {
+      // if (sortBy === "pined" || sortBy === "") {
+      //   sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
+      // } else
+
+      if (sortBy === "newest" || sortBy === "") {
         sortedInitiatives = initiatives.reverse();
       } else if (sortBy === "cloned") {
         sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);
@@ -251,9 +257,11 @@ module.exports = {
         });
       }
       let sortedInitiatives;
-      if (sortBy === "pined" || sortBy === "") {
-        sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
-      } else if (sortBy === "newest" || sortBy === "") {
+      // if (sortBy === "pined" || sortBy === "") {
+      //   sortedInitiatives = initiatives.sort((a, b) => b.pined - a.pined);
+      // } else
+
+      if (sortBy === "newest" || sortBy === "") {
         sortedInitiatives = initiatives.reverse();
       } else if (sortBy === "cloned") {
         sortedInitiatives = initiatives.sort((a, b) => b.clones - a.clones);

@@ -61,7 +61,11 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const mostClonedInitiatives = landingPageInitiatives
+  let basedInitiatives = landingPageInitiatives.filter(
+    (item) => item.based === true
+  );
+
+  const mostClonedInitiatives = basedInitiatives
     .sort((a, b) => b.clones - a.clones)
     .slice(0, 3);
 

@@ -14,7 +14,7 @@ import { Grid } from "@material-ui/core";
 const Browseallinitiatives = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [value, setValue] = useState("pined");
+  const [value, setValue] = useState("newest");
 
   const getTheValue = (val) => {
     setValue(val);
@@ -28,11 +28,14 @@ const Browseallinitiatives = () => {
 
   const { isLoading } = useSelector((state) => state.loader);
   const { initiatives } = useSelector((state) => state.initiatives);
+
   useEffect(() => {
     if (initiatives.length > 0) {
       setLandingPageInitiatives(initiatives);
     }
   }, [initiatives]);
+
+  landingPageInitiatives.sort((a, b) => b.pined - a.pined);
 
   return (
     <Wrapper className="container">

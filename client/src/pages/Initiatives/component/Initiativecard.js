@@ -65,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
 const Initiativecard = ({ initiative }) => {
   const classes = useStyles();
   const icon = initiative.category;
-
-  console.log(initiative);
-
   return (
     <Card className={classes.root}>
       <div
@@ -120,8 +117,8 @@ const Initiativecard = ({ initiative }) => {
       >
         <div>
           {initiative.author &&
-            initiative.author.map((item) => (
-              <div className="d-flex align-items-center">
+            initiative.author.map((item, index) => (
+              <div className="d-flex align-items-center" key={index}>
                 <img
                   src={item.avatar ? item.avatar : userIcon}
                   alt=""
