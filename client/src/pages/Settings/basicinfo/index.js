@@ -130,9 +130,9 @@ const Basicinfo = () => {
       if (file.originFileObj) {
         fd.append("avatar", file.originFileObj);
       }
-      // if (file.url) {
-      //   fd.append("avatarUri", file.url);
-      // }
+      if (file.url) {
+        fd.append("avatarUri", file.url);
+      }
     }
     fd.append("firstName", user.firstName);
     fd.append("familyName", user.familyName);

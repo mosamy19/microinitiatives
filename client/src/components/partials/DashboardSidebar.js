@@ -15,17 +15,18 @@ import logo from "../../assets/images/Project-Logo.png";
 import defaultAvatar from "../../assets/images/avatar.png";
 import { useEffect } from "react";
 import { getLoggedinUser } from "../../store/actions/auth-actions";
+import Dashboardmobilesidebar from "./Dashboardmobilesidebar";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const rootSubmenuKeys = ["sub1", "sub2"];
+const rootSubmenuKeys = ["sub1", "sub2", "sub3"];
 
-const DashboardSidebar = ({ collapsed }) => {
+const DashboardSidebar = ({ collapsed, toggle }) => {
   const history = useHistory();
-  console.log(global.window.innerWidth);
   const dispatch = useDispatch();
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
-  const clpWidth = global.window.innerWidth < 768 ? 0 : 80;
+  const isMobileMenu = global.window.innerWidth < 768 ? true : false;
+
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -42,18 +43,26 @@ const DashboardSidebar = ({ collapsed }) => {
   const { logedinUser } = useSelector((state) => state.auth);
   const { firstName, familyName, avatar } = logedinUser;
 
-  return (
+  return isMobileMenu ? (
+    <Dashboardmobilesidebar collapsed={collapsed} toggle={toggle} />
+  ) : (
     <Sider
       style={{ background: "#161537" }}
       width="240"
       trigger={null}
       collapsible
       collapsed={collapsed}
-      collapsedWidth={clpWidth}
+      // collapsedWidth={clpWidth}
     >
       <Wrapper>
         <div className="d-flex justify-content-start align-items-center logo">
-          <img src={logo} width="50px" height="50px" alt="" />
+          <img
+            src={logo}
+            width="50px"
+            height="50px"
+            alt=""
+            className={` ${!collapsed ? "ml" : ""}`}
+          />
           <div className={`d-flex flex-column ${collapsed ? "hide" : ""}`}>
             <span className="title">Noi</span>
             <span className="sub-title">Micro Initiatives</span>
@@ -111,35 +120,53 @@ const DashboardSidebar = ({ collapsed }) => {
             >
               All Initiatives
             </Menu.Item>
+            <Menu.Item
+              key="3"
+              onClick={() => history.push("/dashboard/pined-initiatives")}
+            >
+              Pined Initiatives
+            </Menu.Item>
+            <Menu.Item
+              key="4"
+              onClick={() => history.push("/dashboard/loved-initiatives")}
+            >
+              Loved Initiatives
+            </Menu.Item>
+            <Menu.Item
+              key="5"
+              onClick={() => history.push("/dashboard/draft-initiatives")}
+            >
+              Draft Initiatives
+            </Menu.Item>
+            <Menu.Item
+              key="6"
+              onClick={() => history.push("/dashboard/cloned-initiatives")}
+            >
+              Cloned Initiatives
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="3" onClick={() => history.push("/dashboard/users")}>
+            <Menu.Item key="7" onClick={() => history.push("/dashboard/users")}>
               All Users
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub3" icon={<MailOutlined />} title="Email">
             <Menu.Item
-              key="4"
-              onClick={() => history.push("/dashboard/email-inbox")}
-            >
-              Inbox
-            </Menu.Item>
-            <Menu.Item
-              key="5"
+              key="8"
               onClick={() => history.push("/dashboard/set-email-rules")}
             >
               Email Rules
             </Menu.Item>
           </SubMenu>
           <Menu.Item
-            key="6"
+            key="9"
             icon={<GoCommentDiscussion />}
             onClick={() => history.push("/dashboard/comments")}
           >
             Comments
           </Menu.Item>
           <Menu.Item
-            key="7"
+            key="10"
             icon={<MdViewList />}
             onClick={() => history.push("/dashboard/categories")}
           >
@@ -211,5 +238,8 @@ const Wrapper = styled.div`
   }
   .collepse {
     margin-left: 8px;
+  }
+  .ml {
+    margin-left: -8px;
   }
 `;

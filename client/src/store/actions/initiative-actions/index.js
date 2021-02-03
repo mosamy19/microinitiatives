@@ -35,6 +35,82 @@ export const getAllInitiativesByAdmin = () => async (dispatch) => {
     dispatch(setError(error.response.data));
   }
 };
+export const getInitiativesDailyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/get-daily-chart-data");
+    dispatch({
+      type: types.INITIATIVE_DAILY,
+      payload: {
+        dailyInitiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const getInitiativesMonthlyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/get-monthly-chart-data");
+    dispatch({
+      type: types.INITIATIVE_MONTHLY,
+      payload: {
+        monthlyInitiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const getClonedInitiativesDailyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/get-daily-cloned-chart-data");
+    dispatch({
+      type: types.CLONED_INITIATIVE_DAILY,
+      payload: {
+        dailyClonedInitiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
+export const getClonedInitiativesMonthlyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/initiatives/get-monthly-cloned-chart-data");
+    dispatch({
+      type: types.CLONED_INITIATIVE_MONTHLY,
+      payload: {
+        monthlyClonedInitiatives: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.INITIATIVES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+    dispatch(setError(error.response.data));
+  }
+};
 
 export const editInitiativeByAdmin = (id, initiative) => async (dispatch) => {
   try {

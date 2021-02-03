@@ -373,13 +373,14 @@ const Newinitiative = () => {
                       background: "rgba(0, 0, 0, 0.1)",
                       color: "rgba(0, 0, 0, 0.25)",
                     }}
+                    disabled={draftLoading ? true : false}
                   />
                   {draftLoading ? (
                     <div
                       style={{
                         position: "absolute",
                         top: "50%",
-                        left: "35%",
+                        left: "30%",
                         transform: "translate(-50%, -50%)",
                       }}
                     >
@@ -396,6 +397,7 @@ const Newinitiative = () => {
                       background: "#f7b500",
                       color: "#fff",
                     }}
+                    disabled={createLoading ? true : false}
                   />
                   {createLoading ? (
                     <div

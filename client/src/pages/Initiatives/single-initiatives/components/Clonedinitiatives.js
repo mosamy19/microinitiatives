@@ -51,13 +51,17 @@ const Clonedinitiatives = ({ baseInitiativeId, cloneCount }) => {
                 <Clonedslider images={item.thumbnail} />
               </div>
               <p style={{ marginTop: "24px" }}>
-                {item.description}
+                {item.description
+                  ? String(item.description).length > 80
+                    ? String(item.description).slice(0, 80)
+                    : String(item.description)
+                  : ""}
                 <Link
                   onClick={() => goToTop(item._id)}
                   style={{ textDecoration: "none" }}
                 >
                   {" "}
-                  اقرأ المزيد ..
+                  اقرأ المزيد ...!
                 </Link>
               </p>
             </Grid>

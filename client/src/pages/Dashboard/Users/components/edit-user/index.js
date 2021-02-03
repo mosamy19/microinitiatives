@@ -112,6 +112,9 @@ const Edituser = ({ userId, isOpen, handleEditCancel }) => {
       if (file.originFileObj) {
         fd.append("avatar", file.originFileObj);
       }
+      if (file.url) {
+        fd.append("avatarUri", file.url);
+      }
     }
     fd.append("firstName", user.firstName);
     fd.append("familyName", user.familyName);

@@ -19,6 +19,8 @@ const {
   deleteUser,
   getSingleUser,
   editUserByAdmin,
+  getUserChartDataDaily,
+  getUserChartDataMonthly,
 } = require("../controllers/authController");
 
 const isAuthenticated = require("../middlewares/authenticate");
@@ -82,5 +84,17 @@ router.put(
 router.delete("/delete-user/:userId", isAuthenticated, isAdmin, deleteUser);
 router.get("/get-all-users", isAuthenticated, isAdmin, getAllUsers);
 router.get("/get-single-user/:userId", isAuthenticated, isAdmin, getSingleUser);
+router.get(
+  "/get-user-chart-data-daily",
+  isAuthenticated,
+  isAdmin,
+  getUserChartDataDaily
+);
+router.get(
+  "/get-user-chart-data-monthly",
+  isAuthenticated,
+  isAdmin,
+  getUserChartDataMonthly
+);
 
 module.exports = router;

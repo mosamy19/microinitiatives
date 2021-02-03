@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../store/actions/auth-actions";
+import { hideLoading } from "../../store/actions/loading-actions";
 import styled from "styled-components";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -65,6 +66,7 @@ const Signup = () => {
             <Input
               onChange={(e) => {
                 setUser({ ...user, firstName: e.target.value });
+                dispatch(hideLoading());
                 setError({ ...error, firstName: "" });
               }}
               type="text"
@@ -80,6 +82,7 @@ const Signup = () => {
             <Input
               onChange={(e) => {
                 setUser({ ...user, familyName: e.target.value });
+                dispatch(hideLoading());
                 setError({ ...error, familyName: "" });
               }}
               type="text"
@@ -95,6 +98,7 @@ const Signup = () => {
             <Input
               onChange={(e) => {
                 setUser({ ...user, email: e.target.value });
+                dispatch(hideLoading());
                 setError({ ...error, email: "" });
               }}
               type="email"
@@ -108,6 +112,7 @@ const Signup = () => {
             <Input
               onChange={(e) => {
                 setUser({ ...user, password: e.target.value });
+                dispatch(hideLoading());
                 setError({ ...error, password: "" });
               }}
               type="password"
@@ -121,6 +126,7 @@ const Signup = () => {
             <Input
               onChange={(e) => {
                 setUser({ ...user, confirmPassword: e.target.value });
+                dispatch(hideLoading());
                 setError({ ...error, confirmPassword: "" });
               }}
               type="password"
@@ -137,7 +143,8 @@ const Signup = () => {
                 type="submit"
                 value="سجّل حساب جديد"
                 style={{ background: "#f7b500", color: "#fff" }}
-              ></Input>
+                disabled={isLoading ? true : false}
+              />
               {isLoading ? (
                 <div
                   style={{

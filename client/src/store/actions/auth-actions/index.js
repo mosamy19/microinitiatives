@@ -7,6 +7,7 @@ import { hideLoading, showLoading } from "../loading-actions";
 
 export const register = (obj, history) => async (dispatch) => {
   try {
+    dispatch(showLoading());
     let response = await axios.post("/api/v1/auth/signup", obj);
     let { token } = response.data;
     localStorage.setItem("auth_token", token);
@@ -19,6 +20,7 @@ export const register = (obj, history) => async (dispatch) => {
         user,
       },
     });
+    dispatch(hideLoading());
     dispatch(setSuccess(response.data.message));
     history.push("/confirm-email");
   } catch (error) {
@@ -208,6 +210,42 @@ export const deleteUserByAdmin = (userId) => async (dispatch) => {
   }
 };
 
+export const getUserChartDataDaily = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/auth/get-user-chart-data-daily");
+    dispatch({
+      type: types.USER_DAILY,
+      payload: {
+        dailyUsers: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
+export const getUserChartDataMonthly = () => async (dispatch) => {
+  try {
+    let response = await axios.get("/api/v1/auth/get-user-chart-data-monthly");
+    dispatch({
+      type: types.USER_MONTHLY,
+      payload: {
+        monthlyUsers: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.USERS_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch(showLoading());

@@ -58,7 +58,11 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
                 <Clonedslider images={item.thumbnail} />
               </div>
               <p style={{ marginTop: "24px" }}>
-                {item.description}
+                {item.description
+                  ? String(item.description).length > 80
+                    ? String(item.description).slice(0, 80)
+                    : String(item.description)
+                  : ""}
                 <Link
                   onClick={() => {
                     history.push(`/browse-single-initiative/${item._id}`);
@@ -67,7 +71,7 @@ const Clonedinitiatives = ({ initiativeId, cloneCount }) => {
                   style={{ textDecoration: "none" }}
                 >
                   {" "}
-                  اقرأ المزيد ..
+                  اقرأ المزيد ...!
                 </Link>
               </p>
             </Grid>

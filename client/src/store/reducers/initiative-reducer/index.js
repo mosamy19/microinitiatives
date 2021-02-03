@@ -5,6 +5,10 @@ const initialState = {
   clonedInitiatives: {},
   baseInitiative: {},
   myInitiatives: {},
+  dailyInitiatives: {},
+  monthlyInitiatives: {},
+  dailyClonedInitiatives: {},
+  monthlyClonedInitiatives: {},
   error: {},
 };
 
@@ -38,6 +42,30 @@ const initiativeReducer = (state = initialState, action) => {
       return {
         ...state,
         myInitiatives: action.payload.myInitiatives,
+        error: {},
+      };
+    case types.INITIATIVE_DAILY:
+      return {
+        ...state,
+        dailyInitiatives: action.payload.dailyInitiatives,
+        error: {},
+      };
+    case types.INITIATIVE_MONTHLY:
+      return {
+        ...state,
+        monthlyInitiatives: action.payload.monthlyInitiatives,
+        error: {},
+      };
+    case types.CLONED_INITIATIVE_DAILY:
+      return {
+        ...state,
+        dailyClonedInitiatives: action.payload.dailyClonedInitiatives,
+        error: {},
+      };
+    case types.CLONED_INITIATIVE_MONTHLY:
+      return {
+        ...state,
+        monthlyClonedInitiatives: action.payload.monthlyClonedInitiatives,
         error: {},
       };
     case types.INITIATIVES_ERROR:

@@ -6,6 +6,8 @@ const initialState = {
   logedinUser: {},
   singleUser: {},
   allUsers: {},
+  dailyUsers: {},
+  monthlyUsers: {},
   error: {},
 };
 
@@ -35,6 +37,18 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         allUsers: action.payload.allUsers,
+        error: {},
+      };
+    case types.USER_DAILY:
+      return {
+        ...state,
+        dailyUsers: action.payload.dailyUsers,
+        error: {},
+      };
+    case types.USER_MONTHLY:
+      return {
+        ...state,
+        monthlyUsers: action.payload.monthlyUsers,
         error: {},
       };
     case types.USERS_ERROR:

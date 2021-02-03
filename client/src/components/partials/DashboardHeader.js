@@ -33,10 +33,30 @@ const DashboardHeader = ({ collapsed, toggle }) => {
               className="d-flex justify-content-center align-items-center mb-hide"
               style={{ marginBottom: "0" }}
             >
-              <li style={{ margin: "0 20px" }}>Home</li>
-              <li style={{ margin: "0 20px" }}>Initiatives</li>
-              <li style={{ margin: "0 20px" }}>Users</li>
-              <li style={{ margin: "0 20px" }}>Categories</li>
+              <li
+                onClick={() => history.push("/dashboard")}
+                style={{ margin: "0 20px" }}
+              >
+                Home
+              </li>
+              <li
+                onClick={() => history.push("/dashboard/initiatives")}
+                style={{ margin: "0 20px" }}
+              >
+                Initiatives
+              </li>
+              <li
+                onClick={() => history.push("/dashboard/users")}
+                style={{ margin: "0 20px" }}
+              >
+                Users
+              </li>
+              <li
+                onClick={() => history.push("/dashboard/categories")}
+                style={{ margin: "0 20px" }}
+              >
+                Categories
+              </li>
             </ul>
           </div>
           <div
@@ -55,6 +75,11 @@ const DashboardHeader = ({ collapsed, toggle }) => {
 
 export default DashboardHeader;
 const Wrapper = styled.div`
+  ul {
+    li {
+      cursor: pointer;
+    }
+  }
   z-index: 1;
   .trigger {
     font-size: 18px;

@@ -48,7 +48,7 @@ const Dassboardcomment = () => {
             author: item.author[0]
               ? item.author[0].firstName + " " + item.author[0].familyName
               : null,
-            initiative: item.initiative.title,
+            initiative: item.initiative?.title,
           },
         ];
         return true;

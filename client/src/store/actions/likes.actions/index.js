@@ -37,6 +37,45 @@ export const getAllLikes = () => async (dispatch) => {
     });
   }
 };
+export const getLikesDailyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get(`/api/v1/likes/get-likes-daily-chart-data`);
+    dispatch({
+      type: types.LIKE_DAILY,
+      payload: {
+        dailyLikes: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.LIKES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
+
+export const getLikesMonthlyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/likes/get-likes-monthly-chart-data`
+    );
+    dispatch({
+      type: types.LIKE_MONTHLY,
+      payload: {
+        monthlyLikes: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.LIKES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 
 export const createLike = (initiativeId) => async (dispatch) => {
   try {

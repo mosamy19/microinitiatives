@@ -427,7 +427,7 @@ module.exports = {
           message: "No Initiative Found",
         });
       }
-      res.status(200).json(initiatives);
+      res.status(200).json(initiatives.reverse());
     } catch (error) {
       serverError(res, error);
     }
@@ -611,6 +611,154 @@ module.exports = {
       );
 
       res.status(200).json({ message: "Deleted successfully", initiative });
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  // initiative aggregation
+  getInitiativeChartDataDaily: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await Initiative.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getInitiativeChartDataMonthly: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await Initiative.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            // day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              // day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getClonedInitiativeChartDataDaily: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await Initiative.aggregate([
+        {
+          $match: {
+            cloned: true,
+            based: false,
+          },
+        },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getClonedInitiativeChartDataMonthly: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await Initiative.aggregate([
+        {
+          $match: {
+            cloned: true,
+            based: false,
+          },
+        },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            // day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              // day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
     } catch (error) {
       serverError(res, error);
     }

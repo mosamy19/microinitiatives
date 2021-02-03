@@ -177,7 +177,7 @@ module.exports = {
       );
 
       res.status(status.success).json({
-        message: "قمت بالتسجيل بنجاح",
+        message: "قمت بالدخول بنجاح",
         token: `Bearer ${token}`,
         user,
       });
@@ -334,7 +334,7 @@ module.exports = {
   },
 
   editUser: async (req, res) => {
-    const { firstName, familyName } = req.body;
+    const { firstName, familyName, avatarUri } = req.body;
     let errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
       return res.status(status.bad).json(errors.mapped());
@@ -346,6 +346,10 @@ module.exports = {
       }
 
       let avatar = user.avatar;
+      avatar = "";
+      if (avatarUri) {
+        avatar = avatarUri;
+      }
       if (req.file) {
         avatar = `/uploads/${req.file.filename}`;
       }
@@ -424,7 +428,7 @@ module.exports = {
   },
 
   editUserByAdmin: async (req, res) => {
-    const { firstName, familyName, email, isAdmin } = req.body;
+    const { firstName, familyName, email, avatarUri, isAdmin } = req.body;
     const { userId } = req.params;
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -439,6 +443,10 @@ module.exports = {
       }
 
       let avatar = user.avatar;
+      avatar = "";
+      if (avatarUri) {
+        avatar = avatarUri;
+      }
       if (req.file) {
         avatar = `/uploads/${req.file.filename}`;
       }
@@ -487,6 +495,80 @@ module.exports = {
         return resourceError(res, "User not found");
       }
       res.status(200).json(user);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+
+  // user aggregation
+  getUserChartDataDaily: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await User.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getUserChartDataMonthly: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await User.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            // day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              // day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
     } catch (error) {
       serverError(res, error);
     }

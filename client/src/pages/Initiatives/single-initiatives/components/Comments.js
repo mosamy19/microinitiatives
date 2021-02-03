@@ -90,7 +90,7 @@ const Comments = ({ initiativeId }) => {
                   resize: "none",
                   fontSize: "14px",
                   fontWeight: "normal",
-                  color: "rgba(0, 0, 0, 0.25)",
+                  color: "rgba(0, 0, 0, 0.85)",
                 }}
               />
             </FormGroup>

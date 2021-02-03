@@ -19,6 +19,46 @@ export const getAllFavorites = () => async (dispatch) => {
     });
   }
 };
+export const getFavoritesDailyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/favorites/get-favorites-daily-chart-data`
+    );
+    dispatch({
+      type: types.FAVORITE_DAILY,
+      payload: {
+        dailyFavorites: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.FAVORITES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
+export const getFavoritesMonthlyChartData = () => async (dispatch) => {
+  try {
+    let response = await axios.get(
+      `/api/v1/favorites/get-favorites-monthly-chart-data`
+    );
+    dispatch({
+      type: types.FAVORITE_MONTHLY,
+      payload: {
+        monthlyFavorites: response.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: types.FAVORITES_ERROR,
+      payload: {
+        error: error.response.data,
+      },
+    });
+  }
+};
 
 export const getFavorites = (initiativeId) => async (dispatch) => {
   try {

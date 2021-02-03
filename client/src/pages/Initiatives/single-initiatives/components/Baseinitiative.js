@@ -57,13 +57,17 @@ const Baseinitiative = ({ baseInitiativeId }) => {
         </Grid>
         <Grid item xs={12}>
           <p style={{ marginTop: "38px" }}>
-            {base_initiative.description}
+            {base_initiative.description
+              ? String(base_initiative.description).length > 80
+                ? String(base_initiative.description).slice(0, 80)
+                : String(base_initiative.description)
+              : ""}
             <Link
               onClick={() => goToTop(base_initiative._id)}
               style={{ textDecoration: "none" }}
             >
               {" "}
-              اقرأ المزيد ..
+              اقرأ المزيد ...!
             </Link>
           </p>
         </Grid>

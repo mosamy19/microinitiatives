@@ -16,7 +16,7 @@ const DashboardLayout = (props) => {
   return (
     <div className="dashboard" style={{ direction: "ltr" }}>
       <Layout style={{ minHeight: "100vh" }}>
-        <DashboardSidebar collapsed={collapsed} />
+        <DashboardSidebar collapsed={collapsed} toggle={toggle} />
         <Layout className="site-layout">
           <DashboardHeader collapsed={collapsed} toggle={toggle} />
           <Content
@@ -37,4 +37,3 @@ const DashboardLayout = (props) => {
 };
 
 export default DashboardLayout;
-

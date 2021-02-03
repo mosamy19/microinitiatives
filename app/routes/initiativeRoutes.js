@@ -22,6 +22,10 @@ const {
   unpinInitiative,
   lovedInitiative,
   unlovedInitiative,
+  getInitiativeChartDataDaily,
+  getInitiativeChartDataMonthly,
+  getClonedInitiativeChartDataDaily,
+  getClonedInitiativeChartDataMonthly,
 } = require("../controllers/initiativeController");
 
 const router = require("express").Router();
@@ -51,6 +55,30 @@ router.get(
   isAuthenticated,
   isAdmin,
   get_admin_panel_initiatives
+);
+router.get(
+  "/get-daily-chart-data",
+  isAuthenticated,
+  isAdmin,
+  getInitiativeChartDataDaily
+);
+router.get(
+  "/get-monthly-chart-data",
+  isAuthenticated,
+  isAdmin,
+  getInitiativeChartDataMonthly
+);
+router.get(
+  "/get-daily-cloned-chart-data",
+  isAuthenticated,
+  isAdmin,
+  getClonedInitiativeChartDataDaily
+);
+router.get(
+  "/get-monthly-cloned-chart-data",
+  isAuthenticated,
+  isAdmin,
+  getClonedInitiativeChartDataMonthly
 );
 router.put("/pin-initiative", isAuthenticated, isAdmin, pinInitiative);
 router.put("/unpin-initiative", isAuthenticated, isAdmin, unpinInitiative);

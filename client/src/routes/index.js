@@ -36,6 +36,10 @@ import Categories from "../pages/Dashboard/Categories";
 import Emailconfirmation from "../pages/Users/Emailconfirmation";
 import Rules from "../pages/Dashboard/Email/email-rules";
 import Inbox from "../pages/Dashboard/Email/inbox";
+import Pinedinitiatives from "../pages/Dashboard/Initiatives/pined-initiatives";
+import Lovedinitiatives from "../pages/Dashboard/Initiatives/loved-initiatives";
+import Draftinitiatives from "../pages/Dashboard/Initiatives/draft-inititaives";
+import Clonedinitiatives from "../pages/Dashboard/Initiatives/cloned-initiatives";
 
 const AppRoutes = () => {
   return (
@@ -59,6 +63,30 @@ const AppRoutes = () => {
           path="/dashboard/initiatives"
           exact
           component={Dashboardinitiatives}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/pined-initiatives"
+          exact
+          component={Pinedinitiatives}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/loved-initiatives"
+          exact
+          component={Lovedinitiatives}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/draft-initiatives"
+          exact
+          component={Draftinitiatives}
+        />
+        <AdminRouteWithLayout
+          layout={DashboardLayout}
+          path="/dashboard/cloned-initiatives"
+          exact
+          component={Clonedinitiatives}
         />
         <AdminRouteWithLayout
           layout={DashboardLayout}

@@ -108,4 +108,77 @@ module.exports = {
       serverError(res, error);
     }
   },
+
+  // Likes aggregation
+  getLikesChartDataDaily: async (req, res) => {
+    try {
+      let docs = await Like.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
+  getLikesChartDataMonthly: async (req, res) => {
+    try {
+      let a = 0;
+      let docs = await Like.aggregate([
+        // {
+        //   $match: {
+        //     createdAt: { $gt: new Date("Nov 11, 2020") },
+        //   },
+        // },
+        {
+          $project: {
+            year: { $year: ["$createdAt"] },
+            // week: { $week: ["$createdAt"] },
+            month: { $month: "$createdAt" },
+            // day: { $dayOfMonth: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            // _id: { $week: "$createdAt" },
+            _id: {
+              year: "$year",
+              // week: "$week",
+              // day: "$day",
+              month: "$month",
+            },
+            documentCount: { $sum: 1 },
+          },
+        },
+      ]);
+      docs.sort((d1, d2) => d1._id.year - d2._id.year);
+      res.status(200).json(docs);
+    } catch (error) {
+      serverError(res, error);
+    }
+  },
 };

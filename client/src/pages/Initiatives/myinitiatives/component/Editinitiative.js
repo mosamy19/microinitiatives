@@ -398,6 +398,7 @@ const Editinitiative = () => {
                           background: "rgba(0, 0, 0, 0.1)",
                           color: "rgba(0, 0, 0, 0.25)",
                         }}
+                        disabled={draftLoading ? true : false}
                       />
                       {draftLoading ? (
                         <div
@@ -421,6 +422,7 @@ const Editinitiative = () => {
                           background: "#f7b500",
                           color: "#fff",
                         }}
+                        disabled={createLoading ? true : false}
                       />
                       {createLoading ? (
                         <div
@@ -446,6 +448,7 @@ const Editinitiative = () => {
                         background: "#f7b500",
                         color: "#fff",
                       }}
+                      disabled={createLoading ? true : false}
                     />
                     {createLoading ? (
                       <div

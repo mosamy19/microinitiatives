@@ -35,15 +35,13 @@ const Dashboardinitiatives = () => {
     dispatch(getAllInitiativesByAdmin());
   }, [dispatch]);
 
-  const { isLoading } = useSelector((state) => state.loader);
   const { initiatives } = useSelector((state) => state.initiatives);
+
   useEffect(() => {
     if (initiatives) {
       set_all_initiatives(initiatives);
     }
   }, [initiatives]);
-
-  console.log(initiatives);
 
   useEffect(() => {
     if (all_initiatives.length > 0) {
@@ -56,6 +54,9 @@ const Dashboardinitiatives = () => {
             date: moment(item.createdAt).format("l"),
             title: item.title,
             description: item.description,
+            author: item.author?.map(
+              (name) => `${name.firstName} ${name.familyName}`
+            ),
             clones: item.clones,
             likes: item.likes,
             shares: item.shares,
@@ -204,8 +205,16 @@ const Dashboardinitiatives = () => {
       dataIndex: "description",
       key: "description",
       ellipsis: true,
-      width: 450,
+      width: 250,
       ...getColumnSearchProps("description"),
+    },
+    {
+      title: "Author",
+      dataIndex: "author",
+      key: "author",
+      ellipsis: true,
+      width: 200,
+      ...getColumnSearchProps("author"),
     },
     {
       title: "Clones",

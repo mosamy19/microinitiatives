@@ -52,7 +52,7 @@ const FourbaseInfo = () => {
     <div className="mb-3">
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={3}>
-          <Customcard count={userCount} bgColor="#41b883" textColor="#fff">
+          <Customcard count={userCount} bgColor="#6fda44" textColor="#fff">
             <UserOutlined />
             <span style={{ margin: "0 3px" }}>Users</span>
           </Customcard>
@@ -60,7 +60,7 @@ const FourbaseInfo = () => {
         <Grid item xs={12} sm={6} md={3}>
           <Customcard
             count={initiativesCount}
-            bgColor="#2ecc71"
+            bgColor="#6236ff"
             textColor="#fff"
           >
             <AppstoreOutlined />
@@ -68,7 +68,7 @@ const FourbaseInfo = () => {
           </Customcard>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Customcard count={commentCount} bgColor="#52a7e0" textColor="#fff">
+          <Customcard count={commentCount} bgColor="#2ecc71" textColor="#fff">
             <CommentOutlined />
             <span style={{ margin: "0 3px" }}>Comment</span>
           </Customcard>
