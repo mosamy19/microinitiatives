@@ -1,5 +1,7 @@
 import { Grid } from "@material-ui/core";
-
+import { Editor, EditorState } from "draft-js";
+import { convertToHTML } from 'draft-convert';
+import "draft-js/dist/Draft.css";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
@@ -41,6 +43,28 @@ const Newinitiative = () => {
     description: "",
     thumbnail: "",
   });
+
+  
+
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  );
+  // const  [convertedContent, setConvertedContent] = useState(null);
+
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+    convertContentToHTML();
+  }
+  const convertContentToHTML = () => {
+    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    // setConvertedContent(currentContentAsHTML);
+    setInitiative({
+      ...initiative,
+      description: currentContentAsHTML,
+    });
+    setErrors({ ...errors, description: "" });
+    dispatch(hideCreateLoading());
+  }
 
   // fetching data for category list
   const [categoryList, setCategoryList] = useState([]);
@@ -124,6 +148,7 @@ const Newinitiative = () => {
 
   // form submition
   const submitHandler = (e) => {
+    debugger;
     e.preventDefault();
     let fd = new FormData();
     for (let file of state.fileList) {
@@ -254,20 +279,11 @@ const Newinitiative = () => {
                 <Label>
                   وصف المبادرة <span className="filed">(حقل إلزامي)</span>
                 </Label>
-                <Input
-                  type="textarea"
-                  name="description"
-                  onChange={(e) => {
-                    setInitiative({
-                      ...initiative,
-                      description: e.target.value,
-                    });
-                    setErrors({ ...errors, description: "" });
-                    dispatch(hideCreateLoading());
-                  }}
-                  style={{ minHeight: "130px" }}
-                  value={initiative.description}
+                <Editor
+                  textAlignment="right"
                   placeholder="يمكنك شرح المبادرة هنا أو كتابة الأسباب التي دفعتك لإنشاءها أو تجربتك بعد إكمالها. احكي :)"
+                  editorState={editorState}
+                  onChange={handleEditorChange}
                   invalid={errors.description ? true : false}
                 />
                 {errors.description && (
@@ -438,5 +454,22 @@ const Wrapper = styled.div`
     .mb-hide {
       display: none;
     }
+  }
+
+  div.DraftEditor-root {
+    background-color: white;
+  }
+  .DraftEditor-editorContainer {
+    padding: .375rem .75rem;
+  }
+
+  .public-DraftEditorPlaceholder-inner {
+    padding: .375rem .75rem;
+  }
+  
+  div.DraftEditor-editorContainer,
+  div.public-DraftEditor-content {
+    height: 100%;
+    min-height: 70px;
   }
 `;

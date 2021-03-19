@@ -98,9 +98,7 @@ const Singleinitiative = () => {
           </div>
         </div>
         <div>
-          <p>
-            {singleInitiative.description ? singleInitiative.description : null}
-          </p>
+          <div dangerouslySetInnerHTML={{__html: singleInitiative.description ? singleInitiative.description : ''}}></div>
         </div>
         <div className="cloneCount mb-show">
           <div className="d-flex justify-content-between align-items-center  my-3">
