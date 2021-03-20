@@ -6,34 +6,24 @@ const PublicFooter = (props) => {
   const history = useHistory();
   return (
     <Wrapper bgColor={props.bgColor}>
-      <div className="container d-flex justify-content-center align-items-center">
-        <Link
-          className="mb-menu"
-          style={{
-            textDecoration: "none",
-            fontSize: "14px",
-            fontWeight: "normal",
-            color: "rgba(16, 24, 32, 0.65)",
-            margin: "0 40px",
-          }}
-          to="/details"
-        >
-          عن نوي
-        </Link>
-        <div className="line"></div>
-        <Link
-          className="mb-menu"
-          style={{
-            textDecoration: "none",
-            fontSize: "14px",
-            fontWeight: "normal",
-            color: "rgba(16, 24, 32, 0.65)",
-            margin: "0 40px",
-          }}
-          to="/contact-us"
-        >
-          اتصل بنا
-        </Link>
+      <div
+        className="container d-flex justify-content-center align-items-center"
+        style={{ width: "100%", height: "100%" }}
+      >
+        <div>
+          <Link
+            className="mb-menu"
+            style={{
+              textDecoration: "none",
+              fontSize: "14px",
+              fontWeight: "normal",
+              color: "rgba(16, 24, 32, 0.65)",
+            }}
+            to="/contact-us"
+          >
+            اتصل بنا
+          </Link>
+        </div>
       </div>
     </Wrapper>
   );

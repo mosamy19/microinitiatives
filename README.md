@@ -20,12 +20,12 @@ To query the database we recommend MongoDB Compass https://www.mongodb.com/try/d
 Setup:
 
 1. `cd client`
-2. `yarn install`
+2. `npm install`
 3. copy `.env.sample` into `.env` and fill in credentials
 
 To run:
 
-1. `yarn start` or `npm run dev`
+1. `npm start` or `npm run dev`
 2. Open [http://localhost:3000](http://localhost:3000)
 
 ## API
@@ -47,47 +47,3 @@ To run:
 1. In Visual Studio Code install the Prettier extension.
 2. Go to Code -> Settings -> Preferences, search for `editor.formatOnSave`, set to True.
 
-## Porject Architecture 
-
-We would like to follow the following Architecture. 
-```
-app
-├── config
-│   └── routes.js
-├── screens
-│   └── App
-│       ├── components
-│       ├── screens
-│       │   ├── Admin
-│       │   │   ├── components
-│       │   │   ├── screens
-│       │   │   │   ├── Reports
-│       │   │   │   │   ├── components
-│       │   │   │   │   ├── stores
-│       │   │   │   │   │   └── ReportsStore.js
-│       │   │   │   │   └── index.js
-│       │   │   │   └── Users
-│       │   │   │       ├── components
-│       │   │   │       └── index.js
-│       │   │   ├── shared
-│       │   │   │   └── stores
-│       │   │   │       ├── AccountStore.js
-│       │   │   │       └── UserStore.js
-│       │   │   └── index.js
-│       │   └── Course
-│       │       ├── components
-│       │       ├── screens
-│       │       │   └── Assignments
-│       │       │       ├── components
-│       │       │       └── index.js
-│       │       └── index.js
-│       ├── shared
-│       │   └── components
-│       │       ├── Avatar.js
-│       │       └── Icon.js
-│       └── index.js
-├── shared
-│   └── util
-│       └── createStore.js
-└── index.js
-```

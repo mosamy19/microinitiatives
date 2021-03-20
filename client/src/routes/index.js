@@ -120,11 +120,11 @@ const AppRoutes = () => {
           exact
           component={Home}
         />
-        <RouteWithLayout
+        {/* <RouteWithLayout
           layout={PublicLayout}
           path="/details"
           component={Details}
-        />
+        /> */}
         <RouteWithLayout
           layout={PublicLayout}
           path="/contact-us"
