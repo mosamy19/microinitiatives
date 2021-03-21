@@ -145,6 +145,7 @@ const Wrapper = styled.div`
   text-align: right;
   overflow: hidden;
   p {
+    min-height: 22px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: normal;
