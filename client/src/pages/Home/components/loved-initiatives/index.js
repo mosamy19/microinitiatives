@@ -108,7 +108,7 @@ const LovedInitiatives = ({ initiatives }) => {
         className={classes.btn3}
         onClick={() => history.push("/browse-all-initiatives")}
       >
-        تصفح المبادرات
+        تصفح كل المبادرات
       </Button>
     </div>
   );
