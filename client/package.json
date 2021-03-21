@@ -14,6 +14,8 @@
     "apexcharts": "^3.23.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "draft-convert": "^2.1.10",
+    "draft-js": "^0.11.7",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "react": "^17.0.1",
