@@ -106,7 +106,7 @@ const MyAllinitiatives = () => {
                       alt=""
                     />
                   }
-                  label="الحالية"
+                  label="المسودة"
                 />
                 <Tab
                   icon={
@@ -121,7 +121,7 @@ const MyAllinitiatives = () => {
                       alt=""
                     />
                   }
-                  label="المكتملة"
+                  label="المنشورة"
                 />
                 <Tab
                   icon={
