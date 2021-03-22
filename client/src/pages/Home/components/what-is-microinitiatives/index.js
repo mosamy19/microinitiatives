@@ -57,7 +57,7 @@ const WhatIsMicroinitiatives = () => {
           className="container"
           style={{
             background: "#f2f1fb",
-            margin: "64px 20px",
+            margin: "90px 20px 134px 20px",
             position: "relative",
           }}
         >

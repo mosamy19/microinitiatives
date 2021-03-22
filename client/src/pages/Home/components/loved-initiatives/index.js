@@ -23,22 +23,18 @@ const useStyles = makeStyles((theme) => ({
 const LovedInitiatives = ({ initiatives }) => {
   const classes = useStyles();
   const history = useHistory();
-
-  console.log("initiatives", initiatives);
+  console.log("initiatives: ", initiatives);
   return (
     <div
-      className="container d-flex flex-column align-items-center"
-      style={{ margin: "64px auto 90px", padding: "0", width: "100%" }}
+      className="container"
+      style={{ margin: "64px auto 90px", padding: "0", maxWidth: "600px", width: "100%" }}
     >
-      <div className="d-flex justify-content-center align-items-center">
-        <div
-          className="d-flex flex-column align-items-center"
-          style={{ width: "100%" }}
-        >
+      <div className="row mx-0">
+        <div className="col-5 px-0 d-flex flex-column justify-content-center">
+           <div className="w-100">
           <LovedInitiativesCard
-            bgColor="#f7b500 4%, #f7b500 44%"
-            deg="9deg"
-            opacity="0.51"
+            gradiant="linear-gradient(9deg, rgba(247, 181, 0, 0.46) 4%, rgba(247, 181, 0, 0.46) 44%)"
+            paddingTop="124"
             id={initiatives[0]?._id}
             title={initiatives[0]?.title}
             name={
@@ -48,10 +44,11 @@ const LovedInitiatives = ({ initiatives }) => {
             }
             img={initiatives[0]?.thumbnail[0]}
           />
+          </div>
+           <div className="w-100">
           <LovedInitiativesCard
-            bgColor="#6236ff 4%, #6236ff 44%"
-            deg="9deg"
-            opacity="0.53"
+          gradiant="linear-gradient(9deg, rgba(98, 54, 255, 0.46) 4%, rgba(98, 54, 255, 0.46) 44%)"
+           paddingTop="124"
             id={initiatives[1]?._id}
             title={initiatives[1]?.title}
             name={
@@ -61,13 +58,13 @@ const LovedInitiatives = ({ initiatives }) => {
             }
             img={initiatives[1]?.thumbnail[0]}
           />
-        </div>
-        <div
-          className="d-flex flex-column align-items-center"
-          style={{ width: "100%" }}
-        >
+          </div>
+        </div> 
+        <div className="col-7 px-0">
+          <div className="w-100">
           <LovedInitiativesCard
-            bgColor="#c345e6, #dc73ff, #f8ecfc"
+          gradiant="linear-gradient(to top, rgba(195, 69, 230, 0.46), rgba(220, 115, 255, 0.46), rgba(248, 236, 252, 0.46))"
+            paddingTop="72"
             id={initiatives[2]?._id}
             title={initiatives[2]?.title}
             name={
@@ -76,10 +73,12 @@ const LovedInitiatives = ({ initiatives }) => {
               initiatives[2]?.author[0].familyName
             }
             img={initiatives[2]?.thumbnail[0]}
-          />
+            />
+            </div>
+            <div className="w-100">
           <LovedInitiativesCard
-            bgColor="#33a9c2, #4fd3f2 72%, #8ddefe"
-            opacity="0.62"
+            gradiant="linear-gradient(to top, rgba(51, 169, 194, 0.46), rgb(79, 211, 242, 0.46) 72%, rgb(141, 222, 254, 0.46))"
+            paddingTop="72"
             id={initiatives[3]?._id}
             title={initiatives[3]?.title}
             name={
@@ -89,8 +88,11 @@ const LovedInitiatives = ({ initiatives }) => {
             }
             img={initiatives[3]?.thumbnail[0]}
           />
+          </div>
+          <div className="w-100">
           <LovedInitiativesCard
-            bgColor="#fa6400, #dc73ff, #f7b500"
+          paddingTop="72"
+          gradiant="linear-gradient(to top, rgba(250, 100, 0, 0.46), rgba(220, 115, 255, 0.46), rgba(247, 181, 0, 0.46))"
             id={initiatives[4]?._id}
             title={initiatives[4]?.title}
             name={
@@ -101,7 +103,9 @@ const LovedInitiatives = ({ initiatives }) => {
             img={initiatives[4]?.thumbnail[0]}
           />
         </div>
+        </div>
       </div>
+      <div class="text-center">
       <Button
         variant="outlined"
         style={{ margin: "40px 0 0" }}
@@ -110,6 +114,7 @@ const LovedInitiatives = ({ initiatives }) => {
       >
         تصفح كل المبادرات
       </Button>
+      </div> 
     </div>
   );
 };
