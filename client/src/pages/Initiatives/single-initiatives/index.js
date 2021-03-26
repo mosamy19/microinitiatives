@@ -38,6 +38,8 @@ const Singleinitiative = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  
+  
   return isLoading ? (
     <div style={{ maxWidth: "80px", margin: "0 auto" }}>
       <Space size="middle">
@@ -98,7 +100,7 @@ const Singleinitiative = () => {
           </div>
         </div>
         <div>
-          <div dangerouslySetInnerHTML={{__html: singleInitiative.description ? singleInitiative.description : ''}}></div>
+          <div dangerouslySetInnerHTML={ htmlDecode(singleInitiative.description) }></div>
         </div>
         <div className="cloneCount mb-show">
           <div className="d-flex justify-content-between align-items-center  my-3">
@@ -137,6 +139,10 @@ const Singleinitiative = () => {
     </Wrapper>
   );
 };
+
+const htmlDecode = (content) => {
+  return {__html: content};
+}
 
 export default React.memo(Singleinitiative);
 const Wrapper = styled.div`
