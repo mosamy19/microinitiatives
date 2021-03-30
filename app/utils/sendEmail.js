@@ -25,7 +25,7 @@ module.exports = async (obj) => {
         const emailTemp = new Email({
           views: { root: "./template", options: { extension: "ejs" } },
           message: {
-            from: "Noii|نوي noreply@mg.noii.io",
+            from: "Noii|نوي<noreply@mg.noii.io>",
           },
           preview: false,
           send: true,

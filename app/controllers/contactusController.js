@@ -25,7 +25,7 @@ module.exports = {
 
     try {
       const mailOptions = {
-        from: "Noii|نوي noreply@mg.noii.io",
+        from: "Noii|نوي<noreply@mg.noii.io>",
         to: "sara.28111@gmail.com",
         subject: "Noii Contact Requiest",
         html: `<ul>

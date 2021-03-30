@@ -66,7 +66,7 @@ module.exports = {
       const emailTemp = new Email({
         views: { root: "./template", options: { extension: "ejs" } },
         message: {
-          from: "Noii|نوي noreply@mg.noii.io",
+          from: "Noii|نوي<noreply@mg.noii.io>",
         },
         // juice: true,
         // juiceSettings: {
@@ -206,7 +206,7 @@ module.exports = {
       const emailTemp = new Email({
         views: { root: "./template", options: { extension: "ejs" } },
         message: {
-          from: "Noii|نوي noreply@mg.noii.io",
+          from: "Noii|نوي<noreply@mg.noii.io>",
         },
         // juice: true,
         // juiceSettings: {
