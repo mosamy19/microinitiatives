@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Spin, Space } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
-
+import _ from "underscore";
 import styled from "styled-components";
 
 import Clonedinitiatives from "./components/Clonedinitiatives";
@@ -100,7 +100,7 @@ const Singleinitiative = () => {
           </div>
         </div>
         <div>
-          <div dangerouslySetInnerHTML={ htmlDecode(singleInitiative.description) }></div>
+          <div dangerouslySetInnerHTML={{ __html: _.unescape(singleInitiative.description) }}></div>
         </div>
         <div className="cloneCount mb-show">
           <div className="d-flex justify-content-between align-items-center  my-3">
@@ -141,7 +141,10 @@ const Singleinitiative = () => {
 };
 
 const htmlDecode = (content) => {
-  return {__html: content};
+  let e = document.createElement('div');
+  e.innerHTML = content.toString();
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+  
 }
 
 export default React.memo(Singleinitiative);
