@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Spin, Space } from "antd";
+import _ from "underscore";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 
@@ -95,11 +96,7 @@ const Browsesingleinitiative = () => {
           </div>
         </div>
         <div>
-          <p>
-            {singleInitiative.description
-              ? singleInitiative.description
-              : "No description"}
-          </p>
+        <div dangerouslySetInnerHTML={{ __html: _.unescape(singleInitiative.description) }}></div>
         </div>
         <div className="cloneCount mb-show">
           <div className="d-flex justify-content-between align-items-center  my-3">
