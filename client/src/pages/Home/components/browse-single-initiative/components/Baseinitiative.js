@@ -7,6 +7,7 @@ import Cloneinitiative from "./Cloneinitiative";
 import { useSelector, useDispatch } from "react-redux";
 import { getLandingPageBaseInitiative } from "../../../../../store/actions/initiative-actions";
 import { Link, useHistory } from "react-router-dom";
+import _ from "underscore";
 
 const Baseinitiative = ({ baseInitiativeId }) => {
   const dispatch = useDispatch();
@@ -55,12 +56,11 @@ const Baseinitiative = ({ baseInitiativeId }) => {
           <Imageslider images={base_initiative.thumbnail} />
         </Grid>
         <Grid item xs={12}>
-          <p style={{ marginTop: "38px" }}>
-            {base_initiative.description
-              ? String(base_initiative.description).length > 80
-                ? String(base_initiative.description).slice(0, 80)
-                : String(base_initiative.description)
-              : ""}
+          <div
+            style={{ marginTop: "38px" }}>
+            { base_initiative.description && (
+              <span dangerouslySetInnerHTML={{ __html: _.unescape(base_initiative.description)}}></span>
+            )}
             <Link
               onClick={() => goToTop(base_initiative._id)}
               style={{ textDecoration: "none" }}
@@ -68,7 +68,7 @@ const Baseinitiative = ({ baseInitiativeId }) => {
               {" "}
               اقرأ المزيد ...!
             </Link>
-          </p>
+          </div>
         </Grid>
         <Grid item xs={12}>
           <Cloneinitiative
